@@ -1,0 +1,41 @@
+<svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="LEFT JOIN result: the Lemon row is kept with NULL price and cost instead of being dropped">
+<text x="70" y="16" text-anchor="middle" font-size="11" font-weight="700" fill="#55606E">jam_sales (left table)</text>
+<rect x="10" y="24" width="120" height="20" fill="#E3F1F3" stroke="#0E6F7E" stroke-width="1.3"/>
+<text x="70" y="38" text-anchor="middle" font-size="9.5" fill="#0E6F7E">Strawberry</text>
+<rect x="10" y="50" width="120" height="20" fill="#E3F1F3" stroke="#0E6F7E" stroke-width="1.3"/>
+<text x="70" y="64" text-anchor="middle" font-size="9.5" fill="#0E6F7E">Blueberry</text>
+<rect x="10" y="76" width="120" height="20" fill="#E3F1F3" stroke="#0E6F7E" stroke-width="1.3"/>
+<text x="70" y="90" text-anchor="middle" font-size="9.5" fill="#0E6F7E">Peach</text>
+<rect x="10" y="102" width="120" height="20" fill="#FBF0D9" stroke="#9A6B00" stroke-width="1.3"/>
+<text x="70" y="116" text-anchor="middle" font-size="9.5" fill="#9A6B00" font-weight="700">Lemon</text>
+
+<text x="70" y="140" text-anchor="middle" font-size="9" fill="#55606E">every row kept</text>
+
+<path d="M130,34 L172,34" stroke="#1F6B47" stroke-width="1.6"/>
+<text x="151" y="28" text-anchor="middle" font-size="11" fill="#1F6B47">&#10003;</text>
+<path d="M130,60 L172,60" stroke="#1F6B47" stroke-width="1.6"/>
+<text x="151" y="54" text-anchor="middle" font-size="11" fill="#1F6B47">&#10003;</text>
+<path d="M130,86 L172,86" stroke="#1F6B47" stroke-width="1.6"/>
+<text x="151" y="80" text-anchor="middle" font-size="11" fill="#1F6B47">&#10003;</text>
+<path d="M130,112 L172,112" stroke="#9A6B00" stroke-width="1.6" stroke-dasharray="3,3"/>
+<text x="151" y="106" text-anchor="middle" font-size="9" fill="#9A6B00" font-weight="700">NULL</text>
+
+<text x="245" y="16" text-anchor="middle" font-size="11" font-weight="700" fill="#0E6F7E">LEFT JOIN result</text>
+<rect x="176" y="24" width="140" height="20" fill="#fff" stroke="#0E6F7E" stroke-width="1.3"/>
+<text x="246" y="38" text-anchor="middle" font-size="9.5" fill="#1C2B3A">Strawberry, $5.00</text>
+<rect x="176" y="50" width="140" height="20" fill="#fff" stroke="#0E6F7E" stroke-width="1.3"/>
+<text x="246" y="64" text-anchor="middle" font-size="9.5" fill="#1C2B3A">Blueberry, $6.00</text>
+<rect x="176" y="76" width="140" height="20" fill="#fff" stroke="#0E6F7E" stroke-width="1.3"/>
+<text x="246" y="90" text-anchor="middle" font-size="9.5" fill="#1C2B3A">Peach, $4.00</text>
+<rect x="176" y="102" width="140" height="20" fill="#FBF0D9" stroke="#9A6B00" stroke-width="1.4"/>
+<text x="246" y="116" text-anchor="middle" font-size="9.5" fill="#9A6B00" font-weight="700">Lemon, price = NULL</text>
+
+<rect x="330" y="16" width="62" height="106" fill="#FBF0D9" stroke="#9A6B00" rx="6"/>
+<text x="361" y="40" text-anchor="middle" font-size="16" fill="#9A6B00" font-weight="700">9 jars</text>
+<text x="361" y="58" text-anchor="middle" font-size="8" fill="#9A6B00">still visible,</text>
+<text x="361" y="70" text-anchor="middle" font-size="8" fill="#9A6B00">flagged as</text>
+<text x="361" y="82" text-anchor="middle" font-size="8" fill="#9A6B00">unpriced &#8212;</text>
+<text x="361" y="98" text-anchor="middle" font-size="8" fill="#9A6B00">not hidden</text>
+
+<text x="200" y="160" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1C2B3A">13 rows come back &#8212; the same gap, now impossible to miss</text>
+</svg>

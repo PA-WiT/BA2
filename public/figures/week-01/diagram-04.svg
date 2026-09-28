@@ -1,0 +1,48 @@
+<svg viewBox="0 0 400 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="SUM, AVG and STDDEV read the table once in a single pass; MEDIAN needs every row sorted first">
+<text x="100" y="18" text-anchor="middle" font-size="12" font-weight="700" fill="#0E6F7E">SUM &#183; AVG &#183; STDDEV</text>
+<text x="100" y="32" text-anchor="middle" font-size="9.5" fill="#55606E">single pass, in any order</text>
+<rect x="20" y="42" width="14" height="14" fill="#E3F1F3" stroke="#0E6F7E"/>
+<rect x="40" y="42" width="14" height="14" fill="#E3F1F3" stroke="#0E6F7E"/>
+<rect x="60" y="42" width="14" height="14" fill="#E3F1F3" stroke="#0E6F7E"/>
+<rect x="80" y="42" width="14" height="14" fill="#E3F1F3" stroke="#0E6F7E"/>
+<rect x="100" y="42" width="14" height="14" fill="#E3F1F3" stroke="#0E6F7E"/>
+<rect x="120" y="42" width="14" height="14" fill="#E3F1F3" stroke="#0E6F7E"/>
+<rect x="140" y="42" width="14" height="14" fill="#E3F1F3" stroke="#0E6F7E"/>
+<rect x="160" y="42" width="14" height="14" fill="#E3F1F3" stroke="#0E6F7E"/>
+<path d="M20,66 L174,66" stroke="#0E6F7E" stroke-width="2" stroke-dasharray="4,3"/>
+<text x="97" y="82" text-anchor="middle" font-size="9" fill="#55606E">read once, keep a running total</text>
+<circle cx="97" cy="118" r="20" fill="#E4F2EA" stroke="#1F6B47" stroke-width="1.8"/>
+<text x="97" y="122" text-anchor="middle" font-size="9.5" font-weight="700" fill="#1F6B47">O(n)</text>
+
+<line x1="200" y1="20" x2="200" y2="190" stroke="#DED6C4" stroke-width="1.5" stroke-dasharray="3,3"/>
+
+<text x="300" y="18" text-anchor="middle" font-size="12" font-weight="700" fill="#6B4C9A">MEDIAN</text>
+<text x="300" y="32" text-anchor="middle" font-size="9.5" fill="#55606E">must be fully sorted first</text>
+<rect x="226" y="42" width="14" height="14" fill="#FBE9E7" stroke="#A8322A"/>
+<text x="233" y="53" text-anchor="middle" font-size="8" fill="#A8322A">4</text>
+<rect x="246" y="42" width="14" height="14" fill="#FBE9E7" stroke="#A8322A"/>
+<text x="253" y="53" text-anchor="middle" font-size="8" fill="#A8322A">1</text>
+<rect x="266" y="42" width="14" height="14" fill="#FBE9E7" stroke="#A8322A"/>
+<text x="273" y="53" text-anchor="middle" font-size="8" fill="#A8322A">5</text>
+<rect x="286" y="42" width="14" height="14" fill="#FBE9E7" stroke="#A8322A"/>
+<text x="293" y="53" text-anchor="middle" font-size="8" fill="#A8322A">2</text>
+<rect x="306" y="42" width="14" height="14" fill="#FBE9E7" stroke="#A8322A"/>
+<text x="313" y="53" text-anchor="middle" font-size="8" fill="#A8322A">3</text>
+<path d="M233,66 C233,80 373,80 373,66" fill="none" stroke="#A8322A" stroke-width="1.6"/>
+<text x="303" y="94" text-anchor="middle" font-size="9" fill="#A8322A">sort into order first...</text>
+<rect x="226" y="104" width="14" height="14" fill="#EFE9F7" stroke="#6B4C9A"/>
+<text x="233" y="115" text-anchor="middle" font-size="8" fill="#6B4C9A">1</text>
+<rect x="246" y="104" width="14" height="14" fill="#EFE9F7" stroke="#6B4C9A"/>
+<text x="253" y="115" text-anchor="middle" font-size="8" fill="#6B4C9A">2</text>
+<rect x="266" y="104" width="14" height="14" fill="#6B4C9A" stroke="#6B4C9A"/>
+<text x="273" y="115" text-anchor="middle" font-size="8" fill="#fff">3</text>
+<rect x="286" y="104" width="14" height="14" fill="#EFE9F7" stroke="#6B4C9A"/>
+<text x="293" y="115" text-anchor="middle" font-size="8" fill="#6B4C9A">4</text>
+<rect x="306" y="104" width="14" height="14" fill="#EFE9F7" stroke="#6B4C9A"/>
+<text x="313" y="115" text-anchor="middle" font-size="8" fill="#6B4C9A">5</text>
+<text x="270" y="134" text-anchor="middle" font-size="9" fill="#6B4C9A">...then pick the middle</text>
+<circle cx="303" cy="170" r="20" fill="#F4F0E6" stroke="#6B4C9A" stroke-width="1.8"/>
+<text x="303" y="174" text-anchor="middle" font-size="9.5" font-weight="700" fill="#6B4C9A">O(n log n)</text>
+
+<text x="200" y="204" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1C2B3A">this is why Postgres ships no plain MEDIAN() function</text>
+</svg>

@@ -1,0 +1,17 @@
+<svg viewBox="0 0 400 175" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Discrete data is counted in whole steps, continuous data can take any value">
+<text x="10" y="20" font-size="12" font-weight="700" fill="#0E6F7E">Discrete &#8212; counting people through a door</text>
+<line x1="20" y1="55" x2="380" y2="55" stroke="#55606E" stroke-width="1.5"/>
+<g fill="#0E6F7E">
+<circle cx="50" cy="55" r="6"/><circle cx="95" cy="55" r="6"/><circle cx="140" cy="55" r="6"/>
+<circle cx="185" cy="55" r="6"/><circle cx="230" cy="55" r="6"/><circle cx="275" cy="55" r="6"/>
+</g>
+<g font-size="10" fill="#55606E" text-anchor="middle">
+<text x="50" y="72">0</text><text x="95" y="72">1</text><text x="140" y="72">2</text>
+<text x="185" y="72">3</text><text x="230" y="72">4</text><text x="275" y="72">5</text>
+</g>
+<text x="200" y="90" text-anchor="middle" font-size="10.5" fill="#8A93A0" font-style="italic">only whole numbers exist &#8212; 2.5 people is meaningless</text>
+
+<text x="10" y="122" font-size="12" font-weight="700" fill="#6B4C9A">Continuous &#8212; measuring how long they stayed</text>
+<line x1="20" y1="150" x2="380" y2="150" stroke="#6B4C9A" stroke-width="4"/>
+<text x="200" y="168" text-anchor="middle" font-size="10.5" fill="#8A93A0" font-style="italic">any value in between is possible &#8212; 4.37 minutes is real</text>
+</svg>

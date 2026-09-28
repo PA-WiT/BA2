@@ -1,0 +1,27 @@
+<svg viewBox="0 0 400 245" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The seasonal markdown question worked through descriptive, predictive and prescriptive analytics">
+<defs><marker id="q2" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#8A93A0"/></marker></defs>
+<rect x="8" y="6" width="384" height="40" rx="6" fill="#F4F0E6" stroke="#DED6C4"/>
+<text x="200" y="22" text-anchor="middle" font-size="11" font-weight="700" fill="#1C2B3A">When should we mark down the winter coats,</text>
+<text x="200" y="37" text-anchor="middle" font-size="11" font-weight="700" fill="#1C2B3A">and by how much?</text>
+
+<rect x="8" y="60" width="115" height="88" rx="6" fill="#E3F1F3" stroke="#0E6F7E" stroke-width="1.6"/>
+<text x="65" y="78" text-anchor="middle" font-size="11.5" font-weight="700" fill="#0E6F7E">Descriptive</text>
+<polyline points="20,126 34,114 48,120 62,102 76,108 90,92 104,98" fill="none" stroke="#0E6F7E" stroke-width="2"/>
+<text x="65" y="141" text-anchor="middle" font-size="9.5" fill="#55606E">last year&#8217;s sales</text>
+
+<rect x="142" y="60" width="115" height="88" rx="6" fill="#EFE9F7" stroke="#6B4C9A" stroke-width="1.6"/>
+<text x="199" y="78" text-anchor="middle" font-size="11.5" font-weight="700" fill="#6B4C9A">Predictive</text>
+<path d="M156,136 Q199,86 244,102" fill="none" stroke="#6B4C9A" stroke-width="2"/>
+<path d="M156,136 Q199,86 244,102" fill="none" stroke="#6B4C9A" stroke-width="8" opacity="0.15"/>
+<text x="199" y="141" text-anchor="middle" font-size="9.5" fill="#55606E">sales at each price</text>
+
+<rect x="276" y="60" width="116" height="88" rx="6" fill="#FBF0D9" stroke="#9A6B00" stroke-width="1.6"/>
+<text x="334" y="78" text-anchor="middle" font-size="11.5" font-weight="700" fill="#9A6B00">Prescriptive</text>
+<circle cx="334" cy="111" r="16" fill="none" stroke="#9A6B00" stroke-width="2"/>
+<circle cx="334" cy="111" r="3" fill="#9A6B00"/>
+<text x="334" y="141" text-anchor="middle" font-size="9.5" fill="#55606E">30% off, week 3</text>
+
+<line x1="123" y1="104" x2="142" y2="104" stroke="#8A93A0" stroke-width="1.6" marker-end="url(#q2)"/>
+<line x1="257" y1="104" x2="276" y2="104" stroke="#8A93A0" stroke-width="1.6" marker-end="url(#q2)"/>
+<text x="200" y="178" text-anchor="middle" font-size="12" font-weight="700" fill="#1C2B3A">the answer is the price and the week &#8212; not just a forecast</text>
+</svg>

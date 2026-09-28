@@ -1,0 +1,23 @@
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="BA1 is the foundation, BA2 adds four new floors, AI runs through all of them like an elevator">
+<rect x="40" y="230" width="300" height="46" fill="#1C2B3A"/>
+<text x="190" y="250" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff">BA1 &#8212; the foundation</text>
+<text x="190" y="266" text-anchor="middle" font-size="9.5" fill="#C7CDD6">PED &#183; stats &#183; Excel &#183; regression &#183; time series &#183; optimisation</text>
+
+<rect x="40" y="184" width="300" height="42" fill="#E3F1F3" stroke="#0E6F7E" stroke-width="1.4"/>
+<text x="150" y="209" text-anchor="middle" font-size="12" font-weight="700" fill="#0E6F7E">SQL</text>
+<text x="270" y="209" text-anchor="middle" font-size="12" font-weight="700" fill="#0E6F7E">Classification &amp; ML</text>
+
+<rect x="40" y="138" width="300" height="42" fill="#EFE9F7" stroke="#6B4C9A" stroke-width="1.4"/>
+<text x="130" y="163" text-anchor="middle" font-size="12" font-weight="700" fill="#6B4C9A">Domain modules</text>
+<text x="280" y="163" text-anchor="middle" font-size="12" font-weight="700" fill="#6B4C9A">Forecasting 2.0</text>
+
+<rect x="40" y="96" width="300" height="38" fill="#FBF0D9" stroke="#9A6B00" stroke-width="1.4"/>
+<text x="190" y="120" text-anchor="middle" font-size="12" font-weight="700" fill="#9A6B00">Capstone &#8212; the full workflow</text>
+
+<rect x="352" y="96" width="30" height="180" rx="6" fill="#FBE9E7" stroke="#A8322A" stroke-width="1.6"/>
+<text x="0" y="0" text-anchor="middle" font-size="11" font-weight="700" fill="#A8322A" transform="translate(367,186) rotate(-90)">AI CO-PILOT &#8212; every floor</text>
+<line x1="352" y1="96" x2="40" y2="96" stroke="#A8322A" stroke-width="1" stroke-dasharray="3,3" opacity="0.4"/>
+<line x1="352" y1="276" x2="40" y2="276" stroke="#A8322A" stroke-width="1" stroke-dasharray="3,3" opacity="0.4"/>
+
+<text x="190" y="292" text-anchor="middle" font-size="11.5" fill="#55606E">the elevator, not a new floor</text>
+</svg>

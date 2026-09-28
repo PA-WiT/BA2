@@ -1,0 +1,34 @@
+<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Standard deviation by hand: deviations, squared, averaged, then square-rooted">
+<defs><marker id="w2a" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#55606E"/></marker></defs>
+
+<rect x="4" y="30" width="88" height="86" rx="8" fill="#E3F1F3" stroke="#0E6F7E" stroke-width="1.6"/>
+<text x="48" y="48" text-anchor="middle" font-size="10" font-weight="700" fill="#0E6F7E">1. Deviate</text>
+<text x="48" y="64" text-anchor="middle" font-size="9" fill="#1C2B3A">x &#8722; mean</text>
+<text x="48" y="80" text-anchor="middle" font-size="8.5" fill="#55606E">e.g. 3740</text>
+<text x="48" y="93" text-anchor="middle" font-size="8.5" fill="#55606E">&#8722; 3130.86</text>
+<text x="48" y="107" text-anchor="middle" font-size="9" font-weight="700" fill="#0E6F7E">= 609.14</text>
+<line x1="92" y1="73" x2="112" y2="73" stroke="#55606E" stroke-width="1.6" marker-end="url(#w2a)"/>
+
+<rect x="112" y="30" width="88" height="86" rx="8" fill="#EFE9F7" stroke="#6B4C9A" stroke-width="1.6"/>
+<text x="156" y="48" text-anchor="middle" font-size="10" font-weight="700" fill="#6B4C9A">2. Square</text>
+<text x="156" y="64" text-anchor="middle" font-size="9" fill="#1C2B3A">(x &#8722; mean)&#178;</text>
+<text x="156" y="80" text-anchor="middle" font-size="8.5" fill="#55606E">609.14&#178;</text>
+<text x="156" y="107" text-anchor="middle" font-size="9" font-weight="700" fill="#6B4C9A">= 371,055</text>
+<line x1="200" y1="73" x2="220" y2="73" stroke="#55606E" stroke-width="1.6" marker-end="url(#w2a)"/>
+
+<rect x="220" y="30" width="88" height="86" rx="8" fill="#FBF0D9" stroke="#9A6B00" stroke-width="1.6"/>
+<text x="264" y="48" text-anchor="middle" font-size="10" font-weight="700" fill="#9A6B00">3. Average</text>
+<text x="264" y="64" text-anchor="middle" font-size="9" fill="#1C2B3A">&#931; squared &#247; (n&#8722;1)</text>
+<text x="264" y="80" text-anchor="middle" font-size="8.5" fill="#55606E">7,745,495 &#247; 6</text>
+<text x="264" y="107" text-anchor="middle" font-size="9" font-weight="700" fill="#9A6B00">= 1,290,916</text>
+<line x1="308" y1="73" x2="328" y2="73" stroke="#55606E" stroke-width="1.6" marker-end="url(#w2a)"/>
+
+<rect x="328" y="30" width="68" height="86" rx="8" fill="#E4F2EA" stroke="#1F6B47" stroke-width="1.6"/>
+<text x="362" y="48" text-anchor="middle" font-size="10" font-weight="700" fill="#1F6B47">4. Root</text>
+<text x="362" y="64" text-anchor="middle" font-size="9" fill="#1C2B3A">&#8730;variance</text>
+<text x="362" y="90" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1F6B47">= 1136.18</text>
+<text x="362" y="104" text-anchor="middle" font-size="7.5" fill="#55606E">the SD</text>
+
+<text x="200" y="140" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1C2B3A">this is exactly what STDDEV_SAMP() does internally</text>
+<text x="200" y="158" text-anchor="middle" font-size="10" fill="#55606E">skip straight to the function once you trust the four steps</text>
+</svg>

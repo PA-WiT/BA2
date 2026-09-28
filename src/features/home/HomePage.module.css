@@ -1,0 +1,18 @@
+.hero {
+  max-width: 640px;
+  margin-bottom: 32px;
+}
+.hero h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 0 0 10px 0;
+  letter-spacing: -0.02em;
+}
+.hero p {
+  color: var(--ink-soft);
+  font-size: 1.05rem;
+  margin: 0;
+}
+.weeks {
+  max-width: 480px;
+}

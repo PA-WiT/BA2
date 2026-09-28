@@ -1,0 +1,32 @@
+<svg viewBox="0 0 400 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AI-generated SQL passes through three checks before it becomes a decision, or loops back">
+<defs><marker id="w5a" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#55606E"/></marker>
+<marker id="w5r" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#A8322A"/></marker></defs>
+<rect x="4" y="30" width="84" height="40" rx="6" fill="#F4F0E6" stroke="#DED6C4"/>
+<text x="46" y="48" text-anchor="middle" font-size="10" font-weight="700" fill="#1C2B3A">AI-written</text>
+<text x="46" y="60" text-anchor="middle" font-size="10" font-weight="700" fill="#1C2B3A">SQL query</text>
+<line x1="88" y1="50" x2="112" y2="50" stroke="#55606E" stroke-width="1.6" marker-end="url(#w5a)"/>
+
+<circle cx="140" cy="50" r="26" fill="#E3F1F3" stroke="#0E6F7E" stroke-width="1.8"/>
+<text x="140" y="47" text-anchor="middle" font-size="10" font-weight="700" fill="#0E6F7E">Explain</text>
+<text x="140" y="58" text-anchor="middle" font-size="8.5" fill="#0E6F7E">it?</text>
+<line x1="166" y1="50" x2="190" y2="50" stroke="#55606E" stroke-width="1.6" marker-end="url(#w5a)"/>
+
+<circle cx="218" cy="50" r="26" fill="#EFE9F7" stroke="#6B4C9A" stroke-width="1.8"/>
+<text x="218" y="47" text-anchor="middle" font-size="10" font-weight="700" fill="#6B4C9A">Verify</text>
+<text x="218" y="58" text-anchor="middle" font-size="8.5" fill="#6B4C9A">it?</text>
+<line x1="244" y1="50" x2="268" y2="50" stroke="#55606E" stroke-width="1.6" marker-end="url(#w5a)"/>
+
+<circle cx="298" cy="50" r="30" fill="#FBF0D9" stroke="#9A6B00" stroke-width="1.8"/>
+<text x="298" y="46" text-anchor="middle" font-size="9.5" font-weight="700" fill="#9A6B00">Stand</text>
+<text x="298" y="58" text-anchor="middle" font-size="9.5" font-weight="700" fill="#9A6B00">behind it?</text>
+<line x1="328" y1="50" x2="352" y2="50" stroke="#1F6B47" stroke-width="2" marker-end="url(#w5a)"/>
+
+<rect x="350" y="30" width="46" height="40" rx="6" fill="#E4F2EA" stroke="#1F6B47"/>
+<text x="373" y="47" text-anchor="middle" font-size="9" font-weight="700" fill="#1F6B47">trust</text>
+<text x="373" y="59" text-anchor="middle" font-size="9" font-weight="700" fill="#1F6B47">it</text>
+
+<path d="M218,80 C218,120 140,120 140,80" fill="none" stroke="#A8322A" stroke-width="1.6" stroke-dasharray="5,4" marker-end="url(#w5r)"/>
+<text x="179" y="138" text-anchor="middle" font-size="10" fill="#A8322A" font-style="italic">e.g. it divided by n, not n&#8722;1 &#8212; caught here</text>
+
+<text x="200" y="196" text-anchor="middle" font-size="12" font-weight="700" fill="#1C2B3A">a query that runs isn&#8217;t the same as a query that&#8217;s right</text>
+</svg>

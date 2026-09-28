@@ -1,0 +1,25 @@
+<svg viewBox="0 0 400 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Four categories of AI co-pilot tools, each suited to a different kind of task">
+<rect x="8" y="8" width="184" height="86" rx="6" fill="#E3F1F3" stroke="#0E6F7E" stroke-width="1.4"/>
+<text x="20" y="28" font-size="11.5" font-weight="700" fill="#0E6F7E">Chat assistant</text>
+<text x="20" y="44" font-size="9.5" fill="#55606E">Claude, ChatGPT</text>
+<text x="20" y="62" font-size="9.5" fill="#55606E">best for: explaining,</text>
+<text x="20" y="76" font-size="9.5" fill="#55606E">summarising, first drafts</text>
+
+<rect x="208" y="8" width="184" height="86" rx="6" fill="#EFE9F7" stroke="#6B4C9A" stroke-width="1.4"/>
+<text x="220" y="28" font-size="11.5" font-weight="700" fill="#6B4C9A">Spreadsheet co-pilot</text>
+<text x="220" y="44" font-size="9.5" fill="#55606E">Excel / Sheets AI</text>
+<text x="220" y="62" font-size="9.5" fill="#55606E">best for: formulas,</text>
+<text x="220" y="76" font-size="9.5" fill="#55606E">cleaning, quick charts</text>
+
+<rect x="8" y="106" width="184" height="86" rx="6" fill="#FBF0D9" stroke="#9A6B00" stroke-width="1.4"/>
+<text x="20" y="126" font-size="11.5" font-weight="700" fill="#9A6B00">No-code ML</text>
+<text x="20" y="142" font-size="9.5" fill="#55606E">e.g. built into your BI tool</text>
+<text x="20" y="160" font-size="9.5" fill="#55606E">best for: classification,</text>
+<text x="20" y="174" font-size="9.5" fill="#55606E">quick predictions</text>
+
+<rect x="208" y="106" width="184" height="86" rx="6" fill="#FBE9E7" stroke="#A8322A" stroke-width="1.4"/>
+<text x="220" y="126" font-size="11.5" font-weight="700" fill="#A8322A">BI co-pilot</text>
+<text x="220" y="142" font-size="9.5" fill="#55606E">Power BI / Tableau AI</text>
+<text x="220" y="160" font-size="9.5" fill="#55606E">best for: dashboards,</text>
+<text x="220" y="174" font-size="9.5" fill="#55606E">narrating a chart</text>
+</svg>

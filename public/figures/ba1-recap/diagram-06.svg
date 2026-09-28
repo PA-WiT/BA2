@@ -1,0 +1,25 @@
+<svg viewBox="0 0 400 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Swimlane map showing a bottleneck at a handover">
+<defs><marker id="a6" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#8A93A0"/></marker>
+<marker id="a6r" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#A8322A"/></marker></defs>
+<rect x="72" y="18" width="318" height="48" fill="#F4F0E6"/>
+<rect x="72" y="70" width="318" height="48" fill="#FDFBF7"/>
+<rect x="72" y="122" width="318" height="48" fill="#F4F0E6"/>
+<text x="66" y="47" text-anchor="end" font-size="11.5" font-weight="700" fill="#55606E">Customer</text>
+<text x="66" y="99" text-anchor="end" font-size="11.5" font-weight="700" fill="#55606E">Sales</text>
+<text x="66" y="151" text-anchor="end" font-size="11.5" font-weight="700" fill="#55606E">Warehouse</text>
+<rect x="84" y="28" width="72" height="28" rx="4" fill="#E3F1F3" stroke="#0E6F7E"/>
+<text x="120" y="46" text-anchor="middle" font-size="11" fill="#1C2B3A">place order</text>
+<rect x="172" y="80" width="72" height="28" rx="4" fill="#E3F1F3" stroke="#0E6F7E"/>
+<text x="208" y="98" text-anchor="middle" font-size="11" fill="#1C2B3A">confirm</text>
+<rect x="256" y="132" width="60" height="28" rx="4" fill="#E3F1F3" stroke="#0E6F7E"/>
+<text x="286" y="150" text-anchor="middle" font-size="11" fill="#1C2B3A">pick</text>
+<rect x="326" y="132" width="58" height="28" rx="4" fill="#E3F1F3" stroke="#0E6F7E"/>
+<text x="355" y="150" text-anchor="middle" font-size="11" fill="#1C2B3A">dispatch</text>
+<path d="M156,42 L172,42 L172,80" fill="none" stroke="#8A93A0" stroke-width="1.8" marker-end="url(#a6)"/>
+<path d="M244,94 L256,94 L256,132" fill="none" stroke="#A8322A" stroke-width="2.6" marker-end="url(#a6r)"/>
+<path d="M316,146 L326,146" fill="none" stroke="#8A93A0" stroke-width="1.8" marker-end="url(#a6)"/>
+<rect x="176" y="176" width="150" height="22" rx="11" fill="#FBE9E7" stroke="#A8322A"/>
+<text x="251" y="191" text-anchor="middle" font-size="11.5" font-weight="700" fill="#A8322A">4 days waiting here</text>
+<text x="120" y="198" text-anchor="middle" font-size="11" fill="#55606E" font-style="italic">the delay lives</text>
+<text x="120" y="186" text-anchor="middle" font-size="11" fill="#55606E" font-style="italic">between lanes</text>
+</svg>

@@ -1,0 +1,38 @@
+<svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Data splits into structured, semi-structured and unstructured, each with examples">
+<rect x="150" y="6" width="100" height="28" rx="6" fill="#1C2B3A"/>
+<text x="200" y="25" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">All data</text>
+<path d="M200,34 L200,48 L62,48 L62,58" fill="none" stroke="#8A93A0" stroke-width="1.6"/>
+<path d="M200,34 L200,58" fill="none" stroke="#8A93A0" stroke-width="1.6"/>
+<path d="M200,34 L200,48 L338,48 L338,58" fill="none" stroke="#8A93A0" stroke-width="1.6"/>
+
+<rect x="8" y="58" width="108" height="30" rx="6" fill="#E3F1F3" stroke="#0E6F7E" stroke-width="1.6"/>
+<text x="62" y="78" text-anchor="middle" font-size="11.5" font-weight="700" fill="#0E6F7E">Structured</text>
+<rect x="146" y="58" width="108" height="30" rx="6" fill="#EFE9F7" stroke="#6B4C9A" stroke-width="1.6"/>
+<text x="200" y="78" text-anchor="middle" font-size="11" font-weight="700" fill="#6B4C9A">Semi-structured</text>
+<rect x="284" y="58" width="108" height="30" rx="6" fill="#FBF0D9" stroke="#9A6B00" stroke-width="1.6"/>
+<text x="338" y="78" text-anchor="middle" font-size="10.5" font-weight="700" fill="#9A6B00">Unstructured</text>
+
+<g font-size="10.5" fill="#55606E">
+<rect x="8" y="98" width="108" height="118" rx="6" fill="#fff" stroke="#DED6C4"/>
+<text x="18" y="116">&#8226; Excel sheets</text>
+<text x="18" y="136">&#8226; SQL databases</text>
+<text x="18" y="156">&#8226; CSV files</text>
+<text x="18" y="182" fill="#8A93A0" font-style="italic">rows &amp; columns,</text>
+<text x="18" y="198" fill="#8A93A0" font-style="italic">fixed fields</text>
+
+<rect x="146" y="98" width="108" height="118" rx="6" fill="#fff" stroke="#DED6C4"/>
+<text x="156" y="116">&#8226; JSON / XML</text>
+<text x="156" y="136">&#8226; Web pages</text>
+<text x="156" y="156">&#8226; Chat logs</text>
+<text x="156" y="182" fill="#8A93A0" font-style="italic">tagged, but</text>
+<text x="156" y="198" fill="#8A93A0" font-style="italic">no fixed schema</text>
+
+<rect x="284" y="98" width="108" height="118" rx="6" fill="#fff" stroke="#DED6C4"/>
+<text x="294" y="116">&#8226; Photos, video</text>
+<text x="294" y="136">&#8226; Social posts</text>
+<text x="294" y="156">&#8226; Audio, PDFs</text>
+<text x="294" y="182" fill="#8A93A0" font-style="italic">no predefined</text>
+<text x="294" y="198" fill="#8A93A0" font-style="italic">structure at all</text>
+</g>
+<text x="200" y="240" text-anchor="middle" font-size="12" font-weight="700" fill="#1C2B3A">structure is a spectrum, not a switch</text>
+</svg>

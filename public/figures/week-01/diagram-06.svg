@@ -1,0 +1,33 @@
+<svg viewBox="0 0 400 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Average clearance revenue by region: North 3130.86, South 2497.14, East 3658.29, West 2440.00, with spread shown as an error bar on each">
+<line x1="30" y1="170" x2="380" y2="170" stroke="#55606E" stroke-width="1.5"/>
+
+<rect x="55" y="67" width="60" height="103" fill="#E3F1F3" stroke="#0E6F7E" stroke-width="1.4"/>
+<line x1="85" y1="46" x2="85" y2="88" stroke="#1C2B3A" stroke-width="1.6"/>
+<line x1="78" y1="46" x2="92" y2="46" stroke="#1C2B3A" stroke-width="1.6"/>
+<line x1="78" y1="88" x2="92" y2="88" stroke="#1C2B3A" stroke-width="1.6"/>
+<text x="85" y="38" text-anchor="middle" font-size="9.5" font-weight="700" fill="#1C2B3A">$3,131</text>
+<text x="85" y="188" text-anchor="middle" font-size="10" fill="#55606E">North</text>
+
+<rect x="145" y="88" width="60" height="82" fill="#E3F1F3" stroke="#0E6F7E" stroke-width="1.4"/>
+<line x1="175" y1="72" x2="175" y2="104" stroke="#1C2B3A" stroke-width="1.6"/>
+<line x1="168" y1="72" x2="182" y2="72" stroke="#1C2B3A" stroke-width="1.6"/>
+<line x1="168" y1="104" x2="182" y2="104" stroke="#1C2B3A" stroke-width="1.6"/>
+<text x="175" y="64" text-anchor="middle" font-size="9.5" font-weight="700" fill="#1C2B3A">$2,497</text>
+<text x="175" y="188" text-anchor="middle" font-size="10" fill="#55606E">South</text>
+
+<rect x="235" y="50" width="60" height="120" fill="#0E6F7E" stroke="#0E6F7E" stroke-width="1.4"/>
+<line x1="265" y1="26" x2="265" y2="70" stroke="#1C2B3A" stroke-width="1.6"/>
+<line x1="258" y1="26" x2="272" y2="26" stroke="#1C2B3A" stroke-width="1.6"/>
+<line x1="258" y1="70" x2="272" y2="70" stroke="#1C2B3A" stroke-width="1.6"/>
+<text x="265" y="18" text-anchor="middle" font-size="9.5" font-weight="700" fill="#1C2B3A">$3,658</text>
+<text x="265" y="188" text-anchor="middle" font-size="10" font-weight="700" fill="#0E6F7E">East</text>
+
+<rect x="325" y="90" width="60" height="80" fill="#E3F1F3" stroke="#0E6F7E" stroke-width="1.4"/>
+<line x1="355" y1="74" x2="355" y2="106" stroke="#1C2B3A" stroke-width="1.6"/>
+<line x1="348" y1="74" x2="362" y2="74" stroke="#1C2B3A" stroke-width="1.6"/>
+<line x1="348" y1="106" x2="362" y2="106" stroke="#1C2B3A" stroke-width="1.6"/>
+<text x="355" y="66" text-anchor="middle" font-size="9.5" font-weight="700" fill="#1C2B3A">$2,440</text>
+<text x="355" y="188" text-anchor="middle" font-size="10" fill="#55606E">West</text>
+
+<text x="205" y="204" text-anchor="middle" font-size="10.5" fill="#55606E">bars = mean revenue per sale &#183; whiskers = &#177;1 standard deviation</text>
+</svg>

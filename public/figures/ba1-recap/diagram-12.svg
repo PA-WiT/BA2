@@ -1,0 +1,18 @@
+<svg viewBox="0 0 400 235" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The feasible region, with the optimal solution at a corner">
+<line x1="50" y1="190" x2="378" y2="190" stroke="#55606E" stroke-width="1.5"/>
+<line x1="50" y1="20" x2="50" y2="190" stroke="#55606E" stroke-width="1.5"/>
+<polygon points="50,190 50,96 132,62 244,104 288,190" fill="#E3F1F3" stroke="#0E6F7E" stroke-width="2"/>
+<line x1="34" y1="112" x2="200" y2="42" stroke="#A8322A" stroke-width="1.6" stroke-dasharray="6,4"/>
+<line x1="96" y1="34" x2="330" y2="140" stroke="#9A6B00" stroke-width="1.6" stroke-dasharray="6,4"/>
+<line x1="288" y1="16" x2="288" y2="204" stroke="#6B4C9A" stroke-width="1.6" stroke-dasharray="6,4"/>
+<text x="150" y="140" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0E6F7E">feasible region</text>
+<text x="150" y="156" text-anchor="middle" font-size="10.5" fill="#55606E">every constraint satisfied</text>
+<circle cx="50" cy="96" r="4" fill="#0E6F7E"/><circle cx="50" cy="190" r="4" fill="#0E6F7E"/>
+<circle cx="288" cy="190" r="4" fill="#0E6F7E"/><circle cx="132" cy="62" r="4" fill="#0E6F7E"/>
+<path d="M244,104 m-9,0 a9,9 0 1,0 18,0 a9,9 0 1,0 -18,0" fill="#9A6B00" opacity="0.25"/>
+<circle cx="244" cy="104" r="6" fill="#9A6B00"/>
+<text x="258" y="92" font-size="11.5" font-weight="700" fill="#9A6B00">optimum</text>
+<text x="214" y="216" text-anchor="middle" font-size="12" font-weight="700" fill="#1C2B3A">the best answer is always at a corner</text>
+<text x="40" y="16" font-size="10.5" fill="#8A93A0">Product B</text>
+<text x="382" y="204" text-anchor="end" font-size="10.5" fill="#8A93A0">Product A</text>
+</svg>

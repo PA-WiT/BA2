@@ -1,0 +1,42 @@
+<svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="jam_sales rows matched against jam_products on flavor; the Lemon row has no match and is dropped">
+<text x="70" y="16" text-anchor="middle" font-size="11" font-weight="700" fill="#55606E">jam_sales</text>
+<rect x="10" y="24" width="120" height="20" fill="#E3F1F3" stroke="#0E6F7E" stroke-width="1.3"/>
+<text x="70" y="38" text-anchor="middle" font-size="9.5" fill="#0E6F7E">Strawberry</text>
+<rect x="10" y="50" width="120" height="20" fill="#E3F1F3" stroke="#0E6F7E" stroke-width="1.3"/>
+<text x="70" y="64" text-anchor="middle" font-size="9.5" fill="#0E6F7E">Blueberry</text>
+<rect x="10" y="76" width="120" height="20" fill="#E3F1F3" stroke="#0E6F7E" stroke-width="1.3"/>
+<text x="70" y="90" text-anchor="middle" font-size="9.5" fill="#0E6F7E">Peach</text>
+<rect x="10" y="102" width="120" height="20" fill="#FBE9E7" stroke="#A8322A" stroke-width="1.3"/>
+<text x="70" y="116" text-anchor="middle" font-size="9.5" fill="#A8322A" font-weight="700">Lemon</text>
+
+<text x="70" y="140" text-anchor="middle" font-size="9" fill="#55606E">ON s.flavor = p.flavor</text>
+
+<path d="M130,34 L172,34" stroke="#1F6B47" stroke-width="1.6"/>
+<text x="151" y="28" text-anchor="middle" font-size="11" fill="#1F6B47">&#10003;</text>
+<path d="M130,60 L172,60" stroke="#1F6B47" stroke-width="1.6"/>
+<text x="151" y="54" text-anchor="middle" font-size="11" fill="#1F6B47">&#10003;</text>
+<path d="M130,86 L172,86" stroke="#1F6B47" stroke-width="1.6"/>
+<text x="151" y="80" text-anchor="middle" font-size="11" fill="#1F6B47">&#10003;</text>
+<path d="M130,112 L172,112" stroke="#A8322A" stroke-width="1.6" stroke-dasharray="3,3"/>
+<text x="151" y="106" text-anchor="middle" font-size="11" fill="#A8322A">&#10007;</text>
+<text x="151" y="128" text-anchor="middle" font-size="8" fill="#A8322A">no match</text>
+
+<text x="240" y="16" text-anchor="middle" font-size="11" font-weight="700" fill="#0E6F7E">INNER JOIN result</text>
+<rect x="176" y="24" width="128" height="20" fill="#fff" stroke="#0E6F7E" stroke-width="1.3"/>
+<text x="240" y="38" text-anchor="middle" font-size="9.5" fill="#1C2B3A">Strawberry row</text>
+<rect x="176" y="50" width="128" height="20" fill="#fff" stroke="#0E6F7E" stroke-width="1.3"/>
+<text x="240" y="64" text-anchor="middle" font-size="9.5" fill="#1C2B3A">Blueberry row</text>
+<rect x="176" y="76" width="128" height="20" fill="#fff" stroke="#0E6F7E" stroke-width="1.3"/>
+<text x="240" y="90" text-anchor="middle" font-size="9.5" fill="#1C2B3A">Peach row</text>
+<rect x="176" y="102" width="128" height="20" fill="none" stroke="#DED6C4" stroke-width="1.3" stroke-dasharray="3,3"/>
+<text x="240" y="116" text-anchor="middle" font-size="9.5" fill="#8A93A0" font-style="italic">(Lemon &#8212; missing)</text>
+
+<rect x="330" y="16" width="60" height="96" fill="#FBE9E7" stroke="#A8322A" rx="6"/>
+<text x="360" y="46" text-anchor="middle" font-size="20" fill="#A8322A">&#8722;9</text>
+<text x="360" y="64" text-anchor="middle" font-size="8" fill="#A8322A">jars sold,</text>
+<text x="360" y="76" text-anchor="middle" font-size="8" fill="#A8322A">missing from</text>
+<text x="360" y="88" text-anchor="middle" font-size="8" fill="#A8322A">every total</text>
+<text x="360" y="100" text-anchor="middle" font-size="8" fill="#A8322A">below</text>
+
+<text x="200" y="160" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1C2B3A">12 rows come back out of 13 sales &#8212; and nothing says so</text>
+</svg>

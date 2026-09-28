@@ -1,0 +1,19 @@
+<svg viewBox="0 0 400 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The PED loop: Process, Explain, Decide, repeating">
+<defs><marker id="a1" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#0E6F7E"/></marker>
+<marker id="a1g" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#8A93A0"/></marker></defs>
+<circle cx="62" cy="62" r="40" fill="#E3F1F3" stroke="#0E6F7E" stroke-width="2"/>
+<text x="62" y="58" text-anchor="middle" font-size="15" font-weight="700" fill="#0E6F7E">Process</text>
+<text x="62" y="76" text-anchor="middle" font-size="10.5" fill="#55606E">clean it</text>
+<circle cx="200" cy="62" r="40" fill="#E3F1F3" stroke="#0E6F7E" stroke-width="2"/>
+<text x="200" y="58" text-anchor="middle" font-size="15" font-weight="700" fill="#0E6F7E">Explain</text>
+<text x="200" y="76" text-anchor="middle" font-size="10.5" fill="#55606E">find the why</text>
+<circle cx="338" cy="62" r="40" fill="#E3F1F3" stroke="#0E6F7E" stroke-width="2"/>
+<text x="338" y="58" text-anchor="middle" font-size="15" font-weight="700" fill="#0E6F7E">Decide</text>
+<text x="338" y="76" text-anchor="middle" font-size="11" fill="#55606E">act</text>
+<line x1="106" y1="62" x2="154" y2="62" stroke="#0E6F7E" stroke-width="2" marker-end="url(#a1)"/>
+<line x1="244" y1="62" x2="292" y2="62" stroke="#0E6F7E" stroke-width="2" marker-end="url(#a1)"/>
+<path d="M338,104 C338,160 62,160 62,106" fill="none" stroke="#8A93A0" stroke-width="2" stroke-dasharray="5,4" marker-end="url(#a1g)"/>
+<text x="200" y="155" text-anchor="middle" font-size="12" fill="#55606E" font-style="italic">new questions</text>
+<rect x="4" y="116" width="116" height="22" rx="11" fill="#FBF0D9" stroke="#9A6B00"/>
+<text x="62" y="131" text-anchor="middle" font-size="11" font-weight="700" fill="#9A6B00">~80% of your time</text>
+</svg>

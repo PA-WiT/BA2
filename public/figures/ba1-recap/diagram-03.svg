@@ -1,0 +1,26 @@
+<svg viewBox="0 0 400 185" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="One outlier drags the mean away from the data">
+<line x1="45" y1="110" x2="380" y2="110" stroke="#55606E" stroke-width="1.5"/>
+<line x1="62.6" y1="110" x2="62.6" y2="115" stroke="#8A93A0"/>
+<text x="62.6" y="129" text-anchor="middle" font-size="10" fill="#8A93A0">50k</text>
+<line x1="132.8" y1="110" x2="132.8" y2="115" stroke="#8A93A0"/>
+<text x="132.8" y="129" text-anchor="middle" font-size="10" fill="#8A93A0">150k</text>
+<line x1="203.0" y1="110" x2="203.0" y2="115" stroke="#8A93A0"/>
+<text x="203.0" y="129" text-anchor="middle" font-size="10" fill="#8A93A0">250k</text>
+<line x1="273.2" y1="110" x2="273.2" y2="115" stroke="#8A93A0"/>
+<text x="273.2" y="129" text-anchor="middle" font-size="10" fill="#8A93A0">350k</text>
+<line x1="343.4" y1="110" x2="343.4" y2="115" stroke="#8A93A0"/>
+<text x="343.4" y="129" text-anchor="middle" font-size="10" fill="#8A93A0">450k</text>
+<circle cx="49.9" cy="110" r="6" fill="#0E6F7E" opacity="0.85"/>
+<circle cx="51.3" cy="110" r="6" fill="#0E6F7E" opacity="0.85"/>
+<circle cx="52.0" cy="110" r="6" fill="#0E6F7E" opacity="0.85"/>
+<circle cx="52.7" cy="110" r="6" fill="#0E6F7E" opacity="0.85"/>
+<circle cx="54.1" cy="110" r="6" fill="#0E6F7E" opacity="0.85"/>
+<circle cx="364.5" cy="110" r="6" fill="#0E6F7E" opacity="0.85"/>
+<line x1="52.4" y1="52" x2="52.4" y2="120" stroke="#0E6F7E" stroke-width="2.5"/>
+<text x="52.4" y="45" text-anchor="middle" font-size="12" font-weight="700" fill="#0E6F7E">median 35.5k</text>
+<line x1="104.1" y1="70" x2="104.1" y2="120" stroke="#A8322A" stroke-width="2.5" stroke-dasharray="5,4"/>
+<text x="104.1" y="63" text-anchor="middle" font-size="12" font-weight="700" fill="#A8322A">mean 109k</text>
+<text x="364.5" y="95" text-anchor="middle" font-size="10.5" fill="#55606E">the founder</text>
+
+<text x="200" y="166" text-anchor="middle" font-size="12" fill="#A8322A" font-weight="700">the mean describes nobody in this room</text>
+</svg>
