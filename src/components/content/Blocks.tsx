@@ -1,4 +1,5 @@
 import type { Block } from '../../content/types'
+import { resolveAssetPath, resolveHtmlAssetPaths } from '../../content/resolveAssetPath'
 import { useLocalized } from '../../content/useLocalized'
 import { Exercise } from '../../features/quiz/Exercise'
 import { CodeBlock } from './CodeBlock'
@@ -13,7 +14,7 @@ export function Blocks({ blocks }: { blocks: Block[] }) {
       {blocks.map((block, i) => {
         switch (block.type) {
           case 'html':
-            return <div key={i} dangerouslySetInnerHTML={{ __html: t(block.html) }} />
+            return <div key={i} dangerouslySetInnerHTML={{ __html: resolveHtmlAssetPaths(t(block.html)) }} />
 
           case 'objectives':
             return (
@@ -31,7 +32,7 @@ export function Blocks({ blocks }: { blocks: Block[] }) {
             return (
               <div key={i} className={`${styles.box} ${styles[block.variant]}`}>
                 <span className={styles.boxLabel}>{t(block.label)}</span>
-                <div dangerouslySetInnerHTML={{ __html: t(block.html) }} />
+                <div dangerouslySetInnerHTML={{ __html: resolveHtmlAssetPaths(t(block.html)) }} />
               </div>
             )
 
@@ -55,7 +56,7 @@ export function Blocks({ blocks }: { blocks: Block[] }) {
               <figure key={i} className={styles.diagram}>
                 <div className={styles.fig}>{t(block.fig)}</div>
                 <div className={styles.figTitle}>{t(block.title)}</div>
-                <img src={block.src} alt={block.alt} />
+                <img src={resolveAssetPath(block.src)} alt={block.alt} />
                 <figcaption>{t(block.caption)}</figcaption>
               </figure>
             )
