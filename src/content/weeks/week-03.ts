@@ -9,7 +9,10 @@
 //  - The deck's waterfall used an all-positive Total column; here it uses month-over-month change so
 //    increases and decreases both show up.
 //  - Added chart-selection and misleading-chart sections, which Week 2's closing section promises.
-// ar/fa are draft translations awaiting native review, like the earlier weeks.
+//  - Week 0 says Python and Power BI arrive from week 3, so every chart section has Excel | Python
+//    (Colab) | Power BI tabs. The Python snippets live in `py` below and are also exported to
+//    public/notebooks/week-03-visualizing-data.ipynb (regenerate that file if they change).
+// ar/fa are draft translations awaiting native review, like the earlier weeks. Code stays English.
 import type { Question, Week } from '../types'
 
 const months = [
@@ -42,6 +45,102 @@ const units: [number, number, number][] = [
   [9, 8, 8],
   [12, 10, 6],
 ]
+
+const column = (i: number) => units.map((row) => row[i]).join(', ')
+const monthList = months.map((m) => `"${m.en}"`).join(', ')
+
+// Python (Colab) snippets. `py.setup` must run first; every other cell reuses `df`, `flavors`, `colors`.
+const py = {
+  setup: `import pandas as pd
+import matplotlib.pyplot as plt
+
+df = pd.DataFrame({
+    "Month": [${monthList}],
+    "Strawberry": [${column(0)}],
+    "Blueberry":  [${column(1)}],
+    "Peach":      [${column(2)}],
+})
+flavors = ["Strawberry", "Blueberry", "Peach"]
+colors = ["#0E6F7E", "#D9A441", "#A8322A"]   # one color per flavor
+
+df["Total"] = df[flavors].sum(axis=1)
+# Change vs. the previous month; January has no previous month, so it stays as the starting level
+df["Change"] = df["Total"].diff().fillna(df["Total"])
+df`,
+  bar: `# Clustered columns: flavors side by side within each month
+ax = df.plot.bar(x="Month", y=flavors, color=colors, figsize=(9, 4))
+ax.set_ylabel("Units sold")
+plt.show()`,
+  barVariants: `# Stacked columns, and horizontal bars (categories on the y-axis)
+df.plot.bar(x="Month", y=flavors, stacked=True, color=colors, figsize=(9, 4))
+df.plot.barh(x="Month", y=flavors, color=colors, figsize=(6, 6))
+plt.show()`,
+  line: `ax = df.plot.line(x="Month", y=flavors, marker="o", color=colors, figsize=(9, 4))
+ax.set_ylabel("Units sold")
+plt.show()`,
+  pie: `totals = df[flavors].sum()   # Strawberry 253, Blueberry 216, Peach 180
+ax = totals.plot.pie(autopct="%1.0f%%", colors=colors, ylabel="", figsize=(4, 4))
+plt.show()`,
+  scatter: `ax = df.plot.scatter(x="Strawberry", y="Blueberry", color="#0E6F7E", figsize=(5, 4))
+plt.show()
+print("Correlation:", round(df["Strawberry"].corr(df["Blueberry"]), 2))   # about 0.85`,
+  waterfall: `# matplotlib has no waterfall chart: draw floating bars that start at the previous month's total
+prev_total = df["Total"].shift(1).fillna(0)
+bar_colors = ["#55606E" if i == 0 else ("#0E6F7E" if c >= 0 else "#A8322A")
+              for i, c in enumerate(df["Change"])]
+fig, ax = plt.subplots(figsize=(9, 4))
+ax.bar(df["Month"], df["Change"], bottom=prev_total, color=bar_colors)
+ax.set_ylabel("Change in total units")
+plt.show()`,
+  elements: `ax = df.plot.line(x="Month", y=flavors, marker="o", color=colors, figsize=(9, 4))
+ax.set_title("Peach overtakes Strawberry in August: plan stock for late summer")
+ax.set_xlabel("Month")
+ax.set_ylabel("Units sold")
+ax.legend(loc="upper left", ncol=3, frameon=False)
+ax.grid(axis="y", alpha=0.3)
+plt.show()`,
+  labels: `# Data labels on a bar chart, and a single accent color
+ax = df.plot.bar(x="Month", y="Peach", color="#A8322A", legend=False, figsize=(9, 4))
+ax.bar_label(ax.containers[0])
+ax.set_ylabel("Peach units sold")
+plt.show()`,
+  honest: `totals = df[flavors].sum()
+fig, (honest, misleading) = plt.subplots(1, 2, figsize=(9, 3.5))
+
+totals.plot.bar(ax=honest, color="#0E6F7E", title="Honest: axis starts at 0")
+honest.set_ylim(0, 260)
+
+totals.plot.bar(ax=misleading, color="#A8322A", title="Misleading: axis starts at 150")
+misleading.set_ylim(150, 260)
+
+plt.tight_layout()
+plt.show()`,
+}
+
+// Power BI (DAX) snippets for the same data.
+const dax = {
+  table: `Jam Sales =
+DATATABLE (
+    "MonthNo", INTEGER,
+    "Month", STRING,
+    "Strawberry", INTEGER,
+    "Blueberry", INTEGER,
+    "Peach", INTEGER,
+    {
+${units.map((r, i) => `        { ${i + 1}, "${months[i].en}", ${r.join(', ')} }`).join(',\n')}
+    }
+)`,
+  total: `Total = 'Jam Sales'[Strawberry] + 'Jam Sales'[Blueberry] + 'Jam Sales'[Peach]`,
+  change: `Change =
+'Jam Sales'[Total]
+    - LOOKUPVALUE ( 'Jam Sales'[Total], 'Jam Sales'[MonthNo], 'Jam Sales'[MonthNo] - 1 )`,
+  flavorTotals: `Flavor Totals =
+UNION (
+    ROW ( "Flavor", "Strawberry", "Units", SUM ( 'Jam Sales'[Strawberry] ) ),
+    ROW ( "Flavor", "Blueberry", "Units", SUM ( 'Jam Sales'[Blueberry] ) ),
+    ROW ( "Flavor", "Peach", "Units", SUM ( 'Jam Sales'[Peach] ) )
+)`,
+}
 
 const sales2024Rows = [
   ...units.map(([s, b, p], i) => [months[i], { en: String(s) }, { en: String(b) }, { en: String(p) }, { en: String(s + b + p) }]),
@@ -283,6 +382,94 @@ const questions: Question[] = [
       { en: 'A single 3-D column chart', ar: 'رسم أعمدة ثلاثي الأبعاد واحد', fa: 'یک نمودار ستونی سه‌بعدی' },
     ],
   },
+  {
+    id: 'w03-q012',
+    weekId: 'week-03',
+    topic: 'line-charts',
+    answer: 1,
+    prompt: {
+      en: 'In Power BI, a line chart of the text field Month lists the months as Apr, Aug, Dec, Feb… Why, and what fixes it?',
+      ar: 'في Power BI يعرض الرسم الخطي للحقل النصي Month الأشهر هكذا: Apr وAug وDec وFeb… لماذا، وما الحل؟',
+      fa: 'در Power BI نمودار خطیِ فیلد متنی Month ماه‌ها را به‌صورت Apr، Aug، Dec، Feb… فهرست می‌کند. چرا، و چه چیزی آن را درست می‌کند؟',
+    },
+    options: [
+      {
+        en: 'Power BI cannot chart months; you must retype them as dates',
+        ar: 'لا يستطيع Power BI رسم الأشهر؛ يجب إعادة كتابتها كتواريخ',
+        fa: 'Power BI نمی‌تواند ماه‌ها را رسم کند؛ باید آن‌ها را به‌صورت تاریخ دوباره تایپ کنی',
+      },
+      {
+        en: 'Text sorts alphabetically; use Column tools › Sort by column with the MonthNo column',
+        ar: 'النص يُرتَّب أبجديًا؛ استخدم Column tools › Sort by column مع عمود MonthNo',
+        fa: 'متن به ترتیب الفبا مرتب می‌شود؛ از Column tools › Sort by column با ستون MonthNo استفاده کن',
+      },
+      {
+        en: 'The table was typed in the wrong order; delete and re-enter it',
+        ar: 'كُتب الجدول بترتيب خاطئ؛ احذفه وأعد إدخاله',
+        fa: 'جدول با ترتیب اشتباه تایپ شده؛ آن را پاک کن و دوباره وارد کن',
+      },
+    ],
+  },
+  {
+    id: 'w03-q013',
+    weekId: 'week-03',
+    topic: 'pie-charts',
+    answer: 0,
+    prompt: {
+      en: 'A Power BI pie chart is built from a category field (Legend) and a value field. Your flavors sit in three separate columns. What is the standard fix?',
+      ar: 'يُبنى الرسم الدائري في Power BI من حقل فئة (Legend) وحقل قيمة. نكهاتك في ثلاثة أعمدة منفصلة. ما الحل المعتاد؟',
+      fa: 'نمودار دایره‌ای در Power BI از یک فیلد دسته (Legend) و یک فیلد مقدار ساخته می‌شود. طعم‌های تو در سه ستون جدا هستند. راه‌حل استاندارد چیست؟',
+    },
+    options: [
+      {
+        en: 'Reshape to one row per flavor (Flavor, Units) and use Flavor as Legend, Units as Values',
+        ar: 'أعد تشكيل البيانات بصف لكل نكهة (Flavor وUnits) واستخدم Flavor كـ Legend وUnits كـ Values',
+        fa: 'داده را به یک ردیف برای هر طعم (Flavor، Units) تغییر شکل بده و Flavor را Legend و Units را Values بگذار',
+      },
+      { en: 'Build three separate pie charts', ar: 'ابنِ ثلاثة رسوم دائرية منفصلة', fa: 'سه نمودار دایره‌ای جدا بساز' },
+      { en: 'Rename the columns Slice 1, Slice 2, Slice 3', ar: 'أعد تسمية الأعمدة Slice 1 وSlice 2 وSlice 3', fa: 'ستون‌ها را Slice 1، Slice 2، Slice 3 نام‌گذاری کن' },
+    ],
+  },
+  {
+    id: 'w03-q014',
+    weekId: 'week-03',
+    topic: 'scatter-plots',
+    answer: 2,
+    prompt: {
+      en: 'In Power BI you put Strawberry on X and Blueberry on Y, but see only a single dot. What is missing?',
+      ar: 'في Power BI وضعت الفراولة على X والتوت الأزرق على Y، لكنك ترى نقطة واحدة فقط. ما الناقص؟',
+      fa: 'در Power BI توت‌فرنگی را روی X و بلوبری را روی Y گذاشتی، اما فقط یک نقطه می‌بینی. چه چیزی کم است؟',
+    },
+    options: [
+      { en: 'A trend line', ar: 'خط اتجاه', fa: 'یک خط روند' },
+      { en: 'A dark theme', ar: 'سمة داكنة', fa: 'یک تم تیره' },
+      {
+        en: 'A field in Values, such as Month, so each month becomes its own dot',
+        ar: 'حقل في Values، مثل Month، ليصبح كل شهر نقطة مستقلة',
+        fa: 'یک فیلد در Values، مثل Month، تا هر ماه نقطهٔ جداگانه‌ای شود',
+      },
+    ],
+  },
+  {
+    id: 'w03-q015',
+    weekId: 'week-03',
+    topic: 'waterfall-charts',
+    answer: 1,
+    prompt: {
+      en: 'In the Python waterfall, what does bottom=prev_total do?',
+      ar: 'في مخطط الشلال بـ Python، ماذا يفعل bottom=prev_total؟',
+      fa: 'در نمودار آبشاری پایتون، bottom=prev_total چه می‌کند؟',
+    },
+    options: [
+      { en: 'Colors the negative bars red', ar: 'يلوّن الأعمدة السالبة بالأحمر', fa: 'میله‌های منفی را قرمز می‌کند' },
+      {
+        en: 'Starts each bar at the previous month\'s total, so bars float instead of standing on zero',
+        ar: 'يبدأ كل عمود من إجمالي الشهر السابق، فتطفو الأعمدة بدل الوقوف على الصفر',
+        fa: 'هر میله را از مجموع ماه قبل شروع می‌کند، پس میله‌ها به‌جای ایستادن روی صفر شناور می‌شوند',
+      },
+      { en: 'Sorts the months alphabetically', ar: 'يرتّب الأشهر أبجديًا', fa: 'ماه‌ها را به ترتیب الفبا مرتب می‌کند' },
+    ],
+  },
 ]
 
 export const weekThree: Week = {
@@ -295,7 +482,11 @@ export const weekThree: Week = {
       ar: '<h1>تصوير البيانات:<em>من الأرقام إلى صورة تقول الحقيقة</em></h1><p class="lede">تعلّمت الأسبوع الماضي حساب الأرقام الصحيحة. هذا الأسبوع تتعلم عرضها لمن لا يريد قراءة جدول: اختيار الرسم الذي يجيب عن السؤال، وبناؤه في Excel، وتحسينه، وملاحظة اللحظة التي يضلّل فيها الرسم بصمت.</p>',
       fa: '<h1>مصورسازی داده‌ها:<em>از عدد تا تصویری که حقیقت را می‌گوید</em></h1><p class="lede">هفتهٔ گذشته یاد گرفتی اعداد درست را محاسبه کنی. این هفته یاد می‌گیری آن‌ها را به کسی نشان بدهی که نمی‌خواهد جدول بخواند: نموداری را انتخاب کنی که به سؤال پاسخ می‌دهد، آن را در Excel بسازی، صیقل بدهی و لحظه‌ای را که نمودار بی‌سروصدا گمراه می‌کند تشخیص بدهی.</p>',
     },
-    timeEstimate: { en: '≈ 75 min · reading + Excel practice', ar: '≈ ٧٥ دقيقة · قراءة وتدريب Excel', fa: '≈ ۷۵ دقیقه · مطالعه و تمرین Excel' },
+    timeEstimate: {
+      en: '≈ 110 min · reading + Excel, Python and Power BI practice',
+      ar: '≈ ١١٠ دقائق · قراءة وتدريب Excel وPython وPower BI',
+      fa: '≈ ۱۱۰ دقیقه · مطالعه و تمرین Excel، Python و Power BI',
+    },
   },
   questions,
   sections: [
@@ -333,6 +524,11 @@ export const weekThree: Week = {
               en: 'Recognize misleading charts (truncated axes, 3-D, dual axes, overloaded pies) and fix them',
               ar: 'ملاحظة الرسوم المضلِّلة (المحاور المقتطعة، ثلاثي الأبعاد، المحاور المزدوجة، الدوائر المزدحمة) وإصلاحها',
               fa: 'نمودارهای گمراه‌کننده (محور بریده، سه‌بعدی، محور دوگانه، دایره‌های شلوغ) را تشخیص بدهی و اصلاح کنی',
+            },
+            {
+              en: 'Recreate the same charts in Python (Google Colab) and in Power BI, and know when to reach for each tool',
+              ar: 'إعادة بناء الرسوم نفسها في Python (Google Colab) وفي Power BI، ومعرفة متى تلجأ إلى كل أداة',
+              fa: 'همان نمودارها را در Python (Google Colab) و در Power BI دوباره بسازی و بدانی کِی سراغ هر ابزار بروی',
             },
           ],
         },
@@ -448,9 +644,132 @@ export const weekThree: Week = {
       ],
     },
     {
+      id: 'tool-setup',
+      navLabel: { en: 'Set up your tools', ar: 'جهّز أدواتك', fa: 'ابزارهایت را آماده کن' },
+      sectionLabel: { en: 'Section 03', ar: 'القسم ٠٣', fa: 'بخش ۰۳' },
+      timeEst: { en: '10 min', ar: '١٠ دقائق', fa: '۱۰ دقیقه' },
+      headingHtml: {
+        en: '<h2>Set up your tools: one skill, three ways to draw</h2><p class="standfirst">Week 0 said Python and Power BI arrive from this week. From here on, every chart section has three tabs: Excel, Python (Colab) and Power BI. Set the two new tools up once, here, with the same jam-stand data.</p>',
+        ar: '<h2>جهّز أدواتك: مهارة واحدة، ثلاث طرق للرسم</h2><p class="standfirst">قال الأسبوع 0 إن Python وPower BI يبدآن من هذا الأسبوع. من هنا فصاعدًا لكل قسم رسم ثلاثة تبويبات: Excel وPython (Colab) وPower BI. جهّز الأداتين الجديدتين مرة واحدة هنا بنفس بيانات كشك المربى.</p>',
+        fa: '<h2>ابزارهایت را آماده کن: یک مهارت، سه راه برای کشیدن</h2><p class="standfirst">هفتهٔ ۰ گفت Python و Power BI از این هفته می‌آیند. از اینجا به بعد هر بخش نمودار سه تب دارد: Excel، Python (Colab) و Power BI. دو ابزار جدید را یک بار، همین‌جا، با همان داده‌های غرفهٔ مربا آماده کن.</p>',
+      },
+      blocks: [
+        {
+          type: 'html',
+          html: {
+            en: '<p>You do not need all three to pass. Excel stays the baseline, and as Week 0 said, neither Python nor Power BI is mandatory. But try each at least once: they teach the same skill from different sides, and each shines in a different job.</p>',
+            ar: '<p>لست بحاجة إلى الثلاثة جميعًا. يبقى Excel الأساس، وكما قال الأسبوع 0 لا Python ولا Power BI إلزامي. لكن جرّب كلًّا منهما مرة واحدة على الأقل: يعلّمان المهارة نفسها من جهات مختلفة، ويتألق كل منهما في عمل مختلف.</p>',
+            fa: '<p>برای قبول شدن به هر سه نیاز نداری. Excel مبنا می‌ماند و همان‌طور که هفتهٔ ۰ گفت، نه Python و نه Power BI اجباری نیست. اما هر کدام را دست‌کم یک بار امتحان کن: مهارت یکسان را از زوایای متفاوت یاد می‌دهند و هر کدام در کاری متفاوت می‌درخشد.</p>',
+          },
+        },
+        {
+          type: 'table',
+          headers: [
+            { en: 'Tool', ar: 'الأداة', fa: 'ابزار' },
+            { en: 'Best for', ar: 'الأفضل لـ', fa: 'مناسب برای' },
+            { en: 'Where it runs', ar: 'أين تعمل', fa: 'کجا اجرا می‌شود' },
+            { en: 'Access', ar: 'الوصول', fa: 'دسترسی' },
+          ],
+          rows: [
+            [
+              { en: '<strong>Excel</strong>', ar: '<strong>Excel</strong>', fa: '<strong>Excel</strong>' },
+              { en: 'Quick charts inside a spreadsheet you already have', ar: 'رسوم سريعة داخل جدول بيانات لديك أصلًا', fa: 'نمودارهای سریع داخل صفحه‌گسترده‌ای که از قبل داری' },
+              { en: 'Desktop app or browser', ar: 'تطبيق سطح المكتب أو المتصفح', fa: 'برنامهٔ دسکتاپ یا مرورگر' },
+              { en: 'Microsoft 365, as in earlier weeks', ar: 'Microsoft 365 كما في الأسابيع السابقة', fa: 'Microsoft 365، مثل هفته‌های قبل' },
+            ],
+            [
+              { en: '<strong>Python (Colab)</strong>', ar: '<strong>Python (Colab)</strong>', fa: '<strong>Python (Colab)</strong>' },
+              { en: 'Repeatable, scripted charts; large or messy data', ar: 'رسوم مبرمجة قابلة للتكرار؛ بيانات كبيرة أو فوضوية', fa: 'نمودارهای اسکریپتی و تکرارپذیر؛ داده‌های بزرگ یا به‌هم‌ریخته' },
+              { en: 'In your browser, nothing to install', ar: 'في متصفحك، دون تثبيت', fa: 'در مرورگرت، بدون نصب' },
+              { en: 'Free with a Google account', ar: 'مجاني بحساب Google', fa: 'رایگان با حساب Google' },
+            ],
+            [
+              { en: '<strong>Power BI</strong>', ar: '<strong>Power BI</strong>', fa: '<strong>Power BI</strong>' },
+              { en: 'Interactive dashboards other people can click through', ar: 'لوحات بيانات تفاعلية يتصفحها الآخرون', fa: 'داشبوردهای تعاملی که دیگران می‌توانند در آن‌ها بگردند' },
+              { en: 'Power BI Desktop (Windows app) or the Power BI service in a browser', ar: 'Power BI Desktop (تطبيق ويندوز) أو خدمة Power BI في المتصفح', fa: 'Power BI Desktop (برنامهٔ ویندوز) یا سرویس Power BI در مرورگر' },
+              { en: 'Desktop is a free download; the service needs a work or school account', ar: 'Desktop تنزيل مجاني؛ الخدمة تتطلب حساب عمل أو مدرسة', fa: 'Desktop دانلود رایگان است؛ سرویس به حساب کاری یا مدرسه نیاز دارد' },
+            ],
+          ],
+        },
+        {
+          type: 'tabs',
+          tabs: [
+            {
+              label: { en: 'Excel', ar: 'Excel', fa: 'Excel' },
+              blocks: [
+                {
+                  type: 'html',
+                  html: {
+                    en: '<p>Nothing new to set up. Use the sheet from Section 1 (<code>A1:E14</code>).</p>',
+                    ar: '<p>لا شيء جديد لتجهيزه. استخدم الورقة من القسم 1 (<code>A1:E14</code>).</p>',
+                    fa: '<p>چیز تازه‌ای برای آماده‌سازی نیست. از صفحهٔ بخش ۱ (<code>A1:E14</code>) استفاده کن.</p>',
+                  },
+                },
+              ],
+            },
+            {
+              label: { en: 'Python (Colab)', ar: 'Python (Colab)', fa: 'Python (Colab)' },
+              blocks: [
+                {
+                  type: 'html',
+                  html: {
+                    en: '<ol><li>Open <a href="https://colab.new" target="_blank" rel="noopener">colab.new</a> and sign in with a Google account. It creates a blank notebook.</li><li>Paste the setup code below into the first cell and run it with <kbd>Shift</kbd>+<kbd>Enter</kbd>. A table of the 12 months appears.</li><li>Every Python snippet in the next sections goes into its own new cell. They all reuse <code>df</code>, <code>flavors</code> and <code>colors</code>, so run this setup cell first (and again if you restart the notebook).</li></ol><p>Colab already includes <code>pandas</code> and <code>matplotlib</code>, so there is nothing to install.</p>',
+                    ar: '<ol><li>افتح <a href="https://colab.new" target="_blank" rel="noopener">colab.new</a> وسجّل الدخول بحساب Google. سيُنشئ دفترًا فارغًا.</li><li>الصق كود التجهيز أدناه في الخلية الأولى وشغّله بـ <kbd>Shift</kbd>+<kbd>Enter</kbd>. يظهر جدول الأشهر الـ12.</li><li>كل مقطع Python في الأقسام التالية يوضع في خلية جديدة خاصة به. جميعها تعيد استخدام <code>df</code> و<code>flavors</code> و<code>colors</code>، فشغّل خلية التجهيز هذه أولًا (ومجددًا إن أعدت تشغيل الدفتر).</li></ol><p>يتضمن Colab بالفعل <code>pandas</code> و<code>matplotlib</code>، فلا شيء لتثبيته.</p>',
+                    fa: '<ol><li><a href="https://colab.new" target="_blank" rel="noopener">colab.new</a> را باز کن و با حساب Google وارد شو. یک دفترچهٔ خالی می‌سازد.</li><li>کد آماده‌سازی زیر را در سلول اول بچسبان و با <kbd>Shift</kbd>+<kbd>Enter</kbd> اجرا کن. جدول ۱۲ ماه ظاهر می‌شود.</li><li>هر قطعه کد Python در بخش‌های بعد در یک سلول جدید جدا قرار می‌گیرد. همه از <code>df</code>، <code>flavors</code> و <code>colors</code> دوباره استفاده می‌کنند، پس اول این سلول آماده‌سازی را اجرا کن (و اگر دفترچه را ری‌استارت کردی دوباره).</li></ol><p>Colab از قبل <code>pandas</code> و <code>matplotlib</code> را دارد، پس چیزی برای نصب نیست.</p>',
+                  },
+                },
+                { type: 'code', code: py.setup },
+              ],
+            },
+            {
+              label: { en: 'Power BI', ar: 'Power BI', fa: 'Power BI' },
+              blocks: [
+                {
+                  type: 'html',
+                  html: {
+                    en: '<p>Open <strong>Power BI Desktop</strong> (a Windows app) and start a blank report. On a Mac, use the Power BI service in a browser instead, which needs a work or school account (a personal Gmail or Outlook address will not work).</p><p><strong>1. Create the data table.</strong> Go to <strong>Modeling › New table</strong>, paste the expression, and press <kbd>Enter</kbd>. It is self-contained, so there is no file to import.</p>',
+                    ar: '<p>افتح <strong>Power BI Desktop</strong> (تطبيق ويندوز) وابدأ تقريرًا فارغًا. على ماك استخدم خدمة Power BI في المتصفح بدلًا من ذلك، وهي تتطلب حساب عمل أو مدرسة (عنوان Gmail أو Outlook الشخصي لن يعمل).</p><p><strong>1. أنشئ جدول البيانات.</strong> اذهب إلى <strong>Modeling › New table</strong> والصق التعبير واضغط <kbd>Enter</kbd>. إنه مكتفٍ بذاته، فلا ملف لاستيراده.</p>',
+                    fa: '<p><strong>Power BI Desktop</strong> (برنامهٔ ویندوز) را باز کن و یک گزارش خالی شروع کن. روی مک به‌جای آن از سرویس Power BI در مرورگر استفاده کن که به حساب کاری یا مدرسه نیاز دارد (آدرس شخصی Gmail یا Outlook کار نمی‌کند).</p><p><strong>۱. جدول داده را بساز.</strong> به <strong>Modeling › New table</strong> برو، عبارت را بچسبان و <kbd>Enter</kbd> بزن. مستقل است، پس فایلی برای وارد کردن نیست.</p>',
+                  },
+                },
+                { type: 'code', code: dax.table },
+                {
+                  type: 'html',
+                  html: {
+                    en: '<p><strong>2. Add two calculated columns.</strong> With the <code>Jam Sales</code> table selected, use <strong>Modeling › New column</strong> for each. <code>Change</code> is this month\'s total minus last month\'s; January has no previous month, so it simply stays at its own total, the starting level.</p>',
+                    ar: '<p><strong>2. أضف عمودين محسوبين.</strong> مع تحديد جدول <code>Jam Sales</code> استخدم <strong>Modeling › New column</strong> لكل منهما. <code>Change</code> هو إجمالي هذا الشهر ناقص الشهر السابق؛ ولأن يناير بلا شهر سابق يبقى عند إجماليه، أي مستوى البداية.</p>',
+                    fa: '<p><strong>۲. دو ستون محاسبه‌ای اضافه کن.</strong> با انتخاب جدول <code>Jam Sales</code> برای هر کدام از <strong>Modeling › New column</strong> استفاده کن. <code>Change</code> مجموع این ماه منهای ماه قبل است؛ چون ژانویه ماه قبلی ندارد، روی مجموع خودش می‌ماند، یعنی سطح شروع.</p>',
+                  },
+                },
+                { type: 'code', code: dax.total },
+                { type: 'code', code: dax.change },
+                {
+                  type: 'html',
+                  html: {
+                    en: '<p><strong>3. Fix the month order.</strong> In the <strong>Data</strong> pane select the <code>Month</code> column, open <strong>Column tools › Sort by column</strong> and choose <code>MonthNo</code>. Without this, Power BI sorts the month names alphabetically.</p><p><strong>4. Create the pie-chart table.</strong> A pie needs one row per flavor, so add one more table with <strong>Modeling › New table</strong>:</p>',
+                    ar: '<p><strong>3. أصلح ترتيب الأشهر.</strong> في جزء <strong>Data</strong> حدّد العمود <code>Month</code> وافتح <strong>Column tools › Sort by column</strong> واختر <code>MonthNo</code>. من دون ذلك يرتّب Power BI أسماء الأشهر أبجديًا.</p><p><strong>4. أنشئ جدول الرسم الدائري.</strong> يحتاج الدائري إلى صف لكل نكهة، فأضف جدولًا آخر بـ <strong>Modeling › New table</strong>:</p>',
+                    fa: '<p><strong>۳. ترتیب ماه‌ها را درست کن.</strong> در پنل <strong>Data</strong> ستون <code>Month</code> را انتخاب کن، <strong>Column tools › Sort by column</strong> را باز کن و <code>MonthNo</code> را انتخاب کن. بدون این کار Power BI نام ماه‌ها را به ترتیب الفبا مرتب می‌کند.</p><p><strong>۴. جدول نمودار دایره‌ای را بساز.</strong> نمودار دایره‌ای یک ردیف برای هر طعم می‌خواهد، پس با <strong>Modeling › New table</strong> یک جدول دیگر اضافه کن:</p>',
+                  },
+                },
+                { type: 'code', code: dax.flavorTotals },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'html',
+          html: {
+            en: '<p><strong>Prefer a ready-made file?</strong> The whole Python path is also a notebook: <a href="https://colab.research.google.com/github/PA-WiT/BA2/blob/main/public/notebooks/week-03-visualizing-data.ipynb" target="_blank" rel="noopener">open it in Colab</a>, or <a href="/notebooks/week-03-visualizing-data.ipynb" download>download the .ipynb</a> and load it with <strong>File › Upload notebook</strong> in Colab.</p>',
+            ar: '<p><strong>تفضّل ملفًا جاهزًا؟</strong> مسار Python كله متاح أيضًا كدفتر: <a href="https://colab.research.google.com/github/PA-WiT/BA2/blob/main/public/notebooks/week-03-visualizing-data.ipynb" target="_blank" rel="noopener">افتحه في Colab</a>، أو <a href="/notebooks/week-03-visualizing-data.ipynb" download>نزّل ملف .ipynb</a> وحمّله بـ <strong>File › Upload notebook</strong> في Colab.</p>',
+            fa: '<p><strong>فایل آماده می‌خواهی؟</strong> کل مسیر Python به‌صورت یک دفترچه هم هست: <a href="https://colab.research.google.com/github/PA-WiT/BA2/blob/main/public/notebooks/week-03-visualizing-data.ipynb" target="_blank" rel="noopener">آن را در Colab باز کن</a>، یا <a href="/notebooks/week-03-visualizing-data.ipynb" download>فایل .ipynb را دانلود کن</a> و در Colab با <strong>File › Upload notebook</strong> بارگذاری کن.</p>',
+          },
+        },
+      ],
+    },
+    {
       id: 'bar-and-column',
       navLabel: { en: 'Bar and column charts', ar: 'الأعمدة الأفقية والرأسية', fa: 'نمودار میله‌ای و ستونی' },
-      sectionLabel: { en: 'Section 03', ar: 'القسم ٠٣', fa: 'بخش ۰۳' },
+      sectionLabel: { en: 'Section 04', ar: 'القسم ٠٤', fa: 'بخش ۰۴' },
       timeEst: { en: '6 min', ar: '٦ دقائق', fa: '۶ دقیقه' },
       headingHtml: {
         en: '<h2>Bar and column charts: the workhorse</h2><p class="standfirst">Bar charts are among the easiest charts to read. Put a category on one axis and a value on the other, and the eye compares lengths instantly.</p>',
@@ -461,10 +780,56 @@ export const weekThree: Week = {
         {
           type: 'html',
           html: {
-            en: '<p>A <strong>bar chart</strong> puts the categories on the vertical (y) axis and the values on the horizontal (x) axis. A <strong>column chart</strong> is the same idea turned upright: categories on x, values on y. Use bars when category names are long; use columns when the categories have a natural left-to-right order like months.</p><p><strong>To build a clustered bar chart:</strong></p><ol><li>Select the range <code>A1:D13</code> (months and the three flavors, without the total column).</li><li>Open the <strong>Insert</strong> tab.</li><li>Click the column/bar dropdown and, under <strong>2-D Bar</strong>, choose <strong>Clustered Bar</strong>.</li></ol><p><strong>For a column chart</strong>, do the same but choose <strong>Clustered Column</strong> under <strong>2-D Column</strong>. You now see units sold per flavor for every month.</p>',
-            ar: '<p><strong>الرسم بالأعمدة الأفقية</strong> يضع الفئات على المحور الرأسي (y) والقيم على المحور الأفقي (x). أما <strong>الرسم بالأعمدة الرأسية</strong> فهو الفكرة نفسها منتصبة: الفئات على x والقيم على y. استخدم الأفقية حين تكون أسماء الفئات طويلة، والرأسية حين يكون للفئات ترتيب طبيعي من اليسار إلى اليمين كالأشهر.</p><p><strong>لبناء رسم أعمدة أفقية عنقودي:</strong></p><ol><li>حدّد النطاق <code>A1:D13</code> (الأشهر والنكهات الثلاث دون عمود الإجمالي).</li><li>افتح تبويب <strong>Insert</strong>.</li><li>انقر القائمة المنسدلة للأعمدة، واختر تحت <strong>2-D Bar</strong> الخيار <strong>Clustered Bar</strong>.</li></ol><p><strong>للأعمدة الرأسية</strong> افعل الشيء نفسه لكن اختر <strong>Clustered Column</strong> تحت <strong>2-D Column</strong>.</p>',
-            fa: '<p><strong>نمودار میله‌ای</strong> دسته‌ها را روی محور عمودی (y) و مقادیر را روی محور افقی (x) می‌گذارد. <strong>نمودار ستونی</strong> همان ایده به‌صورت ایستاده است: دسته‌ها روی x و مقادیر روی y. وقتی نام دسته‌ها بلند است از میله‌ای و وقتی دسته‌ها ترتیب طبیعی چپ‌به‌راست دارند، مثل ماه‌ها، از ستونی استفاده کن.</p><p><strong>برای ساخت نمودار میله‌ای خوشه‌ای:</strong></p><ol><li>محدودهٔ <code>A1:D13</code> را انتخاب کن (ماه‌ها و سه طعم، بدون ستون مجموع).</li><li>تب <strong>Insert</strong> را باز کن.</li><li>روی فهرست کشویی ستون/میله کلیک کن و زیر <strong>2-D Bar</strong> گزینهٔ <strong>Clustered Bar</strong> را انتخاب کن.</li></ol><p><strong>برای نمودار ستونی</strong> همین کار را بکن اما زیر <strong>2-D Column</strong> گزینهٔ <strong>Clustered Column</strong> را انتخاب کن.</p>',
+            en: '<p>A <strong>bar chart</strong> puts the categories on the vertical (y) axis and the values on the horizontal (x) axis. A <strong>column chart</strong> is the same idea turned upright: categories on x, values on y. Use bars when category names are long; use columns when the categories have a natural left-to-right order like months.</p>',
+            ar: '<p><strong>الرسم بالأعمدة الأفقية</strong> يضع الفئات على المحور الرأسي (y) والقيم على المحور الأفقي (x). أما <strong>الرسم بالأعمدة الرأسية</strong> فهو الفكرة نفسها منتصبة: الفئات على x والقيم على y. استخدم الأفقية حين تكون أسماء الفئات طويلة، والرأسية حين يكون للفئات ترتيب طبيعي من اليسار إلى اليمين كالأشهر.</p>',
+            fa: '<p><strong>نمودار میله‌ای</strong> دسته‌ها را روی محور عمودی (y) و مقادیر را روی محور افقی (x) می‌گذارد. <strong>نمودار ستونی</strong> همان ایده به‌صورت ایستاده است: دسته‌ها روی x و مقادیر روی y. وقتی نام دسته‌ها بلند است از میله‌ای و وقتی دسته‌ها ترتیب طبیعی چپ‌به‌راست دارند، مثل ماه‌ها، از ستونی استفاده کن.</p>',
           },
+        },
+        {
+          type: 'tabs',
+          tabs: [
+            {
+              label: { en: 'Excel', ar: 'Excel', fa: 'Excel' },
+              blocks: [
+                {
+                  type: 'html',
+                  html: {
+                    en: '<p><strong>To build a clustered bar chart:</strong></p><ol><li>Select the range <code>A1:D13</code> (months and the three flavors, without the total column).</li><li>Open the <strong>Insert</strong> tab.</li><li>Click the column/bar dropdown and, under <strong>2-D Bar</strong>, choose <strong>Clustered Bar</strong>.</li></ol><p><strong>For a column chart</strong>, do the same but choose <strong>Clustered Column</strong> under <strong>2-D Column</strong>. You now see units sold per flavor for every month.</p>',
+                    ar: '<p><strong>لبناء رسم أعمدة أفقية عنقودي:</strong></p><ol><li>حدّد النطاق <code>A1:D13</code> (الأشهر والنكهات الثلاث دون عمود الإجمالي).</li><li>افتح تبويب <strong>Insert</strong>.</li><li>انقر القائمة المنسدلة للأعمدة، واختر تحت <strong>2-D Bar</strong> الخيار <strong>Clustered Bar</strong>.</li></ol><p><strong>للأعمدة الرأسية</strong> افعل الشيء نفسه لكن اختر <strong>Clustered Column</strong> تحت <strong>2-D Column</strong>.</p>',
+                    fa: '<p><strong>برای ساخت نمودار میله‌ای خوشه‌ای:</strong></p><ol><li>محدودهٔ <code>A1:D13</code> را انتخاب کن (ماه‌ها و سه طعم، بدون ستون مجموع).</li><li>تب <strong>Insert</strong> را باز کن.</li><li>روی فهرست کشویی ستون/میله کلیک کن و زیر <strong>2-D Bar</strong> گزینهٔ <strong>Clustered Bar</strong> را انتخاب کن.</li></ol><p><strong>برای نمودار ستونی</strong> همین کار را بکن اما زیر <strong>2-D Column</strong> گزینهٔ <strong>Clustered Column</strong> را انتخاب کن.</p>',
+                  },
+                },
+              ],
+            },
+            {
+              label: { en: 'Python (Colab)', ar: 'Python (Colab)', fa: 'Python (Colab)' },
+              blocks: [
+                {
+                  type: 'html',
+                  html: {
+                    en: 'In a Colab cell (after the setup from Section 3), <code>df.plot.bar</code> draws clustered columns: <code>x</code> is the category axis and <code>y</code> is the list of value columns. Add <code>stacked=True</code> for stacked columns, or use <code>df.plot.barh</code> for horizontal bars.',
+                    ar: 'في خلية Colab (بعد التجهيز من القسم 3) يرسم <code>df.plot.bar</code> أعمدة عنقودية: <code>x</code> محور الفئات و<code>y</code> قائمة أعمدة القيم. أضف <code>stacked=True</code> للأعمدة المكدّسة، أو استخدم <code>df.plot.barh</code> للأعمدة الأفقية.',
+                    fa: 'در یک سلول Colab (پس از آماده‌سازی بخش ۳)، <code>df.plot.bar</code> ستون‌های خوشه‌ای می‌کشد: <code>x</code> محور دسته‌ها و <code>y</code> فهرست ستون‌های مقدار است. برای ستون‌های انباشته <code>stacked=True</code> اضافه کن، یا برای میله‌های افقی از <code>df.plot.barh</code> استفاده کن.',
+                  },
+                },
+                { type: 'code', code: py.bar },
+                { type: 'code', code: py.barVariants },
+              ],
+            },
+            {
+              label: { en: 'Power BI', ar: 'Power BI', fa: 'Power BI' },
+              blocks: [
+                {
+                  type: 'html',
+                  html: {
+                    en: '<ol><li>On the report canvas, click the <strong>Clustered column chart</strong> icon in the <strong>Visualizations</strong> pane (or <strong>Clustered bar chart</strong> for horizontal bars).</li><li>From the <strong>Data</strong> pane, drag <code>Month</code> to <strong>X-axis</strong> and <code>Strawberry</code>, <code>Blueberry</code> and <code>Peach</code> to <strong>Y-axis</strong>. Power BI sums each column for you.</li><li>To change the layout, switch the same visual to <strong>Stacked column chart</strong> or <strong>100% stacked column chart</strong>.</li></ol>',
+                    ar: '<ol><li>على لوحة التقرير انقر أيقونة <strong>Clustered column chart</strong> في جزء <strong>Visualizations</strong> (أو <strong>Clustered bar chart</strong> للأعمدة الأفقية).</li><li>من جزء <strong>Data</strong> اسحب <code>Month</code> إلى <strong>X-axis</strong> و<code>Strawberry</code> و<code>Blueberry</code> و<code>Peach</code> إلى <strong>Y-axis</strong>. يجمع Power BI كل عمود لك.</li><li>لتغيير التخطيط بدّل الرسم نفسه إلى <strong>Stacked column chart</strong> أو <strong>100% stacked column chart</strong>.</li></ol>',
+                    fa: '<ol><li>روی بوم گزارش روی آیکن <strong>Clustered column chart</strong> در پنل <strong>Visualizations</strong> کلیک کن (یا <strong>Clustered bar chart</strong> برای میله‌های افقی).</li><li>از پنل <strong>Data</strong>، <code>Month</code> را به <strong>X-axis</strong> و <code>Strawberry</code>، <code>Blueberry</code> و <code>Peach</code> را به <strong>Y-axis</strong> بکش. Power BI هر ستون را برایت جمع می‌زند.</li><li>برای تغییر چیدمان، همان نمودار را به <strong>Stacked column chart</strong> یا <strong>100% stacked column chart</strong> تغییر بده.</li></ol>',
+                  },
+                },
+              ],
+            },
+          ],
         },
         {
           type: 'html',
@@ -515,7 +880,7 @@ export const weekThree: Week = {
     {
       id: 'line-charts',
       navLabel: { en: 'Line charts', ar: 'الرسوم الخطية', fa: 'نمودار خطی' },
-      sectionLabel: { en: 'Section 04', ar: 'القسم ٠٤', fa: 'بخش ۰۴' },
+      sectionLabel: { en: 'Section 05', ar: 'القسم ٠٥', fa: 'بخش ۰۵' },
       timeEst: { en: '5 min', ar: '٥ دقائق', fa: '۵ دقیقه' },
       headingHtml: {
         en: '<h2>Line charts: how things change over time</h2><p class="standfirst">A line chart is the most natural way to show a number moving through time. The line itself says "these points are connected, in order."</p>',
@@ -526,9 +891,62 @@ export const weekThree: Week = {
         {
           type: 'html',
           html: {
-            en: '<p>Line charts are the best way to capture how a numeric variable changes over time, which makes trends easy to spot.</p><p><strong>To build a line chart:</strong></p><ol><li>Select <code>A1:D13</code>.</li><li>Open the <strong>Insert</strong> tab.</li><li>Click the line-chart dropdown and, under <strong>2-D Line</strong>, choose <strong>Line with Markers</strong>.</li></ol><p>You now see units sold per month, one line per flavor, so each flavor\'s performance over time is easy to compare. Read it: Strawberry peaks in June, Blueberry in July, and Peach not until August. That staggered pattern is invisible in the table and obvious in the chart.</p>',
-            ar: '<p>الرسوم الخطية هي أفضل طريقة لالتقاط كيف يتغير متغير رقمي مع الزمن، ما يجعل الاتجاهات سهلة الاكتشاف.</p><p><strong>لبناء رسم خطي:</strong></p><ol><li>حدّد <code>A1:D13</code>.</li><li>افتح تبويب <strong>Insert</strong>.</li><li>انقر القائمة المنسدلة للرسم الخطي واختر تحت <strong>2-D Line</strong> الخيار <strong>Line with Markers</strong>.</li></ol><p>ترى الآن الوحدات المباعة شهريًا، بخط لكل نكهة. اقرأه: تبلغ الفراولة ذروتها في يونيو، والتوت الأزرق في يوليو، والخوخ في أغسطس. هذا النمط المتدرّج غير مرئي في الجدول وواضح في الرسم.</p>',
-            fa: '<p>نمودار خطی بهترین راه برای نشان دادن تغییر یک متغیر عددی در طول زمان است و تشخیص روندها را آسان می‌کند.</p><p><strong>برای ساخت نمودار خطی:</strong></p><ol><li><code>A1:D13</code> را انتخاب کن.</li><li>تب <strong>Insert</strong> را باز کن.</li><li>روی فهرست کشویی نمودار خطی کلیک کن و زیر <strong>2-D Line</strong> گزینهٔ <strong>Line with Markers</strong> را انتخاب کن.</li></ol><p>حالا واحدهای فروخته‌شده در هر ماه را می‌بینی، با یک خط برای هر طعم. بخوانش: توت‌فرنگی در ژوئن، بلوبری در ژوئیه و هلو تا اوت به اوج نمی‌رسد. این الگوی پلکانی در جدول نامرئی است و در نمودار آشکار.</p>',
+            en: '<p>Line charts are the best way to capture how a numeric variable changes over time, which makes trends easy to spot.</p>',
+            ar: '<p>الرسوم الخطية هي أفضل طريقة لالتقاط كيف يتغير متغير رقمي مع الزمن، ما يجعل الاتجاهات سهلة الاكتشاف.</p>',
+            fa: '<p>نمودار خطی بهترین راه برای نشان دادن تغییر یک متغیر عددی در طول زمان است و تشخیص روندها را آسان می‌کند.</p>',
+          },
+        },
+        {
+          type: 'tabs',
+          tabs: [
+            {
+              label: { en: 'Excel', ar: 'Excel', fa: 'Excel' },
+              blocks: [
+                {
+                  type: 'html',
+                  html: {
+                    en: '<p><strong>To build a line chart:</strong></p><ol><li>Select <code>A1:D13</code>.</li><li>Open the <strong>Insert</strong> tab.</li><li>Click the line-chart dropdown and, under <strong>2-D Line</strong>, choose <strong>Line with Markers</strong>.</li></ol>',
+                    ar: '<p><strong>لبناء رسم خطي:</strong></p><ol><li>حدّد <code>A1:D13</code>.</li><li>افتح تبويب <strong>Insert</strong>.</li><li>انقر القائمة المنسدلة للرسم الخطي واختر تحت <strong>2-D Line</strong> الخيار <strong>Line with Markers</strong>.</li></ol>',
+                    fa: '<p><strong>برای ساخت نمودار خطی:</strong></p><ol><li><code>A1:D13</code> را انتخاب کن.</li><li>تب <strong>Insert</strong> را باز کن.</li><li>روی فهرست کشویی نمودار خطی کلیک کن و زیر <strong>2-D Line</strong> گزینهٔ <strong>Line with Markers</strong> را انتخاب کن.</li></ol>',
+                  },
+                },
+              ],
+            },
+            {
+              label: { en: 'Python (Colab)', ar: 'Python (Colab)', fa: 'Python (Colab)' },
+              blocks: [
+                {
+                  type: 'html',
+                  html: {
+                    en: '<code>df.plot.line</code> takes the same <code>x</code> and <code>y</code>. <code>marker="o"</code> adds the dots, like Excel\'s "Line with Markers".',
+                    ar: 'يأخذ <code>df.plot.line</code> نفس <code>x</code> و<code>y</code>. يضيف <code>marker="o"</code> النقاط، مثل "Line with Markers" في Excel.',
+                    fa: '<code>df.plot.line</code> همان <code>x</code> و <code>y</code> را می‌گیرد. <code>marker="o"</code> نقطه‌ها را اضافه می‌کند، مثل «Line with Markers» در Excel.',
+                  },
+                },
+                { type: 'code', code: py.line },
+              ],
+            },
+            {
+              label: { en: 'Power BI', ar: 'Power BI', fa: 'Power BI' },
+              blocks: [
+                {
+                  type: 'html',
+                  html: {
+                    en: '<ol><li>Click the <strong>Line chart</strong> icon in the <strong>Visualizations</strong> pane.</li><li>Drag <code>Month</code> to <strong>X-axis</strong> and the three flavors to <strong>Y-axis</strong>.</li></ol><p><strong>Watch the month order.</strong> If the months read Apr, Aug, Dec, Feb…, the <strong>Sort by column</strong> step from Section 3 was skipped: text sorts alphabetically.</p>',
+                    ar: '<ol><li>انقر أيقونة <strong>Line chart</strong> في جزء <strong>Visualizations</strong>.</li><li>اسحب <code>Month</code> إلى <strong>X-axis</strong> والنكهات الثلاث إلى <strong>Y-axis</strong>.</li></ol><p><strong>انتبه لترتيب الأشهر.</strong> إن ظهرت الأشهر هكذا Apr وAug وDec وFeb… فقد فاتتك خطوة <strong>Sort by column</strong> من القسم 3: النص يُرتَّب أبجديًا.</p>',
+                    fa: '<ol><li>روی آیکن <strong>Line chart</strong> در پنل <strong>Visualizations</strong> کلیک کن.</li><li><code>Month</code> را به <strong>X-axis</strong> و سه طعم را به <strong>Y-axis</strong> بکش.</li></ol><p><strong>مراقب ترتیب ماه‌ها باش.</strong> اگر ماه‌ها Apr، Aug، Dec، Feb… خوانده می‌شوند، مرحلهٔ <strong>Sort by column</strong> بخش ۳ جا افتاده: متن به ترتیب الفبا مرتب می‌شود.</p>',
+                  },
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'html',
+          html: {
+            en: '<p>You now see units sold per month, one line per flavor, so each flavor\'s performance over time is easy to compare. Read it: Strawberry peaks in June, Blueberry in July, and Peach not until August. That staggered pattern is invisible in the table and obvious in the chart.</p>',
+            ar: '<p>ترى الآن الوحدات المباعة شهريًا، بخط لكل نكهة. اقرأه: تبلغ الفراولة ذروتها في يونيو، والتوت الأزرق في يوليو، والخوخ في أغسطس. هذا النمط المتدرّج غير مرئي في الجدول وواضح في الرسم.</p>',
+            fa: '<p>حالا واحدهای فروخته‌شده در هر ماه را می‌بینی، با یک خط برای هر طعم. بخوانش: توت‌فرنگی در ژوئن، بلوبری در ژوئیه و هلو تا اوت به اوج نمی‌رسد. این الگوی پلکانی در جدول نامرئی است و در نمودار آشکار.</p>',
           },
         },
         {
@@ -542,12 +960,13 @@ export const weekThree: Week = {
           },
         },
         { type: 'exercise', questionId: 'w03-q004' },
+        { type: 'exercise', questionId: 'w03-q012' },
       ],
     },
     {
       id: 'pie-charts',
       navLabel: { en: 'Pie charts', ar: 'الرسوم الدائرية', fa: 'نمودار دایره‌ای' },
-      sectionLabel: { en: 'Section 05', ar: 'القسم ٠٥', fa: 'بخش ۰۵' },
+      sectionLabel: { en: 'Section 06', ar: 'القسم ٠٦', fa: 'بخش ۰۶' },
       timeEst: { en: '5 min', ar: '٥ دقائق', fa: '۵ دقیقه' },
       headingHtml: {
         en: '<h2>Pie charts: parts of a whole, used sparingly</h2><p class="standfirst">A pie is the picture of a fraction. It works when there are few parts and the parts really do add up to one whole.</p>',
@@ -558,9 +977,62 @@ export const weekThree: Week = {
         {
           type: 'html',
           html: {
-            en: '<p>Here we compare each flavor\'s total sales for the year: 253 Strawberry, 216 Blueberry, 180 Peach, 649 in all.</p><p><strong>To build a pie chart:</strong></p><ol><li>Select the flavor names <code>B1:D1</code>.</li><li>Hold <kbd>Ctrl</kbd> (Windows) or <kbd>Command</kbd> (Mac) and also select the yearly totals <code>B14:D14</code>.</li><li>Open the <strong>Insert</strong> tab, click the pie dropdown and, under <strong>2-D Pie</strong>, choose <strong>Pie</strong>.</li></ol><p>The slices come out at roughly <strong>39%</strong>, <strong>33%</strong> and <strong>28%</strong>.</p>',
-            ar: '<p>هنا نقارن إجمالي مبيعات كل نكهة للسنة: 253 فراولة و216 توت أزرق و180 خوخ، 649 إجمالًا.</p><p><strong>لبناء رسم دائري:</strong></p><ol><li>حدّد أسماء النكهات <code>B1:D1</code>.</li><li>اضغط <kbd>Ctrl</kbd> (ويندوز) أو <kbd>Command</kbd> (ماك) وحدّد أيضًا الإجماليات السنوية <code>B14:D14</code>.</li><li>افتح تبويب <strong>Insert</strong> وانقر القائمة المنسدلة للدائري واختر تحت <strong>2-D Pie</strong> الخيار <strong>Pie</strong>.</li></ol><p>تخرج الشرائح بنحو <strong>39%</strong> و<strong>33%</strong> و<strong>28%</strong>.</p>',
-            fa: '<p>اینجا مجموع فروش سالانهٔ هر طعم را مقایسه می‌کنیم: ۲۵۳ توت‌فرنگی، ۲۱۶ بلوبری، ۱۸۰ هلو، در مجموع ۶۴۹.</p><p><strong>برای ساخت نمودار دایره‌ای:</strong></p><ol><li>نام طعم‌ها <code>B1:D1</code> را انتخاب کن.</li><li><kbd>Ctrl</kbd> (ویندوز) یا <kbd>Command</kbd> (مک) را نگه دار و مجموع‌های سالانه <code>B14:D14</code> را هم انتخاب کن.</li><li>تب <strong>Insert</strong> را باز کن، روی فهرست کشویی دایره‌ای کلیک کن و زیر <strong>2-D Pie</strong> گزینهٔ <strong>Pie</strong> را انتخاب کن.</li></ol><p>قطعه‌ها تقریباً <strong>۳۹٪</strong>، <strong>۳۳٪</strong> و <strong>۲۸٪</strong> درمی‌آیند.</p>',
+            en: '<p>Here we compare each flavor\'s total sales for the year: 253 Strawberry, 216 Blueberry, 180 Peach, 649 in all.</p>',
+            ar: '<p>هنا نقارن إجمالي مبيعات كل نكهة للسنة: 253 فراولة و216 توت أزرق و180 خوخ، 649 إجمالًا.</p>',
+            fa: '<p>اینجا مجموع فروش سالانهٔ هر طعم را مقایسه می‌کنیم: ۲۵۳ توت‌فرنگی، ۲۱۶ بلوبری، ۱۸۰ هلو، در مجموع ۶۴۹.</p>',
+          },
+        },
+        {
+          type: 'tabs',
+          tabs: [
+            {
+              label: { en: 'Excel', ar: 'Excel', fa: 'Excel' },
+              blocks: [
+                {
+                  type: 'html',
+                  html: {
+                    en: '<p><strong>To build a pie chart:</strong></p><ol><li>Select the flavor names <code>B1:D1</code>.</li><li>Hold <kbd>Ctrl</kbd> (Windows) or <kbd>Command</kbd> (Mac) and also select the yearly totals <code>B14:D14</code>.</li><li>Open the <strong>Insert</strong> tab, click the pie dropdown and, under <strong>2-D Pie</strong>, choose <strong>Pie</strong>.</li></ol>',
+                    ar: '<p><strong>لبناء رسم دائري:</strong></p><ol><li>حدّد أسماء النكهات <code>B1:D1</code>.</li><li>اضغط <kbd>Ctrl</kbd> (ويندوز) أو <kbd>Command</kbd> (ماك) وحدّد أيضًا الإجماليات السنوية <code>B14:D14</code>.</li><li>افتح تبويب <strong>Insert</strong> وانقر القائمة المنسدلة للدائري واختر تحت <strong>2-D Pie</strong> الخيار <strong>Pie</strong>.</li></ol>',
+                    fa: '<p><strong>برای ساخت نمودار دایره‌ای:</strong></p><ol><li>نام طعم‌ها <code>B1:D1</code> را انتخاب کن.</li><li><kbd>Ctrl</kbd> (ویندوز) یا <kbd>Command</kbd> (مک) را نگه دار و مجموع‌های سالانه <code>B14:D14</code> را هم انتخاب کن.</li><li>تب <strong>Insert</strong> را باز کن، روی فهرست کشویی دایره‌ای کلیک کن و زیر <strong>2-D Pie</strong> گزینهٔ <strong>Pie</strong> را انتخاب کن.</li></ol>',
+                  },
+                },
+              ],
+            },
+            {
+              label: { en: 'Python (Colab)', ar: 'Python (Colab)', fa: 'Python (Colab)' },
+              blocks: [
+                {
+                  type: 'html',
+                  html: {
+                    en: 'A pie needs one number per slice, so first add up each flavor with <code>df[flavors].sum()</code>. <code>autopct</code> prints each slice as a percentage.',
+                    ar: 'يحتاج الدائري إلى رقم لكل شريحة، فاجمع أولًا كل نكهة بـ <code>df[flavors].sum()</code>. يطبع <code>autopct</code> كل شريحة كنسبة مئوية.',
+                    fa: 'نمودار دایره‌ای برای هر قطعه یک عدد می‌خواهد، پس اول هر طعم را با <code>df[flavors].sum()</code> جمع بزن. <code>autopct</code> هر قطعه را به‌صورت درصد چاپ می‌کند.',
+                  },
+                },
+                { type: 'code', code: py.pie },
+              ],
+            },
+            {
+              label: { en: 'Power BI', ar: 'Power BI', fa: 'Power BI' },
+              blocks: [
+                {
+                  type: 'html',
+                  html: {
+                    en: '<ol><li>Click the <strong>Pie chart</strong> icon in the <strong>Visualizations</strong> pane.</li><li>Use the <code>Flavor Totals</code> table from Section 3: drag <code>Flavor</code> to <strong>Legend</strong> and <code>Units</code> to <strong>Values</strong>.</li><li>In <strong>Format your visual</strong>, turn on <strong>Detail labels</strong> and show the percentage of the total.</li></ol><p>A pie takes one category field and one value field. That is why the three flavor columns were reshaped into one row per flavor.</p>',
+                    ar: '<ol><li>انقر أيقونة <strong>Pie chart</strong> في جزء <strong>Visualizations</strong>.</li><li>استخدم جدول <code>Flavor Totals</code> من القسم 3: اسحب <code>Flavor</code> إلى <strong>Legend</strong> و<code>Units</code> إلى <strong>Values</strong>.</li><li>في <strong>Format your visual</strong> فعّل <strong>Detail labels</strong> واعرض النسبة من الإجمالي.</li></ol><p>يأخذ الدائري حقل فئة واحدًا وحقل قيمة واحدًا. لذلك أُعيد تشكيل أعمدة النكهات الثلاثة في صف لكل نكهة.</p>',
+                    fa: '<ol><li>روی آیکن <strong>Pie chart</strong> در پنل <strong>Visualizations</strong> کلیک کن.</li><li>از جدول <code>Flavor Totals</code> بخش ۳ استفاده کن: <code>Flavor</code> را به <strong>Legend</strong> و <code>Units</code> را به <strong>Values</strong> بکش.</li><li>در <strong>Format your visual</strong>، <strong>Detail labels</strong> را روشن کن و درصد از کل را نشان بده.</li></ol><p>نمودار دایره‌ای یک فیلد دسته و یک فیلد مقدار می‌گیرد. برای همین سه ستون طعم به یک ردیف برای هر طعم تغییر شکل یافتند.</p>',
+                  },
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'html',
+          html: {
+            en: '<p>The slices come out at roughly <strong>39%</strong>, <strong>33%</strong> and <strong>28%</strong>.</p>',
+            ar: '<p>تخرج الشرائح بنحو <strong>39%</strong> و<strong>33%</strong> و<strong>28%</strong>.</p>',
+            fa: '<p>قطعه‌ها تقریباً <strong>۳۹٪</strong>، <strong>۳۳٪</strong> و <strong>۲۸٪</strong> درمی‌آیند.</p>',
           },
         },
         {
@@ -574,12 +1046,13 @@ export const weekThree: Week = {
           },
         },
         { type: 'exercise', questionId: 'w03-q005' },
+        { type: 'exercise', questionId: 'w03-q013' },
       ],
     },
     {
       id: 'scatter-plots',
       navLabel: { en: 'Scatter plots', ar: 'مخططات الانتشار', fa: 'نمودار پراکندگی' },
-      sectionLabel: { en: 'Section 06', ar: 'القسم ٠٦', fa: 'بخش ۰۶' },
+      sectionLabel: { en: 'Section 07', ar: 'القسم ٠٧', fa: 'بخش ۰۷' },
       timeEst: { en: '6 min', ar: '٦ دقائق', fa: '۶ دقیقه' },
       headingHtml: {
         en: '<h2>Scatter plots: do two things move together?</h2><p class="standfirst">A scatter plot has no time axis and no categories: one number on x, another on y, one dot per row. It exists to show relationships.</p>',
@@ -590,9 +1063,62 @@ export const weekThree: Week = {
         {
           type: 'html',
           html: {
-            en: '<p>Scatter plots quickly surface potential correlations. Here we compare Strawberry and Blueberry units, one dot per month.</p><p><strong>To build a scatter plot:</strong></p><ol><li>Select <code>B1:C13</code>: the two columns you want to relate. Excel puts the first column on x and the second on y.</li><li>Open the <strong>Insert</strong> tab.</li><li>Click the scatter dropdown and choose <strong>Scatter</strong> (the plain markers version).</li></ol><p>The dots climb from lower left to upper right: months that are strong for Strawberry are strong for Blueberry too. <code>=CORREL(B2:B13, C2:C13)</code> confirms it at about 0.85.</p>',
-            ar: '<p>تكشف مخططات الانتشار الارتباطات المحتملة بسرعة. هنا نقارن وحدات الفراولة والتوت الأزرق، بنقطة لكل شهر.</p><p><strong>لبناء مخطط انتشار:</strong></p><ol><li>حدّد <code>B1:C13</code>: العمودين اللذين تريد ربطهما. يضع Excel العمود الأول على x والثاني على y.</li><li>افتح تبويب <strong>Insert</strong>.</li><li>انقر القائمة المنسدلة للانتشار واختر <strong>Scatter</strong> (نسخة العلامات فقط).</li></ol><p>تصعد النقاط من أسفل اليسار إلى أعلى اليمين: الأشهر القوية للفراولة قوية للتوت الأزرق أيضًا. <code>=CORREL(B2:B13, C2:C13)</code> يؤكد ذلك عند نحو 0.85.</p>',
-            fa: '<p>نمودار پراکندگی همبستگی‌های احتمالی را سریع آشکار می‌کند. اینجا واحدهای توت‌فرنگی و بلوبری را مقایسه می‌کنیم، با یک نقطه برای هر ماه.</p><p><strong>برای ساخت نمودار پراکندگی:</strong></p><ol><li><code>B1:C13</code> را انتخاب کن: دو ستونی که می‌خواهی به هم ربط بدهی. Excel ستون اول را روی x و دوم را روی y می‌گذارد.</li><li>تب <strong>Insert</strong> را باز کن.</li><li>روی فهرست کشویی پراکندگی کلیک کن و <strong>Scatter</strong> (نسخهٔ فقط نشانگر) را انتخاب کن.</li></ol><p>نقطه‌ها از پایین چپ به بالا راست بالا می‌روند: ماه‌های قوی برای توت‌فرنگی برای بلوبری هم قوی‌اند. <code>=CORREL(B2:B13, C2:C13)</code> آن را حدود ۰٫۸۵ تأیید می‌کند.</p>',
+            en: '<p>Scatter plots quickly surface potential correlations. Here we compare Strawberry and Blueberry units, one dot per month.</p>',
+            ar: '<p>تكشف مخططات الانتشار الارتباطات المحتملة بسرعة. هنا نقارن وحدات الفراولة والتوت الأزرق، بنقطة لكل شهر.</p>',
+            fa: '<p>نمودار پراکندگی همبستگی‌های احتمالی را سریع آشکار می‌کند. اینجا واحدهای توت‌فرنگی و بلوبری را مقایسه می‌کنیم، با یک نقطه برای هر ماه.</p>',
+          },
+        },
+        {
+          type: 'tabs',
+          tabs: [
+            {
+              label: { en: 'Excel', ar: 'Excel', fa: 'Excel' },
+              blocks: [
+                {
+                  type: 'html',
+                  html: {
+                    en: '<p><strong>To build a scatter plot:</strong></p><ol><li>Select <code>B1:C13</code>: the two columns you want to relate. Excel puts the first column on x and the second on y.</li><li>Open the <strong>Insert</strong> tab.</li><li>Click the scatter dropdown and choose <strong>Scatter</strong> (the plain markers version).</li></ol>',
+                    ar: '<p><strong>لبناء مخطط انتشار:</strong></p><ol><li>حدّد <code>B1:C13</code>: العمودين اللذين تريد ربطهما. يضع Excel العمود الأول على x والثاني على y.</li><li>افتح تبويب <strong>Insert</strong>.</li><li>انقر القائمة المنسدلة للانتشار واختر <strong>Scatter</strong> (نسخة العلامات فقط).</li></ol>',
+                    fa: '<p><strong>برای ساخت نمودار پراکندگی:</strong></p><ol><li><code>B1:C13</code> را انتخاب کن: دو ستونی که می‌خواهی به هم ربط بدهی. Excel ستون اول را روی x و دوم را روی y می‌گذارد.</li><li>تب <strong>Insert</strong> را باز کن.</li><li>روی فهرست کشویی پراکندگی کلیک کن و <strong>Scatter</strong> (نسخهٔ فقط نشانگر) را انتخاب کن.</li></ol>',
+                  },
+                },
+              ],
+            },
+            {
+              label: { en: 'Python (Colab)', ar: 'Python (Colab)', fa: 'Python (Colab)' },
+              blocks: [
+                {
+                  type: 'html',
+                  html: {
+                    en: '<code>df.plot.scatter</code> takes the two columns to relate. <code>Series.corr()</code> gives the correlation coefficient, the same number as Excel\'s <code>CORREL</code>.',
+                    ar: 'يأخذ <code>df.plot.scatter</code> العمودين المراد ربطهما. يعطي <code>Series.corr()</code> معامل الارتباط، وهو الرقم نفسه في <code>CORREL</code> بـ Excel.',
+                    fa: '<code>df.plot.scatter</code> دو ستونی را که باید به هم ربط بدهی می‌گیرد. <code>Series.corr()</code> ضریب همبستگی را می‌دهد، همان عدد <code>CORREL</code> در Excel.',
+                  },
+                },
+                { type: 'code', code: py.scatter },
+              ],
+            },
+            {
+              label: { en: 'Power BI', ar: 'Power BI', fa: 'Power BI' },
+              blocks: [
+                {
+                  type: 'html',
+                  html: {
+                    en: '<ol><li>Click the <strong>Scatter chart</strong> icon in the <strong>Visualizations</strong> pane.</li><li>Drag <code>Strawberry</code> to <strong>X-axis</strong> and <code>Blueberry</code> to <strong>Y-axis</strong>.</li><li>Drag <code>Month</code> to <strong>Values</strong>. Without a field there, Power BI adds all the months together and draws a single dot.</li><li>Optional: in the <strong>Analytics</strong> pane, add a <strong>Trend line</strong>.</li></ol>',
+                    ar: '<ol><li>انقر أيقونة <strong>Scatter chart</strong> في جزء <strong>Visualizations</strong>.</li><li>اسحب <code>Strawberry</code> إلى <strong>X-axis</strong> و<code>Blueberry</code> إلى <strong>Y-axis</strong>.</li><li>اسحب <code>Month</code> إلى <strong>Values</strong>. من دون حقل هناك يجمع Power BI كل الأشهر معًا ويرسم نقطة واحدة.</li><li>اختياري: في جزء <strong>Analytics</strong> أضف <strong>Trend line</strong>.</li></ol>',
+                    fa: '<ol><li>روی آیکن <strong>Scatter chart</strong> در پنل <strong>Visualizations</strong> کلیک کن.</li><li><code>Strawberry</code> را به <strong>X-axis</strong> و <code>Blueberry</code> را به <strong>Y-axis</strong> بکش.</li><li><code>Month</code> را به <strong>Values</strong> بکش. بدون فیلدی آنجا، Power BI همهٔ ماه‌ها را با هم جمع می‌کند و فقط یک نقطه می‌کشد.</li><li>اختیاری: در پنل <strong>Analytics</strong> یک <strong>Trend line</strong> اضافه کن.</li></ol>',
+                  },
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'html',
+          html: {
+            en: '<p>The dots climb from lower left to upper right: months that are strong for Strawberry are strong for Blueberry too. <code>=CORREL(B2:B13, C2:C13)</code> confirms it at about 0.85.</p>',
+            ar: '<p>تصعد النقاط من أسفل اليسار إلى أعلى اليمين: الأشهر القوية للفراولة قوية للتوت الأزرق أيضًا. <code>=CORREL(B2:B13, C2:C13)</code> يؤكد ذلك عند نحو 0.85.</p>',
+            fa: '<p>نقطه‌ها از پایین چپ به بالا راست بالا می‌روند: ماه‌های قوی برای توت‌فرنگی برای بلوبری هم قوی‌اند. <code>=CORREL(B2:B13, C2:C13)</code> آن را حدود ۰٫۸۵ تأیید می‌کند.</p>',
           },
         },
         {
@@ -606,12 +1132,13 @@ export const weekThree: Week = {
           },
         },
         { type: 'exercise', questionId: 'w03-q006' },
+        { type: 'exercise', questionId: 'w03-q014' },
       ],
     },
     {
       id: 'waterfall-charts',
       navLabel: { en: 'Waterfall charts', ar: 'مخططات الشلال', fa: 'نمودار آبشاری' },
-      sectionLabel: { en: 'Section 07', ar: 'القسم ٠٧', fa: 'بخش ۰۷' },
+      sectionLabel: { en: 'Section 08', ar: 'القسم ٠٨', fa: 'بخش ۰۸' },
       timeEst: { en: '6 min', ar: '٦ دقائق', fa: '۶ دقیقه' },
       headingHtml: {
         en: '<h2>Waterfall charts: what pushed the total up or down?</h2><p class="standfirst">A waterfall shows how a starting value becomes an ending value through a series of increases and decreases. It is the chart for "why did it change?"</p>',
@@ -628,18 +1155,55 @@ export const weekThree: Week = {
           },
         },
         {
-          type: 'code',
-          code: `F1:  Change vs previous month
+          type: 'tabs',
+          tabs: [
+            {
+              label: { en: 'Excel', ar: 'Excel', fa: 'Excel' },
+              blocks: [
+                {
+                  type: 'code',
+                  code: `F1:  Change vs previous month
 F2:  =E2          -- January is the starting level
 F3:  =E3-E2       -- copy down to F13`,
-        },
-        {
-          type: 'html',
-          html: {
-            en: '<p><strong>To build the waterfall:</strong></p><ol><li>Select the months <code>A1:A13</code>, hold <kbd>Ctrl</kbd> (Windows) or <kbd>Command</kbd> (Mac) and also select <code>F1:F13</code>.</li><li>Open the <strong>Insert</strong> tab, click the waterfall dropdown and choose <strong>Waterfall</strong>.</li><li>Right-click the January bar and choose <strong>Set as Total</strong>, so it is drawn from zero as the starting level.</li></ol>',
-            ar: '<p><strong>لبناء الشلال:</strong></p><ol><li>حدّد الأشهر <code>A1:A13</code>، واضغط <kbd>Ctrl</kbd> (ويندوز) أو <kbd>Command</kbd> (ماك) وحدّد أيضًا <code>F1:F13</code>.</li><li>افتح تبويب <strong>Insert</strong>، وانقر القائمة المنسدلة للشلال واختر <strong>Waterfall</strong>.</li><li>انقر بزر الفأرة الأيمن على عمود يناير واختر <strong>Set as Total</strong> ليُرسم من الصفر كمستوى بداية.</li></ol>',
-            fa: '<p><strong>برای ساخت نمودار آبشاری:</strong></p><ol><li>ماه‌ها <code>A1:A13</code> را انتخاب کن، <kbd>Ctrl</kbd> (ویندوز) یا <kbd>Command</kbd> (مک) را نگه دار و <code>F1:F13</code> را هم انتخاب کن.</li><li>تب <strong>Insert</strong> را باز کن، روی فهرست کشویی آبشاری کلیک کن و <strong>Waterfall</strong> را انتخاب کن.</li><li>روی میلهٔ ژانویه راست‌کلیک کن و <strong>Set as Total</strong> را انتخاب کن تا از صفر به‌عنوان سطح شروع کشیده شود.</li></ol>',
-          },
+                },
+                {
+                  type: 'html',
+                  html: {
+                    en: '<p><strong>To build the waterfall:</strong></p><ol><li>Select the months <code>A1:A13</code>, hold <kbd>Ctrl</kbd> (Windows) or <kbd>Command</kbd> (Mac) and also select <code>F1:F13</code>.</li><li>Open the <strong>Insert</strong> tab, click the waterfall dropdown and choose <strong>Waterfall</strong>.</li><li>Right-click the January bar and choose <strong>Set as Total</strong>, so it is drawn from zero as the starting level.</li></ol>',
+                    ar: '<p><strong>لبناء الشلال:</strong></p><ol><li>حدّد الأشهر <code>A1:A13</code>، واضغط <kbd>Ctrl</kbd> (ويندوز) أو <kbd>Command</kbd> (ماك) وحدّد أيضًا <code>F1:F13</code>.</li><li>افتح تبويب <strong>Insert</strong>، وانقر القائمة المنسدلة للشلال واختر <strong>Waterfall</strong>.</li><li>انقر بزر الفأرة الأيمن على عمود يناير واختر <strong>Set as Total</strong> ليُرسم من الصفر كمستوى بداية.</li></ol>',
+                    fa: '<p><strong>برای ساخت نمودار آبشاری:</strong></p><ol><li>ماه‌ها <code>A1:A13</code> را انتخاب کن، <kbd>Ctrl</kbd> (ویندوز) یا <kbd>Command</kbd> (مک) را نگه دار و <code>F1:F13</code> را هم انتخاب کن.</li><li>تب <strong>Insert</strong> را باز کن، روی فهرست کشویی آبشاری کلیک کن و <strong>Waterfall</strong> را انتخاب کن.</li><li>روی میلهٔ ژانویه راست‌کلیک کن و <strong>Set as Total</strong> را انتخاب کن تا از صفر به‌عنوان سطح شروع کشیده شود.</li></ol>',
+                  },
+                },
+              ],
+            },
+            {
+              label: { en: 'Python (Colab)', ar: 'Python (Colab)', fa: 'Python (Colab)' },
+              blocks: [
+                {
+                  type: 'html',
+                  html: {
+                    en: 'matplotlib has no ready-made waterfall, so you draw one: a bar per month whose height is the <em>change</em> and whose start (<code>bottom</code>) is the total of the previous month. The <code>Change</code> column from the setup cell is the same one Excel needed.',
+                    ar: 'ليس في matplotlib مخطط شلال جاهز، فترسمه بنفسك: عمود لكل شهر ارتفاعه هو <em>التغيّر</em> وبدايته (<code>bottom</code>) هي إجمالي الشهر السابق. عمود <code>Change</code> من خلية التجهيز هو نفسه الذي احتاجه Excel.',
+                    fa: 'matplotlib نمودار آبشاری آماده ندارد، پس خودت یکی می‌کشی: یک میله برای هر ماه که ارتفاعش <em>تغییر</em> و شروعش (<code>bottom</code>) مجموع ماه قبل است. ستون <code>Change</code> در سلول آماده‌سازی همان چیزی است که Excel هم لازم داشت.',
+                  },
+                },
+                { type: 'code', code: py.waterfall },
+              ],
+            },
+            {
+              label: { en: 'Power BI', ar: 'Power BI', fa: 'Power BI' },
+              blocks: [
+                {
+                  type: 'html',
+                  html: {
+                    en: '<ol><li>Click the <strong>Waterfall chart</strong> icon in the <strong>Visualizations</strong> pane.</li><li>Drag <code>Month</code> to <strong>Category</strong> and <code>Change</code> to <strong>Y-axis</strong>.</li></ol><p>Power BI colors the increases and decreases for you and ends with a total bar. The optional <strong>Breakdown</strong> well splits each bar by another field.</p>',
+                    ar: '<ol><li>انقر أيقونة <strong>Waterfall chart</strong> في جزء <strong>Visualizations</strong>.</li><li>اسحب <code>Month</code> إلى <strong>Category</strong> و<code>Change</code> إلى <strong>Y-axis</strong>.</li></ol><p>يلوّن Power BI الزيادات والنقصانات لك وينتهي بعمود إجمالي. يقسّم حقل <strong>Breakdown</strong> الاختياري كل عمود بحقل آخر.</p>',
+                    fa: '<ol><li>روی آیکن <strong>Waterfall chart</strong> در پنل <strong>Visualizations</strong> کلیک کن.</li><li><code>Month</code> را به <strong>Category</strong> و <code>Change</code> را به <strong>Y-axis</strong> بکش.</li></ol><p>Power BI افزایش‌ها و کاهش‌ها را برایت رنگ می‌کند و با یک میلهٔ مجموع تمام می‌شود. بخش اختیاری <strong>Breakdown</strong> هر میله را با فیلدی دیگر تقسیم می‌کند.</p>',
+                  },
+                },
+              ],
+            },
+          ],
         },
         {
           type: 'diagram',
@@ -668,12 +1232,13 @@ F3:  =E3-E2       -- copy down to F13`,
           },
         },
         { type: 'exercise', questionId: 'w03-q007' },
+        { type: 'exercise', questionId: 'w03-q015' },
       ],
     },
     {
       id: 'chart-elements',
       navLabel: { en: 'Chart elements and style', ar: 'عناصر الرسم وأسلوبه', fa: 'عناصر و سبک نمودار' },
-      sectionLabel: { en: 'Section 08', ar: 'القسم ٠٨', fa: 'بخش ۰۸' },
+      sectionLabel: { en: 'Section 09', ar: 'القسم ٠٩', fa: 'بخش ۰۹' },
       timeEst: { en: '7 min', ar: '٧ دقائق', fa: '۷ دقیقه' },
       headingHtml: {
         en: '<h2>Chart elements and style: make it readable at a glance</h2><p class="standfirst">Excel\'s first draft of a chart is rarely the one you should send. A few deliberate edits turn it from a picture into a message.</p>',
@@ -682,50 +1247,96 @@ F3:  =E3-E2       -- copy down to F13`,
       },
       blocks: [
         {
-          type: 'html',
-          html: {
-            en: '<p>First build the clustered column chart from Section 3. Then click the chart to select it, open the <strong>Chart Design</strong> tab and use <strong>Add Chart Element</strong> to reach everything below.</p>',
-            ar: '<p>ابنِ أولًا رسم الأعمدة العنقودي من القسم 3. ثم انقر الرسم لتحديده، وافتح تبويب <strong>Chart Design</strong> واستخدم <strong>Add Chart Element</strong> للوصول إلى كل ما يلي.</p>',
-            fa: '<p>اول نمودار ستونی خوشه‌ای بخش ۳ را بساز. سپس روی نمودار کلیک کن تا انتخاب شود، تب <strong>Chart Design</strong> را باز کن و از <strong>Add Chart Element</strong> برای دسترسی به همهٔ موارد زیر استفاده کن.</p>',
-          },
-        },
-        {
-          type: 'table',
-          headers: [
-            { en: 'Element', ar: 'العنصر', fa: 'عنصر' },
-            { en: 'How', ar: 'الطريقة', fa: 'روش' },
-            { en: 'Tip', ar: 'نصيحة', fa: 'نکته' },
+          type: 'tabs',
+          tabs: [
+            {
+              label: { en: 'Excel', ar: 'Excel', fa: 'Excel' },
+              blocks: [
+                {
+                  type: 'html',
+                  html: {
+                    en: '<p>First build the clustered column chart from Section 4. Then click the chart to select it, open the <strong>Chart Design</strong> tab and use <strong>Add Chart Element</strong> to reach everything below.</p>',
+                    ar: '<p>ابنِ أولًا رسم الأعمدة العنقودي من القسم 4. ثم انقر الرسم لتحديده، وافتح تبويب <strong>Chart Design</strong> واستخدم <strong>Add Chart Element</strong> للوصول إلى كل ما يلي.</p>',
+                    fa: '<p>اول نمودار ستونی خوشه‌ای بخش ۴ را بساز. سپس روی نمودار کلیک کن تا انتخاب شود، تب <strong>Chart Design</strong> را باز کن و از <strong>Add Chart Element</strong> برای دسترسی به همهٔ موارد زیر استفاده کن.</p>',
+                  },
+                },
+                {
+                  type: 'table',
+                  headers: [
+                    { en: 'Element', ar: 'العنصر', fa: 'عنصر' },
+                    { en: 'How', ar: 'الطريقة', fa: 'روش' },
+                    { en: 'Tip', ar: 'نصيحة', fa: 'نکته' },
+                  ],
+                  rows: [
+                    [
+                      { en: '<strong>Chart title</strong>', ar: '<strong>عنوان الرسم</strong>', fa: '<strong>عنوان نمودار</strong>' },
+                      { en: 'Add Chart Element › Chart Title (Above Chart, Centered Overlay); click it and type; right-click › Delete to remove', ar: 'Add Chart Element › Chart Title (Above Chart أو Centered Overlay)؛ انقر واكتب؛ بزر الفأرة الأيمن › Delete للإزالة', fa: 'Add Chart Element › Chart Title (Above Chart یا Centered Overlay)؛ کلیک کن و تایپ کن؛ راست‌کلیک › Delete برای حذف' },
+                      { en: 'State the takeaway, not the topic', ar: 'اذكر الخلاصة لا الموضوع', fa: 'نتیجه را بگو، نه موضوع را' },
+                    ],
+                    [
+                      { en: '<strong>Legend</strong>', ar: '<strong>مفتاح الرسم</strong>', fa: '<strong>راهنما</strong>' },
+                      { en: 'Add Chart Element › Legend (Top, Right…) or None', ar: 'Add Chart Element › Legend (Top أو Right…) أو None', fa: 'Add Chart Element › Legend (Top، Right…) یا None' },
+                      { en: 'Top or right; drop it if there is one series', ar: 'أعلى أو يمين؛ احذفه إن كانت هناك سلسلة واحدة', fa: 'بالا یا راست؛ اگر فقط یک سری است حذفش کن' },
+                    ],
+                    [
+                      { en: '<strong>Data labels</strong>', ar: '<strong>تسميات البيانات</strong>', fa: '<strong>برچسب داده</strong>' },
+                      { en: 'Add Chart Element › Data Labels (Center, Above…); right-click one label › Delete to remove a category\'s labels', ar: 'Add Chart Element › Data Labels (Center أو Above…)؛ بزر الفأرة الأيمن على تسمية › Delete لإزالة تسميات فئة', fa: 'Add Chart Element › Data Labels (Center، Above…)؛ راست‌کلیک روی یک برچسب › Delete برای حذف برچسب‌های یک دسته' },
+                      { en: 'Label only what the reader must see; then remove the gridlines', ar: 'سمِّ فقط ما يجب أن يراه القارئ؛ ثم أزل خطوط الشبكة', fa: 'فقط چیزی را برچسب بزن که خواننده باید ببیند؛ بعد خطوط شبکه را بردار' },
+                    ],
+                    [
+                      { en: '<strong>Gridlines and axes</strong>', ar: '<strong>خطوط الشبكة والمحاور</strong>', fa: '<strong>خطوط شبکه و محورها</strong>' },
+                      { en: 'Add Chart Element › Gridlines / Axes; untick an axis to hide it', ar: 'Add Chart Element › Gridlines / Axes؛ ألغِ تحديد محور لإخفائه', fa: 'Add Chart Element › Gridlines / Axes؛ تیک یک محور را بردار تا پنهان شود' },
+                      { en: 'Light gray, few of them', ar: 'رمادي فاتح، وعدد قليل', fa: 'خاکستری روشن و کم' },
+                    ],
+                  ],
+                },
+                {
+                  type: 'html',
+                  html: {
+                    en: '<p><strong>Style and color.</strong> In <strong>Chart Design</strong>, the <strong>Chart Styles</strong> group has ready-made looks and <strong>Change Colors</strong> has palettes. A small change goes a long way: one style plus a single-hue (monochromatic) palette instantly looks intentional. <strong>Everything else</strong> (series colors, plot and chart backgrounds, gridline weight) lives behind a right-click on the element › <strong>Format [element]</strong>.</p>',
+                    ar: '<p><strong>الأسلوب واللون.</strong> في <strong>Chart Design</strong> تضم مجموعة <strong>Chart Styles</strong> أنماطًا جاهزة، ويضم <strong>Change Colors</strong> لوحات ألوان. تغيير صغير يفيد كثيرًا: نمط واحد مع لوحة أحادية اللون يبدو مقصودًا فورًا. <strong>كل ما عدا ذلك</strong> (ألوان السلاسل وخلفيات المخطط ومنطقة الرسم وسماكة خطوط الشبكة) خلف نقرة يمنى على العنصر › <strong>Format [element]</strong>.</p>',
+                    fa: '<p><strong>سبک و رنگ.</strong> در <strong>Chart Design</strong> گروه <strong>Chart Styles</strong> ظاهرهای آماده و <strong>Change Colors</strong> پالت‌های رنگی دارد. تغییر کوچک اثر بزرگ دارد: یک سبک به‌علاوهٔ پالت تک‌رنگ فوراً عمدی به‌نظر می‌رسد. <strong>هر چیز دیگر</strong> (رنگ سری‌ها، پس‌زمینهٔ نمودار و ناحیهٔ رسم، ضخامت خطوط شبکه) پشت راست‌کلیک روی عنصر › <strong>Format [element]</strong> است.</p>',
+                  },
+                },
+              ],
+            },
+            {
+              label: { en: 'Python (Colab)', ar: 'Python (Colab)', fa: 'Python (Colab)' },
+              blocks: [
+                {
+                  type: 'html',
+                  html: {
+                    en: 'Every chart element is a method on the <code>ax</code> object that <code>plot</code> returns: a title, axis titles, a legend, and light gridlines. Write the title as the takeaway, just as in Excel.',
+                    ar: 'كل عنصر في الرسم هو دالة على الكائن <code>ax</code> الذي تعيده <code>plot</code>: عنوان، وعناوين المحاور، ومفتاح، وخطوط شبكة خفيفة. اكتب العنوان كخلاصة، تمامًا كما في Excel.',
+                    fa: 'هر عنصر نمودار یک متد روی شیء <code>ax</code> است که <code>plot</code> برمی‌گرداند: عنوان، عنوان محورها، راهنما و خطوط شبکهٔ کم‌رنگ. عنوان را مثل Excel به‌صورت نتیجه بنویس.',
+                  },
+                },
+                { type: 'code', code: py.elements },
+                {
+                  type: 'html',
+                  html: {
+                    en: 'For data labels use <code>ax.bar_label</code>, and pass one accent color instead of the default rainbow:',
+                    ar: 'لتسميات البيانات استخدم <code>ax.bar_label</code>، ومرّر لونًا مميزًا واحدًا بدل ألوان قوس قزح الافتراضية:',
+                    fa: 'برای برچسب داده از <code>ax.bar_label</code> استفاده کن و به‌جای رنگین‌کمان پیش‌فرض یک رنگ برجسته بده:',
+                  },
+                },
+                { type: 'code', code: py.labels },
+              ],
+            },
+            {
+              label: { en: 'Power BI', ar: 'Power BI', fa: 'Power BI' },
+              blocks: [
+                {
+                  type: 'html',
+                  html: {
+                    en: '<p>Select the visual, then open <strong>Format your visual</strong> (the paint-roller icon) in the <strong>Visualizations</strong> pane.</p><ul><li><strong>Title:</strong> <strong>General › Title</strong>. Type the takeaway.</li><li><strong>Legend:</strong> switch <strong>Legend</strong> on or off and pick its position.</li><li><strong>Data labels:</strong> switch <strong>Data labels</strong> on.</li><li><strong>Gridlines and axes:</strong> under <strong>X-axis</strong> or <strong>Y-axis</strong>, toggle <strong>Values</strong>, <strong>Title</strong> and <strong>Gridlines</strong>.</li><li><strong>Colors:</strong> set each series under <strong>Visual › Columns › Colors</strong>, or restyle everything at once with <strong>View › Themes</strong>.</li></ul>',
+                    ar: '<p>حدّد الرسم ثم افتح <strong>Format your visual</strong> (أيقونة الفرشاة) في جزء <strong>Visualizations</strong>.</p><ul><li><strong>العنوان:</strong> <strong>General › Title</strong>. اكتب الخلاصة.</li><li><strong>المفتاح:</strong> فعّل <strong>Legend</strong> أو عطّله واختر موضعه.</li><li><strong>تسميات البيانات:</strong> فعّل <strong>Data labels</strong>.</li><li><strong>خطوط الشبكة والمحاور:</strong> تحت <strong>X-axis</strong> أو <strong>Y-axis</strong> بدّل <strong>Values</strong> و<strong>Title</strong> و<strong>Gridlines</strong>.</li><li><strong>الألوان:</strong> اضبط كل سلسلة تحت <strong>Visual › Columns › Colors</strong>، أو أعد تنسيق كل شيء دفعة واحدة بـ <strong>View › Themes</strong>.</li></ul>',
+                    fa: '<p>نمودار را انتخاب کن، سپس <strong>Format your visual</strong> (آیکن غلتک رنگ) را در پنل <strong>Visualizations</strong> باز کن.</p><ul><li><strong>عنوان:</strong> <strong>General › Title</strong>. نتیجه را بنویس.</li><li><strong>راهنما:</strong> <strong>Legend</strong> را روشن یا خاموش کن و جایش را انتخاب کن.</li><li><strong>برچسب داده:</strong> <strong>Data labels</strong> را روشن کن.</li><li><strong>خطوط شبکه و محورها:</strong> زیر <strong>X-axis</strong> یا <strong>Y-axis</strong>، <strong>Values</strong>، <strong>Title</strong> و <strong>Gridlines</strong> را تغییر بده.</li><li><strong>رنگ‌ها:</strong> هر سری را زیر <strong>Visual › Columns › Colors</strong> تنظیم کن، یا همه‌چیز را یک‌جا با <strong>View › Themes</strong> بازطراحی کن.</li></ul>',
+                  },
+                },
+              ],
+            },
           ],
-          rows: [
-            [
-              { en: '<strong>Chart title</strong>', ar: '<strong>عنوان الرسم</strong>', fa: '<strong>عنوان نمودار</strong>' },
-              { en: 'Add Chart Element › Chart Title (Above Chart, Centered Overlay); click it and type; right-click › Delete to remove', ar: 'Add Chart Element › Chart Title (Above Chart أو Centered Overlay)؛ انقر واكتب؛ بزر الفأرة الأيمن › Delete للإزالة', fa: 'Add Chart Element › Chart Title (Above Chart یا Centered Overlay)؛ کلیک کن و تایپ کن؛ راست‌کلیک › Delete برای حذف' },
-              { en: 'State the takeaway, not the topic', ar: 'اذكر الخلاصة لا الموضوع', fa: 'نتیجه را بگو، نه موضوع را' },
-            ],
-            [
-              { en: '<strong>Legend</strong>', ar: '<strong>مفتاح الرسم</strong>', fa: '<strong>راهنما</strong>' },
-              { en: 'Add Chart Element › Legend (Top, Right…) or None', ar: 'Add Chart Element › Legend (Top أو Right…) أو None', fa: 'Add Chart Element › Legend (Top، Right…) یا None' },
-              { en: 'Top or right; drop it if there is one series', ar: 'أعلى أو يمين؛ احذفه إن كانت هناك سلسلة واحدة', fa: 'بالا یا راست؛ اگر فقط یک سری است حذفش کن' },
-            ],
-            [
-              { en: '<strong>Data labels</strong>', ar: '<strong>تسميات البيانات</strong>', fa: '<strong>برچسب داده</strong>' },
-              { en: 'Add Chart Element › Data Labels (Center, Above…); right-click one label › Delete to remove a category\'s labels', ar: 'Add Chart Element › Data Labels (Center أو Above…)؛ بزر الفأرة الأيمن على تسمية › Delete لإزالة تسميات فئة', fa: 'Add Chart Element › Data Labels (Center، Above…)؛ راست‌کلیک روی یک برچسب › Delete برای حذف برچسب‌های یک دسته' },
-              { en: 'Label only what the reader must see; then remove the gridlines', ar: 'سمِّ فقط ما يجب أن يراه القارئ؛ ثم أزل خطوط الشبكة', fa: 'فقط چیزی را برچسب بزن که خواننده باید ببیند؛ بعد خطوط شبکه را بردار' },
-            ],
-            [
-              { en: '<strong>Gridlines and axes</strong>', ar: '<strong>خطوط الشبكة والمحاور</strong>', fa: '<strong>خطوط شبکه و محورها</strong>' },
-              { en: 'Add Chart Element › Gridlines / Axes; untick an axis to hide it', ar: 'Add Chart Element › Gridlines / Axes؛ ألغِ تحديد محور لإخفائه', fa: 'Add Chart Element › Gridlines / Axes؛ تیک یک محور را بردار تا پنهان شود' },
-              { en: 'Light gray, few of them', ar: 'رمادي فاتح، وعدد قليل', fa: 'خاکستری روشن و کم' },
-            ],
-          ],
-        },
-        {
-          type: 'html',
-          html: {
-            en: '<p><strong>Style and color.</strong> In <strong>Chart Design</strong>, the <strong>Chart Styles</strong> group has ready-made looks and <strong>Change Colors</strong> has palettes. A small change goes a long way: one style plus a single-hue (monochromatic) palette instantly looks intentional. <strong>Everything else</strong> (series colors, plot and chart backgrounds, gridline weight) lives behind a right-click on the element › <strong>Format [element]</strong>.</p>',
-            ar: '<p><strong>الأسلوب واللون.</strong> في <strong>Chart Design</strong> تضم مجموعة <strong>Chart Styles</strong> أنماطًا جاهزة، ويضم <strong>Change Colors</strong> لوحات ألوان. تغيير صغير يفيد كثيرًا: نمط واحد مع لوحة أحادية اللون يبدو مقصودًا فورًا. <strong>كل ما عدا ذلك</strong> (ألوان السلاسل وخلفيات المخطط ومنطقة الرسم وسماكة خطوط الشبكة) خلف نقرة يمنى على العنصر › <strong>Format [element]</strong>.</p>',
-            fa: '<p><strong>سبک و رنگ.</strong> در <strong>Chart Design</strong> گروه <strong>Chart Styles</strong> ظاهرهای آماده و <strong>Change Colors</strong> پالت‌های رنگی دارد. تغییر کوچک اثر بزرگ دارد: یک سبک به‌علاوهٔ پالت تک‌رنگ فوراً عمدی به‌نظر می‌رسد. <strong>هر چیز دیگر</strong> (رنگ سری‌ها، پس‌زمینهٔ نمودار و ناحیهٔ رسم، ضخامت خطوط شبکه) پشت راست‌کلیک روی عنصر › <strong>Format [element]</strong> است.</p>',
-          },
         },
         {
           type: 'diagram',
@@ -755,7 +1366,7 @@ F3:  =E3-E2       -- copy down to F13`,
     {
       id: 'honest-charts',
       navLabel: { en: 'Axes and honest charts', ar: 'المحاور والرسوم الأمينة', fa: 'محورها و نمودار صادق' },
-      sectionLabel: { en: 'Section 09', ar: 'القسم ٠٩', fa: 'بخش ۰۹' },
+      sectionLabel: { en: 'Section 10', ar: 'القسم ١٠', fa: 'بخش ۱۰' },
       timeEst: { en: '8 min', ar: '٨ دقائق', fa: '۸ دقیقه' },
       headingHtml: {
         en: '<h2>Axes and honest charts: when a chart quietly misleads</h2><p class="standfirst">Every chart makes choices, and some choices change the message without changing a single number. The axis is where most of the damage happens.</p>',
@@ -764,12 +1375,49 @@ F3:  =E3-E2       -- copy down to F13`,
       },
       blocks: [
         {
-          type: 'html',
-          html: {
-            en: '<p><strong>Format the axes first.</strong> Add axis titles through <strong>Chart Design › Add Chart Element › Axis Titles</strong>: "Month" on x and "Units sold" on y. To change the scale, right-click an axis › <strong>Format Axis</strong> and set the minimum, maximum, major/minor units or number format. Under <strong>Add Chart Element › Axes</strong> you can also hide an axis entirely. Those same controls are how a chart gets distorted, so use them deliberately.</p>',
-            ar: '<p><strong>نسّق المحاور أولًا.</strong> أضف عناوين المحاور عبر <strong>Chart Design › Add Chart Element › Axis Titles</strong>: "الشهر" على x و"الوحدات المباعة" على y. لتغيير المقياس، انقر بزر الفأرة الأيمن على محور › <strong>Format Axis</strong> واضبط الحد الأدنى والأقصى والوحدات الرئيسية/الثانوية أو تنسيق الأرقام. وتحت <strong>Add Chart Element › Axes</strong> يمكنك أيضًا إخفاء محور كليًا. هذه الأدوات نفسها هي ما يشوّه الرسم، فاستخدمها عن قصد.</p>',
-            fa: '<p><strong>اول محورها را قالب‌بندی کن.</strong> عنوان محورها را از <strong>Chart Design › Add Chart Element › Axis Titles</strong> اضافه کن: «ماه» روی x و «واحدهای فروخته‌شده» روی y. برای تغییر مقیاس، روی یک محور راست‌کلیک کن › <strong>Format Axis</strong> و کمینه، بیشینه، واحدهای اصلی/فرعی یا قالب عدد را تنظیم کن. زیر <strong>Add Chart Element › Axes</strong> می‌توانی یک محور را کاملاً پنهان هم کنی. همین کنترل‌ها راه تحریف نمودار هم هستند، پس آگاهانه از آن‌ها استفاده کن.</p>',
-          },
+          type: 'tabs',
+          tabs: [
+            {
+              label: { en: 'Excel', ar: 'Excel', fa: 'Excel' },
+              blocks: [
+                {
+                  type: 'html',
+                  html: {
+                    en: '<p><strong>Format the axes first.</strong> Add axis titles through <strong>Chart Design › Add Chart Element › Axis Titles</strong>: "Month" on x and "Units sold" on y. To change the scale, right-click an axis › <strong>Format Axis</strong> and set the minimum, maximum, major/minor units or number format. Under <strong>Add Chart Element › Axes</strong> you can also hide an axis entirely. Those same controls are how a chart gets distorted, so use them deliberately.</p>',
+                    ar: '<p><strong>نسّق المحاور أولًا.</strong> أضف عناوين المحاور عبر <strong>Chart Design › Add Chart Element › Axis Titles</strong>: "الشهر" على x و"الوحدات المباعة" على y. لتغيير المقياس، انقر بزر الفأرة الأيمن على محور › <strong>Format Axis</strong> واضبط الحد الأدنى والأقصى والوحدات الرئيسية/الثانوية أو تنسيق الأرقام. وتحت <strong>Add Chart Element › Axes</strong> يمكنك أيضًا إخفاء محور كليًا. هذه الأدوات نفسها هي ما يشوّه الرسم، فاستخدمها عن قصد.</p>',
+                    fa: '<p><strong>اول محورها را قالب‌بندی کن.</strong> عنوان محورها را از <strong>Chart Design › Add Chart Element › Axis Titles</strong> اضافه کن: «ماه» روی x و «واحدهای فروخته‌شده» روی y. برای تغییر مقیاس، روی یک محور راست‌کلیک کن › <strong>Format Axis</strong> و کمینه، بیشینه، واحدهای اصلی/فرعی یا قالب عدد را تنظیم کن. زیر <strong>Add Chart Element › Axes</strong> می‌توانی یک محور را کاملاً پنهان هم کنی. همین کنترل‌ها راه تحریف نمودار هم هستند، پس آگاهانه از آن‌ها استفاده کن.</p>',
+                  },
+                },
+              ],
+            },
+            {
+              label: { en: 'Python (Colab)', ar: 'Python (Colab)', fa: 'Python (Colab)' },
+              blocks: [
+                {
+                  type: 'html',
+                  html: {
+                    en: 'In matplotlib you set where an axis starts yourself, with <code>set_ylim</code>. Bars should start at 0; the right-hand chart below shows what happens when they do not. Add axis titles with <code>set_xlabel</code> and <code>set_ylabel</code>.',
+                    ar: 'في matplotlib تحدد بنفسك أين يبدأ المحور باستخدام <code>set_ylim</code>. يجب أن تبدأ الأعمدة من 0؛ ويُظهر الرسم الأيمن أدناه ما يحدث حين لا تبدأ منه. أضف عناوين المحاور بـ <code>set_xlabel</code> و<code>set_ylabel</code>.',
+                    fa: 'در matplotlib خودت با <code>set_ylim</code> تعیین می‌کنی محور از کجا شروع شود. میله‌ها باید از ۰ شروع شوند؛ نمودار سمت راست پایین نشان می‌دهد وقتی نشوند چه می‌شود. عنوان محورها را با <code>set_xlabel</code> و <code>set_ylabel</code> اضافه کن.',
+                  },
+                },
+                { type: 'code', code: py.honest },
+              ],
+            },
+            {
+              label: { en: 'Power BI', ar: 'Power BI', fa: 'Power BI' },
+              blocks: [
+                {
+                  type: 'html',
+                  html: {
+                    en: '<ol><li>Select the visual and open <strong>Format your visual › Y-axis</strong>.</li><li>Expand <strong>Range</strong> and set <strong>Minimum</strong> to <code>0</code> (and a <strong>Maximum</strong> if you want one).</li><li>Switch <strong>Title</strong> on to add an axis title.</li></ol><p><strong>Check the minimum every time.</strong> Power BI picks a range automatically, and on some charts it does not start at zero.</p>',
+                    ar: '<ol><li>حدّد الرسم وافتح <strong>Format your visual › Y-axis</strong>.</li><li>وسّع <strong>Range</strong> واضبط <strong>Minimum</strong> على <code>0</code> (و<strong>Maximum</strong> إن أردت).</li><li>فعّل <strong>Title</strong> لإضافة عنوان للمحور.</li></ol><p><strong>راجع الحد الأدنى في كل مرة.</strong> يختار Power BI نطاقًا تلقائيًا، وفي بعض الرسوم لا يبدأ من الصفر.</p>',
+                    fa: '<ol><li>نمودار را انتخاب کن و <strong>Format your visual › Y-axis</strong> را باز کن.</li><li><strong>Range</strong> را باز کن و <strong>Minimum</strong> را روی <code>0</code> بگذار (و اگر خواستی <strong>Maximum</strong>).</li><li>برای افزودن عنوان محور <strong>Title</strong> را روشن کن.</li></ol><p><strong>هر بار کمینه را بررسی کن.</strong> Power BI خودکار یک بازه انتخاب می‌کند و در بعضی نمودارها از صفر شروع نمی‌شود.</p>',
+                  },
+                },
+              ],
+            },
+          ],
         },
         {
           type: 'diagram',
@@ -834,7 +1482,7 @@ F3:  =E3-E2       -- copy down to F13`,
     {
       id: 'ai-corner',
       navLabel: { en: 'AI co-pilot corner', ar: 'ركن مساعد الذكاء الاصطناعي', fa: 'گوشه همیار هوش مصنوعی' },
-      sectionLabel: { en: 'Section 10 — AI layer', ar: 'القسم ١٠ — طبقة الذكاء الاصطناعي', fa: 'بخش ۱۰ — لایه هوش مصنوعی' },
+      sectionLabel: { en: 'Section 11 — AI layer', ar: 'القسم ١١ — طبقة الذكاء الاصطناعي', fa: 'بخش ۱۱ — لایه هوش مصنوعی' },
       timeEst: { en: '6 min', ar: '٦ دقائق', fa: '۶ دقیقه' },
       headingHtml: {
         en: '<h2>AI co-pilot corner: a chart that looks polished can still be wrong</h2><p class="standfirst">Ask an AI for "a chart" and you get something tidy and confident. It does not know who will read it or what decision hangs on it. That part is still your job.</p>',
@@ -878,9 +1526,9 @@ F3:  =E3-E2       -- copy down to F13`,
           variant: 'mistake',
           label: { en: 'Common mistake', ar: 'خطأ شائع', fa: 'اشتباه رایج' },
           html: {
-            en: '<p>Accepting a chart because it looks professional. <strong>Verify it</strong> against Section 2\'s question table (is this chart type right for the question?) and Section 9\'s list (axis, 3-D, range) before it reaches anyone else.</p>',
-            ar: '<p>قبول رسم لأنه يبدو احترافيًا. <strong>تحقق منه</strong> مقابل جدول أسئلة القسم 2 (هل نوع الرسم مناسب للسؤال؟) وقائمة القسم 9 (المحور، ثلاثي الأبعاد، النطاق) قبل أن يصل إلى أي شخص آخر.</p>',
-            fa: '<p>پذیرفتن نمودار چون حرفه‌ای به‌نظر می‌رسد. پیش از آنکه به دست کسی برسد، <strong>آن را تأیید کن</strong> با جدول سؤال‌های بخش ۲ (آیا نوع نمودار برای سؤال درست است؟) و فهرست بخش ۹ (محور، سه‌بعدی، بازه).</p>',
+            en: '<p>Accepting a chart because it looks professional. <strong>Verify it</strong> against Section 2\'s question table (is this chart type right for the question?) and Section 10\'s list (axis, 3-D, range) before it reaches anyone else.</p>',
+            ar: '<p>قبول رسم لأنه يبدو احترافيًا. <strong>تحقق منه</strong> مقابل جدول أسئلة القسم 2 (هل نوع الرسم مناسب للسؤال؟) وقائمة القسم 10 (المحور، ثلاثي الأبعاد، النطاق) قبل أن يصل إلى أي شخص آخر.</p>',
+            fa: '<p>پذیرفتن نمودار چون حرفه‌ای به‌نظر می‌رسد. پیش از آنکه به دست کسی برسد، <strong>آن را تأیید کن</strong> با جدول سؤال‌های بخش ۲ (آیا نوع نمودار برای سؤال درست است؟) و فهرست بخش ۱۰ (محور، سه‌بعدی، بازه).</p>',
           },
         },
         { type: 'exercise', questionId: 'w03-q010' },
@@ -889,7 +1537,7 @@ F3:  =E3-E2       -- copy down to F13`,
     {
       id: 'worked-example',
       navLabel: { en: 'Worked example', ar: 'مثال تطبيقي', fa: 'مثال حل‌شده' },
-      sectionLabel: { en: 'Section 11', ar: 'القسم ١١', fa: 'بخش ۱۱' },
+      sectionLabel: { en: 'Section 12', ar: 'القسم ١٢', fa: 'بخش ۱۲' },
       timeEst: { en: '7 min', ar: '٧ دقائق', fa: '۷ دقیقه' },
       headingHtml: {
         en: '<h2>Worked example: four questions from the stand owner</h2><p class="standfirst">Section 1 started with one sheet and no picture. Here is the full set of charts the owner actually needs, each chosen by its question.</p>',
@@ -943,7 +1591,7 @@ F3:  =E3-E2       -- copy down to F13`,
     {
       id: 'common-mistakes',
       navLabel: { en: 'Common mistakes', ar: 'أخطاء شائعة', fa: 'اشتباهات رایج' },
-      sectionLabel: { en: 'Section 12', ar: 'القسم ١٢', fa: 'بخش ۱۲' },
+      sectionLabel: { en: 'Section 13', ar: 'القسم ١٣', fa: 'بخش ۱۳' },
       headingHtml: {
         en: '<h2>Common mistakes, gathered in one place</h2><p class="standfirst">Everything this page warned about, as a single reference.</p>',
         ar: '<h2>الأخطاء الشائعة، مجمّعة في مكان واحد</h2><p class="standfirst">كل ما حذّرت منه هذه الصفحة، كمرجع واحد.</p>',
@@ -994,6 +1642,21 @@ F3:  =E3-E2       -- copy down to F13`,
               { en: 'Write the finding as the title', ar: 'اكتب النتيجة عنوانًا', fa: 'یافته را به‌عنوان عنوان بنویس' },
             ],
             [
+              { en: '<strong>Power BI: months in alphabetical order</strong>', ar: '<strong>Power BI: الأشهر بترتيب أبجدي</strong>', fa: '<strong>Power BI: ماه‌ها به ترتیب الفبا</strong>' },
+              { en: 'A text field sorts A to Z, so April comes before January', ar: 'الحقل النصي يُرتَّب من A إلى Z، فيأتي April قبل January', fa: 'فیلد متنی از A تا Z مرتب می‌شود، پس April پیش از January می‌آید' },
+              { en: 'Column tools › Sort by column, using a MonthNo column', ar: 'Column tools › Sort by column باستخدام عمود MonthNo', fa: 'Column tools › Sort by column با ستون MonthNo' },
+            ],
+            [
+              { en: '<strong>Power BI: a scatter with one dot, a pie from the wrong data shape</strong>', ar: '<strong>Power BI: انتشار بنقطة واحدة، ودائري من شكل بيانات خاطئ</strong>', fa: '<strong>Power BI: پراکندگی با یک نقطه، نمودار دایره‌ای از شکل نادرست داده</strong>' },
+              { en: 'A scatter with no Values field adds every month into one dot; a pie is built from one category field plus one value, so three separate columns need reshaping first', ar: 'الانتشار بلا حقل Values يجمع كل الأشهر في نقطة واحدة؛ والدائري يحتاج حقل فئة واحدًا لا ثلاثة أعمدة', fa: 'پراکندگی بدون فیلد Values همهٔ ماه‌ها را در یک نقطه جمع می‌کند؛ نمودار دایره‌ای یک فیلد دسته می‌خواهد، نه سه ستون' },
+              { en: 'Put Month in Values; reshape flavors to one row each (Flavor, Units)', ar: 'ضع Month في Values؛ أعد تشكيل النكهات بصف لكل نكهة (Flavor وUnits)', fa: 'Month را در Values بگذار؛ طعم‌ها را به یک ردیف برای هر کدام (Flavor، Units) تغییر شکل بده' },
+            ],
+            [
+              { en: '<strong>Python: a chart with no labels or a stray axis range</strong>', ar: '<strong>Python: رسم بلا عناوين أو بنطاق محور شارد</strong>', fa: '<strong>Python: نمودار بدون برچسب یا با بازهٔ محور نامناسب</strong>' },
+              { en: 'The default chart has no title and a range chosen for you, and a truncated bar axis is one <code>set_ylim</code> away', ar: 'الرسم الافتراضي بلا عنوان ونطاق يُختار عنك، ومحور الأعمدة المقتطع على بُعد <code>set_ylim</code> واحدة', fa: 'نمودار پیش‌فرض عنوان ندارد و بازه‌ای برایت انتخاب می‌شود، و محور بریدهٔ میله‌ای فقط یک <code>set_ylim</code> فاصله دارد' },
+              { en: 'Always set a title, axis labels and <code>set_ylim(0, …)</code> on bar charts', ar: 'اضبط دائمًا العنوان وتسميات المحاور و<code>set_ylim(0, …)</code> في رسوم الأعمدة', fa: 'همیشه عنوان، برچسب محورها و <code>set_ylim(0, …)</code> را در نمودارهای میله‌ای تنظیم کن' },
+            ],
+            [
               { en: '<strong>Trusting an AI-made chart as-is</strong>', ar: '<strong>الثقة برسم صنعه ذكاء اصطناعي كما هو</strong>', fa: '<strong>اعتماد بر نمودار ساختهٔ هوش مصنوعی همان‌طور که هست</strong>' },
               { en: 'Polished does not mean right for the question', ar: 'الأنيق لا يعني الصحيح للسؤال', fa: 'صیقلی بودن به معنای درست بودن برای سؤال نیست' },
               { en: 'Check chart type, axis and range against this page', ar: 'راجع نوع الرسم والمحور والنطاق مقابل هذه الصفحة', fa: 'نوع نمودار، محور و بازه را با این صفحه بسنج' },
@@ -1005,11 +1668,11 @@ F3:  =E3-E2       -- copy down to F13`,
     {
       id: 'homework',
       navLabel: { en: 'Homework', ar: 'الواجب', fa: 'تکلیف' },
-      sectionLabel: { en: 'Section 13', ar: 'القسم ١٣', fa: 'بخش ۱۳' },
+      sectionLabel: { en: 'Section 14', ar: 'القسم ١٤', fa: 'بخش ۱۴' },
       headingHtml: {
-        en: '<h2>Homework: a one-page chart brief for the stand owner</h2><p class="standfirst">You have the monthly log from Section 1. Build three charts in Excel and write a short brief around them, in your own words. Answer the parts in order.</p>',
-        ar: '<h2>الواجب: موجز رسوم من صفحة واحدة لصاحب الكشك</h2><p class="standfirst">لديك السجل الشهري من القسم 1. ابنِ ثلاثة رسوم في Excel واكتب موجزًا قصيرًا حولها، بكلماتك. أجب عن الأجزاء بالترتيب.</p>',
-        fa: '<h2>تکلیف: یک گزارش نموداری یک‌صفحه‌ای برای صاحب غرفه</h2><p class="standfirst">گزارش ماهانهٔ بخش ۱ را داری. سه نمودار در Excel بساز و با کلمات خودت یک گزارش کوتاه دورشان بنویس. بخش‌ها را به ترتیب پاسخ بده.</p>',
+        en: '<h2>Homework: a one-page chart brief for the stand owner</h2><p class="standfirst">You have the monthly log from Section 1. Build three charts in Excel, rebuild one of them in Python or Power BI, and write a short brief around them in your own words. Answer the parts in order.</p>',
+        ar: '<h2>الواجب: موجز رسوم من صفحة واحدة لصاحب الكشك</h2><p class="standfirst">لديك السجل الشهري من القسم 1. ابنِ ثلاثة رسوم في Excel، وأعد بناء أحدها في Python أو Power BI، واكتب موجزًا قصيرًا حولها بكلماتك. أجب عن الأجزاء بالترتيب.</p>',
+        fa: '<h2>تکلیف: یک گزارش نموداری یک‌صفحه‌ای برای صاحب غرفه</h2><p class="standfirst">گزارش ماهانهٔ بخش ۱ را داری. سه نمودار در Excel بساز، یکی از آن‌ها را در Python یا Power BI دوباره بساز و با کلمات خودت یک گزارش کوتاه دورشان بنویس. بخش‌ها را به ترتیب پاسخ بده.</p>',
       },
       blocks: [
         {
@@ -1021,17 +1684,17 @@ F3:  =E3-E2       -- copy down to F13`,
             fa: 'گزارشت را بخش‌به‌بخش، به ترتیب بساز',
           },
           html: {
-            en: '<ol><li><strong>The question</strong> — In 2–3 sentences, state the one decision the owner has to make and which of the five chart questions it comes down to.</li><li><strong>A trend chart</strong> — Build a line chart of monthly units by flavor. Give it a takeaway title, axis titles, and a legend at the top. Paste a screenshot.</li><li><strong>A comparison or share chart</strong> — Build a sorted bar chart (or a pie with percentages) of yearly totals per flavor. Say why you picked bar or pie.</li><li><strong>A deliberately bad chart, and its fix</strong> — Make a truncated-axis or 3-D version of one chart, screenshot it, then rebuild it honestly. Name the trick and what it exaggerates.</li><li><strong>Working with AI</strong> — Ask an AI assistant to recommend a chart for one of the owner\'s questions. Paste your prompt and what it returned, and say what you checked or changed.</li><li><strong>The recommendation</strong> — In 3–4 sentences, tell the owner what to do next month, pointing at the numbers on your charts.</li></ol>',
-            ar: '<ol><li><strong>السؤال</strong> — في 2–3 جمل، اذكر القرار الوحيد الذي على صاحب الكشك اتخاذه وأي من أسئلة الرسم الخمسة يرجع إليه.</li><li><strong>رسم اتجاه</strong> — ابنِ رسمًا خطيًا للوحدات الشهرية حسب النكهة. أعطه عنوان خلاصة وعناوين محاور ومفتاحًا في الأعلى. الصق لقطة شاشة.</li><li><strong>رسم مقارنة أو حصة</strong> — ابنِ رسم أعمدة مرتبًا (أو دائريًا بالنسب) للإجماليات السنوية لكل نكهة. اذكر لماذا اخترت الأعمدة أو الدائري.</li><li><strong>رسم سيئ عمدًا، وإصلاحه</strong> — اصنع نسخة بمحور مقتطع أو ثلاثية الأبعاد من أحد الرسوم، والتقط لها شاشة، ثم أعد بناءه بأمانة. سمِّ الحيلة وما تضخّمه.</li><li><strong>العمل مع الذكاء الاصطناعي</strong> — اطلب من مساعد ذكاء اصطناعي أن يوصي برسم لأحد أسئلة صاحب الكشك. الصق طلبك وما أعاده، واذكر ما تحققت منه أو غيّرته.</li><li><strong>التوصية</strong> — في 3–4 جمل، أخبر صاحب الكشك ماذا يفعل الشهر القادم، مشيرًا إلى الأرقام في رسومك.</li></ol>',
-            fa: '<ol><li><strong>سؤال</strong> — در ۲–۳ جمله، تصمیم یگانه‌ای را که صاحب غرفه باید بگیرد و اینکه به کدام یک از پنج سؤال نموداری برمی‌گردد بنویس.</li><li><strong>نمودار روند</strong> — نمودار خطی واحدهای ماهانه بر حسب طعم بساز. عنوان نتیجه‌محور، عنوان محورها و راهنما در بالا بده. تصویر صفحه را بگذار.</li><li><strong>نمودار مقایسه یا سهم</strong> — نمودار میله‌ای مرتب (یا دایره‌ای با درصد) از مجموع سالانهٔ هر طعم بساز. بگو چرا میله یا دایره‌ای را انتخاب کردی.</li><li><strong>یک نمودار عمداً بد، و اصلاحش</strong> — نسخهٔ محور بریده یا سه‌بعدی یکی از نمودارها را بساز، تصویرش را بگیر، بعد صادقانه دوباره بساز. ترفند را نام ببر و بگو چه چیزی را اغراق می‌کند.</li><li><strong>کار با هوش مصنوعی</strong> — از یک دستیار هوش مصنوعی بخواه برای یکی از سؤال‌های صاحب غرفه نمودار پیشنهاد کند. درخواستت و پاسخش را بگذار و بگو چه چیزی را بررسی یا تغییر دادی.</li><li><strong>توصیه</strong> — در ۳–۴ جمله به صاحب غرفه بگو ماه بعد چه کند، با اشاره به اعداد روی نمودارهایت.</li></ol>',
+            en: '<ol><li><strong>The question</strong> — In 2–3 sentences, state the one decision the owner has to make and which of the five chart questions it comes down to.</li><li><strong>A trend chart</strong> — Build a line chart of monthly units by flavor. Give it a takeaway title, axis titles, and a legend at the top. Paste a screenshot.</li><li><strong>A comparison or share chart</strong> — Build a sorted bar chart (or a pie with percentages) of yearly totals per flavor. Say why you picked bar or pie.</li><li><strong>A deliberately bad chart, and its fix</strong> — Make a truncated-axis or 3-D version of one chart, screenshot it, then rebuild it honestly. Name the trick and what it exaggerates.</li><li><strong>A second tool</strong> — Rebuild one of your three charts in Python (Colab) or Power BI. Add a screenshot, and note one thing that was easier and one that was harder than in Excel.</li><li><strong>Working with AI</strong> — Ask an AI assistant to recommend a chart for one of the owner\'s questions. Paste your prompt and what it returned, and say what you checked or changed.</li><li><strong>The recommendation</strong> — In 3–4 sentences, tell the owner what to do next month, pointing at the numbers on your charts.</li></ol>',
+            ar: '<ol><li><strong>السؤال</strong> — في 2–3 جمل، اذكر القرار الوحيد الذي على صاحب الكشك اتخاذه وأي من أسئلة الرسم الخمسة يرجع إليه.</li><li><strong>رسم اتجاه</strong> — ابنِ رسمًا خطيًا للوحدات الشهرية حسب النكهة. أعطه عنوان خلاصة وعناوين محاور ومفتاحًا في الأعلى. الصق لقطة شاشة.</li><li><strong>رسم مقارنة أو حصة</strong> — ابنِ رسم أعمدة مرتبًا (أو دائريًا بالنسب) للإجماليات السنوية لكل نكهة. اذكر لماذا اخترت الأعمدة أو الدائري.</li><li><strong>رسم سيئ عمدًا، وإصلاحه</strong> — اصنع نسخة بمحور مقتطع أو ثلاثية الأبعاد من أحد الرسوم، والتقط لها شاشة، ثم أعد بناءه بأمانة. سمِّ الحيلة وما تضخّمه.</li><li><strong>أداة ثانية</strong> — أعد بناء أحد رسومك الثلاثة في Python (Colab) أو Power BI. أضف لقطة شاشة، واذكر شيئًا كان أسهل وآخر كان أصعب مما في Excel.</li><li><strong>العمل مع الذكاء الاصطناعي</strong> — اطلب من مساعد ذكاء اصطناعي أن يوصي برسم لأحد أسئلة صاحب الكشك. الصق طلبك وما أعاده، واذكر ما تحققت منه أو غيّرته.</li><li><strong>التوصية</strong> — في 3–4 جمل، أخبر صاحب الكشك ماذا يفعل الشهر القادم، مشيرًا إلى الأرقام في رسومك.</li></ol>',
+            fa: '<ol><li><strong>سؤال</strong> — در ۲–۳ جمله، تصمیم یگانه‌ای را که صاحب غرفه باید بگیرد و اینکه به کدام یک از پنج سؤال نموداری برمی‌گردد بنویس.</li><li><strong>نمودار روند</strong> — نمودار خطی واحدهای ماهانه بر حسب طعم بساز. عنوان نتیجه‌محور، عنوان محورها و راهنما در بالا بده. تصویر صفحه را بگذار.</li><li><strong>نمودار مقایسه یا سهم</strong> — نمودار میله‌ای مرتب (یا دایره‌ای با درصد) از مجموع سالانهٔ هر طعم بساز. بگو چرا میله یا دایره‌ای را انتخاب کردی.</li><li><strong>یک نمودار عمداً بد، و اصلاحش</strong> — نسخهٔ محور بریده یا سه‌بعدی یکی از نمودارها را بساز، تصویرش را بگیر، بعد صادقانه دوباره بساز. ترفند را نام ببر و بگو چه چیزی را اغراق می‌کند.</li><li><strong>ابزار دوم</strong> — یکی از سه نمودارت را در Python (Colab) یا Power BI دوباره بساز. تصویر صفحه اضافه کن و بگو چه چیزی آسان‌تر و چه چیزی سخت‌تر از Excel بود.</li><li><strong>کار با هوش مصنوعی</strong> — از یک دستیار هوش مصنوعی بخواه برای یکی از سؤال‌های صاحب غرفه نمودار پیشنهاد کند. درخواستت و پاسخش را بگذار و بگو چه چیزی را بررسی یا تغییر دادی.</li><li><strong>توصیه</strong> — در ۳–۴ جمله به صاحب غرفه بگو ماه بعد چه کند، با اشاره به اعداد روی نمودارهایت.</li></ol>',
           },
         },
         {
           type: 'html',
           html: {
-            en: '<h3>Practice and further reading</h3><ul><li><a href="https://www.wiseowl.co.uk/excel/exercises/standard/charts/" target="_blank" rel="noopener">Wise Owl: three Excel chart exercises</a> (pie, line and column)</li><li><a href="https://support.microsoft.com/en-us/office/create-a-chart-from-start-to-finish-0baf399e-dd61-4e18-8a73-b3fd5d5680c2" target="_blank" rel="noopener">Microsoft Support: Create a chart from start to finish</a></li><li><a href="https://www.datacamp.com/courses/data-visualization-in-excel" target="_blank" rel="noopener">DataCamp: Data Visualization in Excel</a>, including its "Misleading news?" exercise on spotting distorted charts</li><li><a href="https://www.storytellingwithdata.com/chart-guide" target="_blank" rel="noopener">Storytelling with Data: guide to charts and graphs</a></li></ul>',
-            ar: '<h3>تدرّب واقرأ المزيد</h3><ul><li><a href="https://www.wiseowl.co.uk/excel/exercises/standard/charts/" target="_blank" rel="noopener">Wise Owl: ثلاثة تمارين رسوم في Excel</a> (دائري وخطي وأعمدة)</li><li><a href="https://support.microsoft.com/en-us/office/create-a-chart-from-start-to-finish-0baf399e-dd61-4e18-8a73-b3fd5d5680c2" target="_blank" rel="noopener">دعم Microsoft: إنشاء رسم من البداية إلى النهاية</a></li><li><a href="https://www.datacamp.com/courses/data-visualization-in-excel" target="_blank" rel="noopener">DataCamp: Data Visualization in Excel</a>، ومنها تمرين "Misleading news?" عن اكتشاف الرسوم المشوَّهة</li><li><a href="https://www.storytellingwithdata.com/chart-guide" target="_blank" rel="noopener">Storytelling with Data: دليل الرسوم البيانية</a></li></ul>',
-            fa: '<h3>تمرین و مطالعهٔ بیشتر</h3><ul><li><a href="https://www.wiseowl.co.uk/excel/exercises/standard/charts/" target="_blank" rel="noopener">Wise Owl: سه تمرین نمودار در Excel</a> (دایره‌ای، خطی و ستونی)</li><li><a href="https://support.microsoft.com/en-us/office/create-a-chart-from-start-to-finish-0baf399e-dd61-4e18-8a73-b3fd5d5680c2" target="_blank" rel="noopener">پشتیبانی Microsoft: ساخت نمودار از ابتدا تا انتها</a></li><li><a href="https://www.datacamp.com/courses/data-visualization-in-excel" target="_blank" rel="noopener">DataCamp: Data Visualization in Excel</a>، از جمله تمرین «Misleading news?» دربارهٔ تشخیص نمودارهای تحریف‌شده</li><li><a href="https://www.storytellingwithdata.com/chart-guide" target="_blank" rel="noopener">Storytelling with Data: راهنمای نمودارها</a></li></ul>',
+            en: '<h3>Practice and further reading</h3><ul><li><a href="https://www.wiseowl.co.uk/excel/exercises/standard/charts/" target="_blank" rel="noopener">Wise Owl: three Excel chart exercises</a> (pie, line and column)</li><li><a href="https://support.microsoft.com/en-us/office/create-a-chart-from-start-to-finish-0baf399e-dd61-4e18-8a73-b3fd5d5680c2" target="_blank" rel="noopener">Microsoft Support: Create a chart from start to finish</a></li><li><a href="https://www.datacamp.com/courses/data-visualization-in-excel" target="_blank" rel="noopener">DataCamp: Data Visualization in Excel</a>, including its "Misleading news?" exercise on spotting distorted charts</li><li><a href="https://www.storytellingwithdata.com/chart-guide" target="_blank" rel="noopener">Storytelling with Data: guide to charts and graphs</a></li><li>Python: <a href="https://pandas.pydata.org/docs/user_guide/visualization.html" target="_blank" rel="noopener">pandas chart visualization guide</a>, <a href="https://matplotlib.org/stable/users/explain/quick_start.html" target="_blank" rel="noopener">matplotlib quick start</a> and <a href="https://colab.research.google.com/notebooks/basic_features_overview.ipynb" target="_blank" rel="noopener">an overview of Google Colab</a></li><li>Power BI: <a href="https://learn.microsoft.com/en-us/power-bi/fundamentals/desktop-getting-started" target="_blank" rel="noopener">Get started with Power BI Desktop</a>, <a href="https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualization-waterfall-charts" target="_blank" rel="noopener">waterfall charts</a> and <a href="https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualization-customize-x-axis-and-y-axis" target="_blank" rel="noopener">customizing axes</a> (Microsoft Learn)</li></ul>',
+            ar: '<h3>تدرّب واقرأ المزيد</h3><ul><li><a href="https://www.wiseowl.co.uk/excel/exercises/standard/charts/" target="_blank" rel="noopener">Wise Owl: ثلاثة تمارين رسوم في Excel</a> (دائري وخطي وأعمدة)</li><li><a href="https://support.microsoft.com/en-us/office/create-a-chart-from-start-to-finish-0baf399e-dd61-4e18-8a73-b3fd5d5680c2" target="_blank" rel="noopener">دعم Microsoft: إنشاء رسم من البداية إلى النهاية</a></li><li><a href="https://www.datacamp.com/courses/data-visualization-in-excel" target="_blank" rel="noopener">DataCamp: Data Visualization in Excel</a>، ومنها تمرين "Misleading news?" عن اكتشاف الرسوم المشوَّهة</li><li><a href="https://www.storytellingwithdata.com/chart-guide" target="_blank" rel="noopener">Storytelling with Data: دليل الرسوم البيانية</a></li><li>Python: <a href="https://pandas.pydata.org/docs/user_guide/visualization.html" target="_blank" rel="noopener">دليل الرسوم في pandas</a> و<a href="https://matplotlib.org/stable/users/explain/quick_start.html" target="_blank" rel="noopener">البدء السريع مع matplotlib</a> و<a href="https://colab.research.google.com/notebooks/basic_features_overview.ipynb" target="_blank" rel="noopener">نظرة عامة على Google Colab</a></li><li>Power BI: <a href="https://learn.microsoft.com/en-us/power-bi/fundamentals/desktop-getting-started" target="_blank" rel="noopener">البدء مع Power BI Desktop</a> و<a href="https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualization-waterfall-charts" target="_blank" rel="noopener">مخططات الشلال</a> و<a href="https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualization-customize-x-axis-and-y-axis" target="_blank" rel="noopener">تخصيص المحاور</a> (Microsoft Learn)</li></ul>',
+            fa: '<h3>تمرین و مطالعهٔ بیشتر</h3><ul><li><a href="https://www.wiseowl.co.uk/excel/exercises/standard/charts/" target="_blank" rel="noopener">Wise Owl: سه تمرین نمودار در Excel</a> (دایره‌ای، خطی و ستونی)</li><li><a href="https://support.microsoft.com/en-us/office/create-a-chart-from-start-to-finish-0baf399e-dd61-4e18-8a73-b3fd5d5680c2" target="_blank" rel="noopener">پشتیبانی Microsoft: ساخت نمودار از ابتدا تا انتها</a></li><li><a href="https://www.datacamp.com/courses/data-visualization-in-excel" target="_blank" rel="noopener">DataCamp: Data Visualization in Excel</a>، از جمله تمرین «Misleading news?» دربارهٔ تشخیص نمودارهای تحریف‌شده</li><li><a href="https://www.storytellingwithdata.com/chart-guide" target="_blank" rel="noopener">Storytelling with Data: راهنمای نمودارها</a></li><li>Python: <a href="https://pandas.pydata.org/docs/user_guide/visualization.html" target="_blank" rel="noopener">راهنمای نمودار در pandas</a>، <a href="https://matplotlib.org/stable/users/explain/quick_start.html" target="_blank" rel="noopener">شروع سریع matplotlib</a> و <a href="https://colab.research.google.com/notebooks/basic_features_overview.ipynb" target="_blank" rel="noopener">مروری بر Google Colab</a></li><li>Power BI: <a href="https://learn.microsoft.com/en-us/power-bi/fundamentals/desktop-getting-started" target="_blank" rel="noopener">شروع کار با Power BI Desktop</a>، <a href="https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualization-waterfall-charts" target="_blank" rel="noopener">نمودارهای آبشاری</a> و <a href="https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualization-customize-x-axis-and-y-axis" target="_blank" rel="noopener">سفارشی‌سازی محورها</a> (Microsoft Learn)</li></ul>',
           },
         },
       ],
@@ -1039,7 +1702,7 @@ F3:  =E3-E2       -- copy down to F13`,
     {
       id: 'before-week-4',
       navLabel: { en: 'Before Week 4', ar: 'قبل الأسبوع 4', fa: 'پیش از هفته ۴' },
-      sectionLabel: { en: 'Section 14', ar: 'القسم ١٤', fa: 'بخش ۱۴' },
+      sectionLabel: { en: 'Section 15', ar: 'القسم ١٥', fa: 'بخش ۱۵' },
       headingHtml: {
         en: '<h2>Before Week 4</h2><p>You can now choose, build and defend a chart. Every chart this week started from a clean sheet, which real data rarely is. Week 4 turns to Data Preparation: understanding, cleaning and transforming messy data so the numbers behind your charts can be trusted in the first place.</p>',
         ar: '<h2>قبل الأسبوع 4</h2><p>أصبحت قادرًا على اختيار رسم وبنائه والدفاع عنه. بدأ كل رسم هذا الأسبوع من ورقة نظيفة، وهو ما ندر في البيانات الحقيقية. ينتقل الأسبوع 4 إلى إعداد البيانات: فهم البيانات الفوضوية وتنظيفها وتحويلها ليمكن الوثوق بالأرقام خلف رسومك أصلًا.</p>',
