@@ -1,0 +1,34 @@
+<svg viewBox="0 0 400 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Five business questions, each pointing at the chart type that answers it">
+<text x="10" y="14" font-size="10" font-weight="700" fill="#55606E">Start from the question</text>
+<text x="290" y="14" font-size="10" font-weight="700" fill="#0E6F7E">Then pick the chart</text>
+<rect x="10" y="24" width="210" height="28" rx="4" fill="#fff" stroke="#DED6C4"/>
+<text x="18" y="42" font-size="9.5" fill="#1C2B3A">How do categories compare?</text>
+<line x1="222" y1="38" x2="278" y2="38" stroke="#0E6F7E" stroke-width="1.6"/>
+<polygon points="278,33 288,38 278,43" fill="#0E6F7E"/>
+<rect x="290" y="24" width="100" height="28" rx="4" fill="#E3F1F3" stroke="#0E6F7E" stroke-width="1.4"/>
+<text x="340" y="42" text-anchor="middle" font-size="10" font-weight="700" fill="#0E6F7E">Bar / column</text>
+<rect x="10" y="60" width="210" height="28" rx="4" fill="#fff" stroke="#DED6C4"/>
+<text x="18" y="78" font-size="9.5" fill="#1C2B3A">How does it change over time?</text>
+<line x1="222" y1="74" x2="278" y2="74" stroke="#0E6F7E" stroke-width="1.6"/>
+<polygon points="278,69 288,74 278,79" fill="#0E6F7E"/>
+<rect x="290" y="60" width="100" height="28" rx="4" fill="#E3F1F3" stroke="#0E6F7E" stroke-width="1.4"/>
+<text x="340" y="78" text-anchor="middle" font-size="10" font-weight="700" fill="#0E6F7E">Line</text>
+<rect x="10" y="96" width="210" height="28" rx="4" fill="#fff" stroke="#DED6C4"/>
+<text x="18" y="114" font-size="9.5" fill="#1C2B3A">What share of the whole is each part?</text>
+<line x1="222" y1="110" x2="278" y2="110" stroke="#0E6F7E" stroke-width="1.6"/>
+<polygon points="278,105 288,110 278,115" fill="#0E6F7E"/>
+<rect x="290" y="96" width="100" height="28" rx="4" fill="#E3F1F3" stroke="#0E6F7E" stroke-width="1.4"/>
+<text x="340" y="114" text-anchor="middle" font-size="10" font-weight="700" fill="#0E6F7E">Pie (few slices)</text>
+<rect x="10" y="132" width="210" height="28" rx="4" fill="#fff" stroke="#DED6C4"/>
+<text x="18" y="150" font-size="9.5" fill="#1C2B3A">Do two things move together?</text>
+<line x1="222" y1="146" x2="278" y2="146" stroke="#0E6F7E" stroke-width="1.6"/>
+<polygon points="278,141 288,146 278,151" fill="#0E6F7E"/>
+<rect x="290" y="132" width="100" height="28" rx="4" fill="#E3F1F3" stroke="#0E6F7E" stroke-width="1.4"/>
+<text x="340" y="150" text-anchor="middle" font-size="10" font-weight="700" fill="#0E6F7E">Scatter</text>
+<rect x="10" y="168" width="210" height="28" rx="4" fill="#fff" stroke="#DED6C4"/>
+<text x="18" y="186" font-size="9.5" fill="#1C2B3A">What pushed the total up or down?</text>
+<line x1="222" y1="182" x2="278" y2="182" stroke="#0E6F7E" stroke-width="1.6"/>
+<polygon points="278,177 288,182 278,187" fill="#0E6F7E"/>
+<rect x="290" y="168" width="100" height="28" rx="4" fill="#E3F1F3" stroke="#0E6F7E" stroke-width="1.4"/>
+<text x="340" y="186" text-anchor="middle" font-size="10" font-weight="700" fill="#0E6F7E">Waterfall</text>
+</svg>
