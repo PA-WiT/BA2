@@ -1,0 +1,58 @@
+<svg viewBox="0 0 400 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A column chart with its parts labelled: title, legend, data labels, gridlines, axis titles and axes">
+<rect x="8" y="8" width="250" height="194" rx="4" fill="#fff" stroke="#DED6C4"/>
+<text x="133" y="26" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1C2B3A">Peach overtakes Strawberry in August</text>
+<rect x="60" y="33" width="7" height="7" fill="#0E6F7E"/><text x="70" y="40" font-size="8" fill="#55606E">Strawberry</text>
+<rect x="120" y="33" width="7" height="7" fill="#D9A441"/><text x="130" y="40" font-size="8" fill="#55606E">Blueberry</text>
+<rect x="180" y="33" width="7" height="7" fill="#A8322A"/><text x="190" y="40" font-size="8" fill="#55606E">Peach</text>
+<line x1="44" y1="150" x2="248" y2="150" stroke="#DED6C4"/>
+<text x="40" y="153" text-anchor="end" font-size="7.5" fill="#55606E">0</text>
+<line x1="44" y1="116" x2="248" y2="116" stroke="#DED6C4"/>
+<text x="40" y="119" text-anchor="end" font-size="7.5" fill="#55606E">20</text>
+<line x1="44" y1="82" x2="248" y2="82" stroke="#DED6C4"/>
+<text x="40" y="85" text-anchor="end" font-size="7.5" fill="#55606E">40</text>
+<line x1="44" y1="48" x2="248" y2="48" stroke="#DED6C4"/>
+<text x="40" y="51" text-anchor="end" font-size="7.5" fill="#55606E">60</text>
+<line x1="44" y1="150" x2="248" y2="150" stroke="#55606E"/>
+<line x1="44" y1="45" x2="44" y2="150" stroke="#55606E"/>
+<rect x="56" y="82" width="14" height="68" fill="#0E6F7E"/>
+<text x="63" y="80" text-anchor="middle" font-size="6.5" fill="#1C2B3A">40</text>
+<rect x="72" y="85.4" width="14" height="64.6" fill="#D9A441"/>
+<text x="79" y="83.4" text-anchor="middle" font-size="6.5" fill="#1C2B3A">38</text>
+<rect x="88" y="99" width="14" height="51" fill="#A8322A"/>
+<text x="95" y="97" text-anchor="middle" font-size="6.5" fill="#1C2B3A">30</text>
+<text x="80" y="161" text-anchor="middle" font-size="8" fill="#55606E">Jul</text>
+<rect x="120" y="102.4" width="14" height="47.6" fill="#0E6F7E"/>
+<text x="127" y="100.4" text-anchor="middle" font-size="6.5" fill="#1C2B3A">28</text>
+<rect x="136" y="88.8" width="14" height="61.2" fill="#D9A441"/>
+<text x="143" y="86.8" text-anchor="middle" font-size="6.5" fill="#1C2B3A">36</text>
+<rect x="152" y="75.2" width="14" height="74.8" fill="#A8322A"/>
+<text x="159" y="73.2" text-anchor="middle" font-size="6.5" fill="#1C2B3A">44</text>
+<text x="144" y="161" text-anchor="middle" font-size="8" fill="#55606E">Aug</text>
+<rect x="184" y="119.4" width="14" height="30.6" fill="#0E6F7E"/>
+<text x="191" y="117.4" text-anchor="middle" font-size="6.5" fill="#1C2B3A">18</text>
+<rect x="200" y="109.2" width="14" height="40.8" fill="#D9A441"/>
+<text x="207" y="107.2" text-anchor="middle" font-size="6.5" fill="#1C2B3A">24</text>
+<rect x="216" y="95.6" width="14" height="54.4" fill="#A8322A"/>
+<text x="223" y="93.6" text-anchor="middle" font-size="6.5" fill="#1C2B3A">32</text>
+<text x="208" y="161" text-anchor="middle" font-size="8" fill="#55606E">Sep</text>
+<text x="146" y="177" text-anchor="middle" font-size="8.5" fill="#55606E">Month</text>
+<text x="16" y="100" text-anchor="middle" font-size="8.5" fill="#55606E" transform="rotate(-90 16 100)">Units sold</text>
+<line x1="214" y1="22" x2="292" y2="30" stroke="#0E6F7E" stroke-width="0.9"/>
+<circle cx="214" cy="22" r="2" fill="#0E6F7E"/>
+<text x="298" y="33" font-size="9.5" font-weight="700" fill="#0E6F7E">Chart title</text>
+<line x1="222" y1="37" x2="292" y2="62" stroke="#0E6F7E" stroke-width="0.9"/>
+<circle cx="222" cy="37" r="2" fill="#0E6F7E"/>
+<text x="298" y="65" font-size="9.5" font-weight="700" fill="#0E6F7E">Legend</text>
+<line x1="246" y1="48" x2="292" y2="94" stroke="#0E6F7E" stroke-width="0.9"/>
+<circle cx="246" cy="48" r="2" fill="#0E6F7E"/>
+<text x="298" y="97" font-size="9.5" font-weight="700" fill="#0E6F7E">Gridlines</text>
+<line x1="223" y1="91" x2="292" y2="126" stroke="#0E6F7E" stroke-width="0.9"/>
+<circle cx="223" cy="91" r="2" fill="#0E6F7E"/>
+<text x="298" y="129" font-size="9.5" font-weight="700" fill="#0E6F7E">Data labels</text>
+<line x1="248" y1="150" x2="292" y2="158" stroke="#0E6F7E" stroke-width="0.9"/>
+<circle cx="248" cy="150" r="2" fill="#0E6F7E"/>
+<text x="298" y="161" font-size="9.5" font-weight="700" fill="#0E6F7E">Axes</text>
+<line x1="162" y1="175" x2="292" y2="190" stroke="#0E6F7E" stroke-width="0.9"/>
+<circle cx="162" cy="175" r="2" fill="#0E6F7E"/>
+<text x="298" y="193" font-size="9.5" font-weight="700" fill="#0E6F7E">Axis titles</text>
+</svg>

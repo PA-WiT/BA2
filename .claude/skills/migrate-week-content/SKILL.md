@@ -5,24 +5,27 @@ description: Convert a week from the old static course repo (question bank .js +
 
 # Migrate a week's content
 
-Source repo: `/home/rami/Documents/Work/course`
+Source repo: `c:\Users\r.alkhateeb\Desktop\Rami\course` (older docs cite `/home/rami/Documents/Work/course`)
 - Questions: `_shared/question-banks/week-XX.questions.js`
 - Translations (EN/Arabic/Persian): `_shared/i18n/week-XX.strings.js`
 - Figures: `_shared/figures/week-XX/*.svg`
 - Study guide HTML: `ba2/study-guides/week-XX/index.html`
+- Raw deck text and PDFs: `ba-source-materials/ba2-week-XX.md` and `ba-source-materials/Business Analytics 2/*.pdf` (filenames are irregular, don't derive them).
+
+The static site only has pages, question banks and i18n for the recap and weeks 0–2. For any later week those files don't exist: author `src/content/weeks/week-XX.ts` fresh from the `ba2-week-XX.md` deck text (see `week-03.ts` for an example), and note in the file header where it departs from the deck.
 
 ## Steps
 1. Read the source files; note their shape (they are plain JS globals, not modules).
 2. Write `src/content/weeks/week-XX.ts` exporting a `Week` (see `src/content/types.ts`).
 3. Assign **stable IDs**: `wXX-qNNN` (zero-padded, in source order). Never renumber later.
 4. Populate `en`, `ar`, and `fa` directly on every `Localized` field (question prompts/options, section headings, block text, `Section.navLabel`, etc.) — all three languages live inline in `src/content/weeks/week-XX.ts`, there is no separate locales directory. `ar` is a first-class language now, not an optional extra — always pull it from the source alongside `en`/`fa`.
-5. Reuse the existing `Block` variants (`html`, `objectives`, `box`, `code`, `diagram`, `exercise`, `formula`, `table`, `tabs`) before adding a new one. `formula` is for a standalone equation + note (e.g. `AVG(x) = SUM(x) / COUNT(x)`), `table` for a headers/rows table, `tabs` for the AI-corner-style weak/strong-prompt panels (recurses into more `Block`s).
+5. Reuse the existing `Block` variants (`html`, `objectives`, `takeaways`, `box`, `code`, `diagram`, `exercise`, `formula`, `table`, `tabs`) before adding a new one. `formula` is for a standalone equation + note (e.g. `AVG(x) = SUM(x) / COUNT(x)`), `table` for a headers/rows table, `tabs` for the AI-corner-style weak/strong-prompt panels (recurses into more `Block`s).
 6. Give every `Section` a short `navLabel` (sidebar text, e.g. "Choosing your sample") distinct from its fuller `headingHtml` — pull this from the old page's `sidebar.N` i18n entry's anchor text, one per section id. Sections without a per-section time estimate (e.g. reference/homework sections) can omit `timeEst`.
 7. Copy SVGs to `public/figures/week-XX/*.svg` and reference them as `/figures/week-XX/diagram-NN.svg`.
-8. Register the week in `src/content/index.ts`.
+8. Register the week in **both** `src/content/index.ts` (the `weeks` array) and `src/content/nav.ts` (the BA2 `navGroups` entry, with EN/AR/FA titles). Without the `nav.ts` entry the week won't appear on the Home page, in the sidebar, or in prev/next navigation.
 9. Run `npm run build` to type-check. Do not change the original repo.
 
 ## Notes
 - Prefer a one-off Node script in `scripts/` for bulk conversion, then hand-check a sample.
 - Keep answers as option indexes; verify each converted answer against the source.
-- `src/content/access.ts`'s free-preview rule (`week.order <= 2 && sectionIndex < 2`) is data-driven — a newly migrated week needs no special handling, it's automatically free or gated based on its `order` and section position.
+- `src/content/access.ts`'s free-preview rule is `Boolean(week.preview) && sectionIndex < 2`. A week only gets free sections if it sets `preview: true` (weeks 1–2 do; weeks 0 and 3 don't). Without it, logged-out visitors see a locked section straight after the cover.
