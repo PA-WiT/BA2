@@ -42,3 +42,9 @@ a.btn:hover {
 .spacer {
   flex: 1;
 }
+
+@media print {
+  .weekNav {
+    display: none;
+  }
+}
