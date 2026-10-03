@@ -144,3 +144,84 @@
   cursor: pointer;
   font-family: inherit;
 }
+
+.badges {
+  display: flex;
+  gap: 6px;
+}
+.due {
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  margin: 0 0 12px 0;
+}
+.overdue {
+  color: var(--red);
+  font-weight: 700;
+}
+.linkField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+.linkField input {
+  font: inherit;
+  font-size: 15px;
+  padding: 9px 12px;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  background: var(--paper);
+  color: var(--ink);
+}
+.hint,
+.linkError {
+  font-size: 12.5px;
+  margin: 6px 0 12px 0;
+}
+.hint {
+  color: var(--ink-soft);
+}
+.linkError {
+  color: var(--red);
+}
+.deadlines {
+  max-width: 900px;
+  margin-bottom: 28px;
+}
+.deadlineRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.deadlineRow strong {
+  min-width: 90px;
+}
+.deadlineRow input {
+  font: inherit;
+  font-size: 13.5px;
+  padding: 6px 10px;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--ink);
+}
+.linkBtn {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--ink-soft);
+  text-decoration: underline;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 13px;
+}
+.driveLink {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 0.88rem;
+}

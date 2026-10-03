@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { Outlet, useMatches } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { getWeek } from '../content'
+import { useWeek } from '../content/useWeek'
 import { useLocalized } from '../content/useLocalized'
 import { useScrollSpy } from '../features/weeks/useScrollSpy'
 import { TopBar } from './TopBar'
@@ -14,7 +14,7 @@ function useActiveWeek() {
   const weekId = matches.find((m) => (m.params as Record<string, string | undefined>).id)?.params.id as
     | string
     | undefined
-  return weekId ? getWeek(weekId) : undefined
+  return useWeek(weekId).week
 }
 
 function Sidebar() {

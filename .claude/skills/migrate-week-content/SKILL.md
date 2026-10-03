@@ -22,7 +22,7 @@ The static site only has pages, question banks and i18n for the recap and weeks 
 5. Reuse the existing `Block` variants (`html`, `objectives`, `takeaways`, `box`, `code`, `diagram`, `exercise`, `formula`, `table`, `tabs`) before adding a new one. `formula` is for a standalone equation + note (e.g. `AVG(x) = SUM(x) / COUNT(x)`), `table` for a headers/rows table, `tabs` for the AI-corner-style weak/strong-prompt panels (recurses into more `Block`s).
 6. Give every `Section` a short `navLabel` (sidebar text, e.g. "Choosing your sample") distinct from its fuller `headingHtml` — pull this from the old page's `sidebar.N` i18n entry's anchor text, one per section id. Sections without a per-section time estimate (e.g. reference/homework sections) can omit `timeEst`.
 7. Copy SVGs to `public/figures/week-XX/*.svg` and reference them as `/figures/week-XX/diagram-NN.svg`.
-8. Register the week in **both** `src/content/index.ts` (the `weeks` array) and `src/content/nav.ts` (the BA2 `navGroups` entry, with EN/AR/FA titles). Without the `nav.ts` entry the week won't appear on the Home page, in the sidebar, or in prev/next navigation.
+8. Register the week in **both** `src/content/registry.ts` (add a lazy loader: `'week-NN': () => import('./weeks/week-NN').then((m) => m.weekNN)`, so each week stays its own chunk) and `src/content/nav.ts` (the BA2 `navGroups` entry, with EN/AR/FA titles; add `homework: true` if the week has a `homework` section so it appears on `/submissions` and in the admin deadline list). Without the `nav.ts` entry the week won't appear on the Home page, in the sidebar, or in prev/next navigation.
 9. Run `npm run build` to type-check. Do not change the original repo.
 
 ## Notes

@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { flatNav } from '../../content/nav'
-import { getWeek } from '../../content'
+import { hasWeek } from '../../content/registry'
 import { useLocalized } from '../../content/useLocalized'
 import styles from './WeekNav.module.css'
 
@@ -19,7 +19,7 @@ export function WeekNav({ weekId }: { weekId: string }) {
   return (
     <nav className={styles.weekNav}>
       {prev ? (
-        getWeek(prev.id) ? (
+        hasWeek(prev.id) ? (
           <Link to={prev.href} className={styles.btn}>
             <span className={styles.dir}>{t('previous')}</span>
             <span className={styles.label}>{tLoc(prev.title)}</span>
@@ -35,7 +35,7 @@ export function WeekNav({ weekId }: { weekId: string }) {
       )}
 
       {next ? (
-        getWeek(next.id) ? (
+        hasWeek(next.id) ? (
           <Link to={next.href} className={`${styles.btn} ${styles.next}`}>
             <span className={styles.dir}>{t('next')}</span>
             <span className={styles.label}>{tLoc(next.title)}</span>
