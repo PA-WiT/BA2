@@ -66,6 +66,8 @@ const resources = {
       loading: 'Loading…',
       weekNotFound: "This week hasn't been migrated yet.",
       accountCreatedCheckEmail: 'Account created. Check your email to confirm it before logging in.',
+      viewOriginalPdf: 'View original PDF',
+      saveAsPdf: 'Save as PDF',
     },
   },
   ar: {
@@ -132,6 +134,8 @@ const resources = {
       loading: 'جارٍ التحميل…',
       weekNotFound: 'لم يتم نقل هذا الأسبوع بعد.',
       accountCreatedCheckEmail: 'تم إنشاء الحساب. تحقق من بريدك الإلكتروني لتأكيده قبل تسجيل الدخول.',
+      viewOriginalPdf: 'عرض ملف PDF الأصلي',
+      saveAsPdf: 'حفظ كملف PDF',
     },
   },
   fa: {
@@ -198,6 +202,8 @@ const resources = {
       loading: 'در حال بارگذاری…',
       weekNotFound: 'این هفته هنوز منتقل نشده است.',
       accountCreatedCheckEmail: 'حساب ساخته شد. پیش از ورود، ایمیلت را برای تأیید بررسی کن.',
+      viewOriginalPdf: 'مشاهده PDF اصلی',
+      saveAsPdf: 'ذخیره به‌صورت PDF',
     },
   },
 }

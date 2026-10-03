@@ -40,3 +40,10 @@
   cursor: pointer;
   color: var(--ink-soft);
 }
+
+@media print {
+  .overlay,
+  .panel {
+    display: none;
+  }
+}

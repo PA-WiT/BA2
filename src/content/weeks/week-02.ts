@@ -210,6 +210,7 @@ const questions: Question[] = [
 
 export const weekTwo: Week = {
   id: 'week-02',
+  originalPdf: '/originals/week-02.pdf',
   order: 2,
   preview: true,
   cover: {

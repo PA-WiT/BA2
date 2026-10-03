@@ -22,9 +22,15 @@ export function Tabs({ tabs }: { tabs: { label: Localized; blocks: Block[] }[] }
           </button>
         ))}
       </div>
-      <div className={styles.tabPanel}>
-        <Blocks blocks={tabs[active].blocks} />
-      </div>
+      {tabs.map((tab, i) => (
+        <div
+          key={i}
+          className={`${styles.tabPanel} ${i === active ? '' : styles.tabPanelHidden}`}
+          data-print-label={t(tab.label)}
+        >
+          <Blocks blocks={tab.blocks} />
+        </div>
+      ))}
     </div>
   )
 }

@@ -374,7 +374,32 @@
   font-weight: 700;
   color: var(--ink-soft);
   padding: 8px 4px;
+}
+.coverTools {
+  display: flex;
+  gap: 10px;
   margin-top: 18px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.toolBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  padding: 8px 14px;
+  border-radius: 100px;
+  cursor: pointer;
+}
+.toolBtn:hover {
+  border-color: var(--teal);
+  color: var(--teal);
 }
 
 /* ---------- FORMULA (no equivalent in the original CSS — new, styled to match the code/box family) ---------- */
@@ -459,6 +484,34 @@
 }
 .tabPanel {
   padding: 20px;
+}
+.tabPanelHidden {
+  display: none;
+}
+
+@media print {
+  .coverTools,
+  .tabHeads,
+  .codeCopyBtn {
+    display: none;
+  }
+  /* The on-screen tab switcher only shows one panel; print shows all, labelled. */
+  .tabPanelHidden {
+    display: block;
+  }
+  .tabPanel {
+    border-top: 1px solid var(--rule);
+  }
+  .tabPanel::before {
+    content: attr(data-print-label);
+    display: block;
+    font-weight: 800;
+    color: var(--teal);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding-bottom: 8px;
+  }
 }
 
 /* ---------- LOCKED SECTION (new, for the free-preview gate) ---------- */

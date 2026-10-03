@@ -32,3 +32,13 @@ ul,
 ol {
   margin: 0;
 }
+
+@media print {
+  body {
+    font-size: 11.5pt;
+  }
+  @page {
+    size: A4;
+    margin: 16mm 15mm;
+  }
+}

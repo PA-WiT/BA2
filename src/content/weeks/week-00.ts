@@ -259,6 +259,7 @@ const questions: Question[] = [
 
 export const weekZero: Week = {
   id: 'week-00',
+  originalPdf: '/originals/week-00.pdf',
   order: 0,
   cover: {
     kicker: { en: 'Business Analytics 2 · Week 0', ar: 'تحليلات الأعمال 2 · الأسبوع 0', fa: 'تحلیل کسب‌وکار ۲ · هفته صفر' },
