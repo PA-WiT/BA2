@@ -1,8 +1,9 @@
 import { useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { signOut, updateEmail, updatePassword } from '../../lib/auth'
+import { signOut, updateEmail } from '../../lib/auth'
 import { useAuth } from './AuthProvider'
+import { ChangePasswordForm } from './ChangePasswordForm'
 import styles from './auth.module.css'
 
 export function SettingsPage() {
@@ -10,29 +11,12 @@ export function SettingsPage() {
   const { user } = useAuth()
   const navigate = useNavigate()
   const [newEmail, setNewEmail] = useState('')
-  const [newPassword, setNewPassword] = useState('')
-  const [confirm, setConfirm] = useState('')
   const [emailStatus, setEmailStatus] = useState<string | null>(null)
-  const [passwordStatus, setPasswordStatus] = useState<string | null>(null)
 
   async function handleEmailSubmit(e: FormEvent) {
     e.preventDefault()
     const { error } = await updateEmail(newEmail)
     setEmailStatus(error ? error.message : 'ok')
-  }
-
-  async function handlePasswordSubmit(e: FormEvent) {
-    e.preventDefault()
-    if (newPassword !== confirm) {
-      setPasswordStatus(t('passwordsDontMatch'))
-      return
-    }
-    const { error } = await updatePassword(newPassword)
-    setPasswordStatus(error ? error.message : 'ok')
-    if (!error) {
-      setNewPassword('')
-      setConfirm('')
-    }
   }
 
   return (
@@ -63,33 +47,7 @@ export function SettingsPage() {
 
       <div className={styles.section}>
         <h2>{t('changePassword')}</h2>
-        <form className={styles.form} onSubmit={handlePasswordSubmit}>
-          <label>
-            {t('newPassword')}
-            <input
-              type="password"
-              required
-              minLength={6}
-              autoComplete="new-password"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-            />
-          </label>
-          <label>
-            {t('confirmPassword')}
-            <input
-              type="password"
-              required
-              autoComplete="new-password"
-              value={confirm}
-              onChange={(e) => setConfirm(e.target.value)}
-            />
-          </label>
-          {passwordStatus && passwordStatus !== 'ok' && <p className={styles.error}>{passwordStatus}</p>}
-          <button type="submit" className={styles.submit}>
-            {t('save')}
-          </button>
-        </form>
+        <ChangePasswordForm />
       </div>
 
       <button

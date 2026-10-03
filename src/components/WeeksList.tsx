@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { navGroups } from '../content/nav'
-import { getWeek } from '../content'
+import { hasWeek } from '../content/registry'
 import { useLocalized } from '../content/useLocalized'
 import styles from './WeeksList.module.css'
 
@@ -18,7 +18,7 @@ export function WeeksList({ onNavigate }: { onNavigate?: () => void }) {
           <div className={styles.groupLabel}>{t(group.label)}</div>
           <ul className={styles.list}>
             {group.items.map((item) => {
-              const migrated = Boolean(getWeek(item.id))
+              const migrated = hasWeek(item.id)
               return (
                 <li key={item.id}>
                   {migrated ? (

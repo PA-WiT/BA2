@@ -1,14 +1,14 @@
 import { useState } from 'react'
-import { getQuestion } from '../../content'
 import { useLocalized } from '../../content/useLocalized'
 import { useAuth } from '../auth/AuthProvider'
 import { useRecordAttempt } from './api'
+import { useQuestion } from './weekQuestions'
 import styles from '../../components/content/content.module.css'
 
 /** One multiple-choice exercise, graded locally. Answers are recorded to `question_attempts`
  *  for signed-in users (best-effort — a failed insert doesn't block the UI). */
 export function Exercise({ questionId }: { questionId: string }) {
-  const question = getQuestion(questionId)
+  const question = useQuestion(questionId)
   const t = useLocalized()
   const { user } = useAuth()
   const recordAttempt = useRecordAttempt()

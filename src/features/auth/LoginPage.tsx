@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { signIn, signUp } from '../../lib/auth'
+import { resetPassword, signIn, signUp } from '../../lib/auth'
 import { useAuth } from './AuthProvider'
 import styles from './auth.module.css'
 
@@ -9,7 +9,7 @@ export function LoginPage() {
   const { t } = useTranslation()
   const { user } = useAuth()
   const navigate = useNavigate()
-  const [mode, setMode] = useState<'login' | 'signup'>('login')
+  const [mode, setMode] = useState<'login' | 'signup' | 'forgot'>('login')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirm, setConfirm] = useState('')
@@ -32,6 +32,16 @@ export function LoginPage() {
       return
     }
 
+    if (mode === 'forgot') {
+      setBusy(true)
+      const { error: resetError } = await resetPassword(email)
+      setBusy(false)
+      // Supabase doesn't error for unknown emails, and neither do we, so this can't probe for accounts.
+      if (resetError) setError(resetError.message)
+      else setInfo(t('resetLinkSent'))
+      return
+    }
+
     setBusy(true)
     const { data, error: authError } =
       mode === 'login' ? await signIn(email, password) : await signUp(email, password)
@@ -46,7 +56,7 @@ export function LoginPage() {
 
     if (mode === 'signup' && !data.session) {
       // Project has "Confirm email" on: the account was created but isn't active yet.
-      setInfo('Account created — check your email to confirm it before logging in.')
+      setInfo(t('accountCreatedCheckEmail'))
       return
     }
 
@@ -55,7 +65,7 @@ export function LoginPage() {
 
   return (
     <div>
-      <h1>{mode === 'login' ? t('login') : t('createAccount')}</h1>
+      <h1>{mode === 'login' ? t('login') : mode === 'signup' ? t('createAccount') : t('resetPassword')}</h1>
       <form className={styles.form} onSubmit={handleSubmit}>
         <label>
           {t('email')}
@@ -67,17 +77,19 @@ export function LoginPage() {
             onChange={(e) => setEmail(e.target.value)}
           />
         </label>
-        <label>
-          {t('password')}
-          <input
-            type="password"
-            required
-            minLength={6}
-            autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </label>
+        {mode !== 'forgot' && (
+          <label>
+            {t('password')}
+            <input
+              type="password"
+              required
+              minLength={6}
+              autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </label>
+        )}
         {mode === 'signup' && (
           <label>
             {t('confirmPassword')}
@@ -93,19 +105,35 @@ export function LoginPage() {
         {error && <p className={styles.error}>{error}</p>}
         {info && <p>{info}</p>}
         <button type="submit" className={styles.submit} disabled={busy}>
-          {mode === 'login' ? t('login') : t('createAccount')}
+          {mode === 'login' ? t('login') : mode === 'signup' ? t('createAccount') : t('sendResetLink')}
         </button>
       </form>
-      <button
-        type="button"
-        className={styles.switch}
-        onClick={() => {
-          setError(null)
-          setMode(mode === 'login' ? 'signup' : 'login')
-        }}
-      >
-        {mode === 'login' ? t('needAccount') : t('haveAccount')}
-      </button>
+      <div className={styles.links}>
+        <button
+          type="button"
+          className={styles.switch}
+          onClick={() => {
+            setError(null)
+            setInfo(null)
+            setMode(mode === 'login' ? 'signup' : 'login')
+          }}
+        >
+          {mode === 'login' ? t('needAccount') : mode === 'signup' ? t('haveAccount') : t('backToLogin')}
+        </button>
+        {mode === 'login' && (
+          <button
+            type="button"
+            className={styles.switch}
+            onClick={() => {
+              setError(null)
+              setInfo(null)
+              setMode('forgot')
+            }}
+          >
+            {t('forgotPassword')}
+          </button>
+        )}
+      </div>
     </div>
   )
 }
