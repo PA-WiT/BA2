@@ -1,193 +1,167 @@
 import type { Block } from '../../types'
-import { L, feedbackTask } from './shared'
+import { L, deadlineNotice, feedbackTask } from './shared'
 
-// Example answers use a bookshop (book_sales + books, made-up numbers) instead of the jam stand.
+// Example answers are worked on a slice of the jam stand data (one market day, or Peach only); students do
+// the full tables. Numbers match the week's own results (Peach profit $120, 13 sale rows, Lemon unpriced).
 export const week02Homework: Block = {
   type: 'homework',
+  notice: deadlineNotice,
+  objectives: [
+    L(
+      'Explained why the stand keeps prices in jam_products instead of copying them into every sale',
+      'شرحت لماذا يحتفظ الكشك بالأسعار في jam_products بدلًا من نسخها في كل عملية بيع',
+      'توضیح داده‌ای چرا غرفه قیمت‌ها را در jam_products نگه می‌دارد و آن‌ها را در هر فروش کپی نمی‌کند',
+    ),
+    L(
+      'Used INNER JOIN and LEFT JOIN and explained what each keeps and drops',
+      'استخدمت INNER JOIN وLEFT JOIN وشرحت ما يحتفظ به كل منهما وما يحذفه',
+      'از INNER JOIN و LEFT JOIN استفاده کرده‌ای و توضیح داده‌ای هر کدام چه چیزی را نگه می‌دارد و چه چیزی را حذف می‌کند',
+    ),
+    L(
+      'Calculated revenue, profit and margin per flavor in SQL',
+      'حسبت الإيراد والربح والهامش لكل نكهة باستخدام SQL',
+      'درآمد، سود و حاشیهٔ سود هر طعم را با SQL محاسبه کرده‌ای',
+    ),
+    L(
+      'Checked an AI-written query and turned the numbers into a recommendation for the stand owner',
+      'تحققت من استعلام كتبه الذكاء الاصطناعي وحوّلت الأرقام إلى توصية لصاحب الكشك',
+      'یک کوئری نوشته‌شده توسط هوش مصنوعی را بررسی کرده‌ای و اعداد را به توصیه‌ای برای صاحب غرفه تبدیل کرده‌ای',
+    ),
+  ],
   scenario: L(
-    "The example answers below are for a different business: a bookshop with a books(title, price, cost) table and a book_sales(id, title, sale_date, copies) table of 10 sales. One title, Atlas, has sales but no row in books yet. The numbers are invented. Copy the format and depth, not the content; your answers use jam_sales and jam_products.",
-    'أمثلة الإجابات أدناه لنشاط تجاري مختلف: مكتبة لديها جدول books(title, price, cost) وجدول book_sales(id, title, sale_date, copies) يضم 10 عمليات بيع. أحد العناوين، Atlas، له مبيعات لكن لا صف له في books بعد. الأرقام مُختلَقة. انسخ الشكل والعمق لا المحتوى؛ إجاباتك تستخدم jam_sales وjam_products.',
-    'نمونه‌پاسخ‌های زیر برای یک کسب‌وکار دیگر است: یک کتاب‌فروشی با جدول books(title, price, cost) و جدول book_sales(id, title, sale_date, copies) شامل ۱۰ فروش. یکی از عنوان‌ها، Atlas، فروش دارد اما هنوز در books سطری ندارد. اعداد ساختگی‌اند. قالب و عمق را الگو بگیر، نه محتوا را؛ پاسخ‌های تو از jam_sales و jam_products استفاده می‌کنند.',
+    'The example answers use a smaller slice of the same jam stand data: one market day (25 May) or Peach only. Your answers use the full jam_sales and jam_products tables, so your numbers will be different.',
+    'أمثلة الإجابات تستخدم جزءًا أصغر من بيانات كشك المربى نفسها: يوم سوق واحد (25 مايو) أو نكهة الخوخ فقط. إجاباتك تستخدم جدولي jam_sales وjam_products كاملين، لذا ستختلف أرقامك.',
+    'نمونه‌پاسخ‌ها از بخش کوچک‌تری از همان داده‌های غرفهٔ مربا استفاده می‌کنند: یک روز بازار (۲۵ مه) یا فقط هلو. پاسخ‌های تو از کل جدول‌های jam_sales و jam_products استفاده می‌کنند، پس اعدادت متفاوت خواهند بود.',
   ),
   tasks: [
     {
-      title: L('Set the scene', 'مهّد للموقف', 'صحنه را بچین'),
+      title: L('Two tables and two joins', 'جدولان وربطان', 'دو جدول و دو join'),
       prompt: L(
-        '<p>In 2–3 sentences, describe the two tables and the question the stand owner wants answered.</p>',
-        '<p>في 2–3 جمل، صِف الجدولين والسؤال الذي يريد صاحب الكشك إجابته.</p>',
-        '<p>در ۲ تا ۳ جمله، دو جدول و سؤالی را که صاحب غرفه می‌خواهد پاسخش را بداند توضیح بده.</p>',
+        '<p>In two sentences, explain why prices live in jam_products and not in every row of jam_sales. Then run an INNER JOIN and a LEFT JOIN on the full tables, compare the row counts, and say what happens to the Lemon sale.</p>',
+        '<p>في جملتين، اشرح لماذا توجد الأسعار في jam_products وليس في كل صف من jam_sales. ثم شغّل INNER JOIN وLEFT JOIN على الجدولين كاملين، وقارن عدد الصفوف، وقل ما الذي يحدث لعملية بيع Lemon.</p>',
+        '<p>در دو جمله توضیح بده چرا قیمت‌ها در jam_products هستند و نه در هر سطر jam_sales. سپس یک INNER JOIN و یک LEFT JOIN روی جدول‌های کامل اجرا کن، تعداد سطرها را مقایسه کن و بگو چه بر سر فروش Lemon می‌آید.</p>',
+      ),
+      analogy: L(
+        '<p>jam_sales is the <em>guest list</em> and jam_products is the <em>seating chart</em>. An INNER JOIN only lists guests who have a seat; a LEFT JOIN lists every guest and leaves the seat blank for anyone who wasn\'t given one. Lemon is the guest who came but has no seat yet.</p>',
+        '<p>jam_sales هو <em>قائمة الضيوف</em> وjam_products هو <em>مخطط الجلوس</em>. يعرض INNER JOIN الضيوف الذين لهم مقعد فقط؛ ويعرض LEFT JOIN كل الضيوف ويترك المقعد فارغًا لمن لم يُخصَّص له مقعد. Lemon هو الضيف الذي حضر لكن لا مقعد له بعد.</p>',
+        '<p>jam_sales <em>فهرست مهمان‌ها</em> است و jam_products <em>نقشهٔ صندلی‌ها</em>. INNER JOIN فقط مهمان‌هایی را نشان می‌دهد که صندلی دارند؛ LEFT JOIN همهٔ مهمان‌ها را نشان می‌دهد و جای صندلی کسی را که صندلی نگرفته خالی می‌گذارد. Lemon مهمانی است که آمده اما هنوز صندلی ندارد.</p>',
       ),
       include: [
-        L('What each table holds and how they connect', 'ما الذي يحويه كل جدول وكيف يرتبطان', 'هر جدول چه چیزی دارد و چگونه به هم وصل می‌شوند'),
-        L('The decision behind the question', 'القرار وراء السؤال', 'تصمیم پشت سؤال'),
+        L('Two sentences on why there are two tables', 'جملتان عن سبب وجود جدولين', 'دو جمله دربارهٔ اینکه چرا دو جدول داریم'),
+        L('Both queries and their row counts', 'الاستعلامان وعدد صفوف كل منهما', 'هر دو کوئری و تعداد سطرهایشان'),
+        L('What happens to Lemon, and when INNER JOIN is still the right choice', 'ما يحدث لـ Lemon، ومتى يظل INNER JOIN هو الاختيار الصحيح', 'چه بر سر Lemon می‌آید و چه زمانی INNER JOIN هنوز انتخاب درست است'),
       ],
       example: [
         {
           type: 'html',
           html: L(
-            '<p>books lists each title once with its price and cost; book_sales records every sale with the title and the number of copies, and the two connect on title. The owner wants to know which title earns the most profit, to decide which books to reorder before the holidays.</p>',
-            '<p>يضم books كل عنوان مرة واحدة مع سعره وتكلفته؛ ويسجّل book_sales كل عملية بيع مع العنوان وعدد النسخ، ويرتبط الجدولان عبر title. يريد المالك معرفة العنوان الذي يحقق أكبر ربح، ليقرر أي الكتب يعيد طلبها قبل العطلات.</p>',
-            '<p>books هر عنوان را یک بار با قیمت و هزینه‌اش فهرست می‌کند؛ book_sales هر فروش را با عنوان و تعداد نسخه ثبت می‌کند و این دو از طریق title به هم وصل‌اند. مالک می‌خواهد بداند کدام عنوان بیشترین سود را دارد تا بداند پیش از تعطیلات کدام کتاب‌ها را دوباره سفارش دهد.</p>',
+            '<p><strong>Why two tables:</strong> if Strawberry\'s price changed, a copied price would have to be fixed in every Strawberry row, and missing one would make two rows disagree. Keeping it once in jam_products means one edit fixes every report.</p><p><strong>Joins, on 25 May only:</strong></p>',
+            '<p><strong>لماذا جدولان:</strong> لو تغيّر سعر Strawberry، لوجب تصحيح السعر المنسوخ في كل صف Strawberry، ونسيان صف واحد يجعل صفين يتعارضان. حفظه مرة واحدة في jam_products يعني أن تعديلًا واحدًا يصحح كل التقارير.</p><p><strong>الربط، في 25 مايو فقط:</strong></p>',
+            '<p><strong>چرا دو جدول:</strong> اگر قیمت Strawberry تغییر کند، قیمت کپی‌شده باید در همهٔ سطرهای Strawberry اصلاح شود و جا انداختن یکی باعث می‌شود دو سطر ناهمخوان شوند. نگه داشتن آن فقط یک بار در jam_products یعنی یک ویرایش همهٔ گزارش‌ها را درست می‌کند.</p><p><strong>joinها، فقط برای ۲۵ مه:</strong></p>',
           ),
         },
-      ],
-    },
-    {
-      title: L('Why two tables, not one', 'لماذا جدولان وليس جدولًا واحدًا', 'چرا دو جدول و نه یکی'),
-      prompt: L(
-        '<p>Explain why price and cost live in jam_products instead of being copied into every row of jam_sales.</p>',
-        '<p>اشرح لماذا يوجد السعر والتكلفة في jam_products بدلًا من نسخهما في كل صف من jam_sales.</p>',
-        '<p>توضیح بده چرا قیمت و هزینه در jam_products نگه داشته می‌شوند و نه اینکه در هر سطر jam_sales کپی شوند.</p>',
-      ),
-      include: [
-        L('What goes wrong when the same value is copied into many rows', 'ما الخطأ الذي يحدث عند نسخ القيمة نفسها في صفوف كثيرة', 'وقتی یک مقدار در سطرهای زیادی کپی شود چه مشکلی پیش می‌آید'),
-      ],
-      example: [
-        {
-          type: 'html',
-          html: L(
-            "<p>If Dune's price were copied into every sale, a price change would have to be edited in dozens of rows, and missing one would make two rows disagree. Keeping it once in books means one edit updates every report.</p>",
-            '<p>لو نُسخ سعر Dune في كل عملية بيع، لوجب تعديل أي تغيير في السعر في عشرات الصفوف، ونسيان صف واحد يجعل صفين يتعارضان. حفظه مرة واحدة في books يعني أن تعديلًا واحدًا يحدّث كل التقارير.</p>',
-            '<p>اگر قیمت Dune در هر فروش کپی می‌شد، هر تغییر قیمت باید در ده‌ها سطر ویرایش می‌شد و جا انداختن یکی باعث می‌شد دو سطر با هم ناهمخوان شوند. نگه داشتن آن فقط یک بار در books یعنی یک ویرایش همهٔ گزارش‌ها را به‌روز می‌کند.</p>',
-          ),
-        },
-      ],
-    },
-    {
-      title: L('INNER JOIN vs. LEFT JOIN', 'INNER JOIN مقابل LEFT JOIN', 'INNER JOIN در برابر LEFT JOIN'),
-      prompt: L(
-        '<p>Run both joins yourself. Compare the row counts, explain what happens to the Lemon row, and say when INNER JOIN would actually be the right choice.</p>',
-        '<p>شغّل الربطين بنفسك. قارن عدد الصفوف، واشرح ما يحدث لصف Lemon، وقل متى يكون INNER JOIN هو الاختيار الصحيح فعلًا.</p>',
-        '<p>هر دو join را خودت اجرا کن. تعداد سطرها را مقایسه کن، توضیح بده چه بر سر سطر Lemon می‌آید و بگو چه زمانی INNER JOIN واقعاً انتخاب درست است.</p>',
-      ),
-      include: [
-        L('Both queries', 'الاستعلامان كلاهما', 'هر دو کوئری'),
-        L('The two row counts', 'عددا الصفوف', 'دو تعداد سطر'),
-        L('What happens to the unmatched row, and when INNER JOIN is right', 'ما يحدث للصف غير المطابق، ومتى يكون INNER JOIN صحيحًا', 'چه بر سر سطر بی‌جفت می‌آید و چه زمانی INNER JOIN درست است'),
-      ],
-      example: [
         {
           type: 'code',
-          code: `-- INNER JOIN: only sales whose title exists in books
-SELECT s.title, s.copies, b.price
-FROM book_sales s
-INNER JOIN books b ON s.title = b.title;   -- 9 rows
+          code: `SELECT s.flavor, s.units_sold, p.selling_price
+FROM jam_sales s
+INNER JOIN jam_products p ON s.flavor = p.flavor
+WHERE s.market_date = '2024-05-25';   -- 3 rows
 
--- LEFT JOIN: every sale, with NULLs where books has no match
-SELECT s.title, s.copies, b.price
-FROM book_sales s
-LEFT JOIN books b ON s.title = b.title;    -- 10 rows`,
+SELECT s.flavor, s.units_sold, p.selling_price
+FROM jam_sales s
+LEFT JOIN jam_products p ON s.flavor = p.flavor
+WHERE s.market_date = '2024-05-25';   -- 4 rows
+-- your version: no WHERE, the full table`,
         },
         {
           type: 'table',
-          headers: [L('title', 'title', 'title'), L('copies', 'copies', 'copies'), L('price', 'price', 'price')],
-          rows: [[L('Atlas', 'Atlas', 'Atlas'), L('2', '2', '2'), L('NULL', 'NULL', 'NULL')]],
+          headers: [L('flavor', 'flavor', 'flavor'), L('units_sold', 'units_sold', 'units_sold'), L('selling_price', 'selling_price', 'selling_price')],
+          rows: [[L('Lemon', 'Lemon', 'Lemon'), L('9', '9', '9'), L('NULL', 'NULL', 'NULL')]],
         },
         {
           type: 'html',
           html: L(
-            '<p>The LEFT JOIN returns 10 rows and the INNER JOIN 9: the Atlas sale (above) has no match in books, so INNER JOIN silently drops it. INNER JOIN is the right choice when you only want rows you can fully price, for example a profit report, as long as you say the Atlas sale was left out.</p>',
-            '<p>يُرجع LEFT JOIN عشرة صفوف وINNER JOIN تسعة: عملية بيع Atlas (أعلاه) لا تطابق لها في books، فيحذفها INNER JOIN بصمت. يكون INNER JOIN الاختيار الصحيح عندما تريد فقط الصفوف التي يمكنك تسعيرها بالكامل، كتقرير الربح مثلًا، شرط أن تذكر أن بيع Atlas استُبعد.</p>',
-            '<p>LEFT JOIN ده سطر و INNER JOIN نه سطر برمی‌گرداند: فروش Atlas (بالا) در books جفتی ندارد، پس INNER JOIN بی‌صدا حذفش می‌کند. INNER JOIN وقتی درست است که فقط سطرهایی را بخواهی که بتوانی کامل قیمت‌گذاری کنی، مثلاً یک گزارش سود، به شرطی که بگویی فروش Atlas کنار گذاشته شد.</p>',
+            '<p>On 25 May the LEFT JOIN returns 4 rows and the INNER JOIN 3: the Lemon sale (above) has no price yet, so INNER JOIN drops it without warning. INNER JOIN is still right for a profit report, where you can only use priced rows, as long as you say Lemon was left out.</p>',
+            '<p>في 25 مايو يُرجع LEFT JOIN أربعة صفوف وINNER JOIN ثلاثة: عملية بيع Lemon (أعلاه) لا سعر لها بعد، فيحذفها INNER JOIN دون تحذير. يظل INNER JOIN صحيحًا لتقرير الربح، حيث لا يمكنك استخدام إلا الصفوف المسعّرة، شرط أن تذكر أن Lemon استُبعد.</p>',
+            '<p>در ۲۵ مه، LEFT JOIN چهار سطر و INNER JOIN سه سطر برمی‌گرداند: فروش Lemon (بالا) هنوز قیمت ندارد، پس INNER JOIN بدون هشدار حذفش می‌کند. INNER JOIN برای گزارش سود همچنان درست است، چون فقط از سطرهای قیمت‌دار می‌توان استفاده کرد، به شرطی که بگویی Lemon کنار گذاشته شد.</p>',
           ),
         },
       ],
     },
     {
-      title: L('The metrics', 'المقاييس', 'شاخص‌ها'),
+      title: L('Revenue, profit and margin', 'الإيراد والربح والهامش', 'درآمد، سود و حاشیهٔ سود'),
       prompt: L(
-        '<p>Paste your Section 8 query and its result. Which flavor earns the most total profit, and which has the best margin?</p>',
-        '<p>الصق استعلامك من القسم 8 ونتيجته. أي نكهة تحقق أكبر ربح إجمالي، وأيها لديها أفضل هامش؟</p>',
-        '<p>کوئری بخش ۸ و نتیجه‌اش را بچسبان. کدام طعم بیشترین سود کل را دارد و کدام بهترین حاشیهٔ سود را؟</p>',
+        '<p>Write one query that gives, for every flavor, the units sold, revenue, profit and margin %. Name the flavor with the most total profit and the one with the best margin.</p>',
+        '<p>اكتب استعلامًا واحدًا يعطي لكل نكهة الوحدات المباعة والإيراد والربح ونسبة الهامش. سمِّ النكهة صاحبة أكبر ربح إجمالي وتلك صاحبة أفضل هامش.</p>',
+        '<p>یک کوئری بنویس که برای هر طعم واحدهای فروخته‌شده، درآمد، سود و درصد حاشیه را بدهد. طعم با بیشترین سود کل و طعم با بهترین حاشیه را نام ببر.</p>',
+      ),
+      analogy: L(
+        '<p><em>Revenue</em> is everything that went into the till; <em>profit</em> is what\'s left after you pay for the jars and fruit; <em>margin</em> is how many cents of every dollar you keep. A flavor can fill the till and still keep fewer cents per dollar.</p>',
+        '<p><em>الإيراد</em> هو كل ما دخل الصندوق؛ و<em>الربح</em> هو ما يتبقى بعد دفع ثمن البرطمانات والفاكهة؛ و<em>الهامش</em> هو عدد السنتات التي تحتفظ بها من كل دولار. قد تملأ نكهة الصندوق وتحتفظ مع ذلك بسنتات أقل من كل دولار.</p>',
+        '<p><em>درآمد</em> هر چیزی است که وارد صندوق شده؛ <em>سود</em> چیزی است که پس از پرداخت هزینهٔ شیشه و میوه باقی می‌ماند؛ <em>حاشیه</em> یعنی از هر دلار چند سنت برایت می‌ماند. یک طعم می‌تواند صندوق را پر کند و باز هم از هر دلار سنت کمتری برایت بگذارد.</p>',
       ),
       include: [
-        L('Your query and the result table', 'استعلامك وجدول النتيجة', 'کوئری تو و جدول نتیجه'),
+        L('Your query and the result table for all priced flavors', 'استعلامك وجدول النتيجة لكل النكهات المسعّرة', 'کوئری تو و جدول نتیجه برای همهٔ طعم‌های قیمت‌دار'),
         L('The top flavor by profit and the top flavor by margin (they can differ)', 'النكهة الأولى حسب الربح والأولى حسب الهامش (قد تختلفان)', 'طعم برتر از نظر سود و طعم برتر از نظر حاشیه (ممکن است متفاوت باشند)'),
       ],
       example: [
         {
           type: 'code',
           code: `SELECT
-  b.title,
-  SUM(s.copies)                      AS copies,
-  SUM(s.copies * b.price)            AS revenue,
-  SUM(s.copies * (b.price - b.cost)) AS profit,
-  ROUND(100.0 * SUM(s.copies * (b.price - b.cost))
-              / SUM(s.copies * b.price), 1) AS margin_pct
-FROM book_sales s
-INNER JOIN books b ON s.title = b.title
-GROUP BY b.title
-ORDER BY profit DESC;`,
+  p.flavor,
+  SUM(s.units_sold)                                    AS units,
+  SUM(s.units_sold * p.selling_price)                  AS revenue,
+  SUM(s.units_sold * (p.selling_price - p.cost_price)) AS profit,
+  ROUND(100.0 * SUM(s.units_sold * (p.selling_price - p.cost_price))
+              / SUM(s.units_sold * p.selling_price), 1) AS margin_pct
+FROM jam_sales s
+INNER JOIN jam_products p ON s.flavor = p.flavor
+WHERE p.flavor = 'Peach'   -- your version: no WHERE, every flavor
+GROUP BY p.flavor;`,
         },
         {
           type: 'table',
-          headers: [
-            L('title', 'title', 'title'),
-            L('copies', 'copies', 'copies'),
-            L('revenue', 'revenue', 'revenue'),
-            L('profit', 'profit', 'profit'),
-            L('margin_pct', 'margin_pct', 'margin_pct'),
-          ],
-          rows: [
-            [L('Dune', 'Dune', 'Dune'), L('20', '20', '20'), L('240', '240', '240'), L('100', '100', '100'), L('41.7', '41.7', '41.7')],
-            [L('Emma', 'Emma', 'Emma'), L('15', '15', '15'), L('150', '150', '150'), L('90', '90', '90'), L('60.0', '60.0', '60.0')],
-            [L('Ulysses', 'Ulysses', 'Ulysses'), L('8', '8', '8'), L('120', '120', '120'), L('32', '32', '32'), L('26.7', '26.7', '26.7')],
-          ],
+          headers: [L('flavor', 'flavor', 'flavor'), L('units', 'units', 'units'), L('revenue', 'revenue', 'revenue'), L('profit', 'profit', 'profit'), L('margin_pct', 'margin_pct', 'margin_pct')],
+          rows: [[L('Peach', 'Peach', 'Peach'), L('40', '40', '40'), L('160.00', '160.00', '160.00'), L('120.00', '120.00', '120.00'), L('75.0', '75.0', '75.0')]],
         },
         {
           type: 'html',
           html: L(
-            '<p>Dune earns the most profit ($100) because it sells the most copies, but Emma has the best margin (60%): each Emma sale keeps more of its price.</p>',
-            '<p>يحقق Dune أكبر ربح (100 دولار) لأنه يبيع أكبر عدد من النسخ، لكن لدى Emma أفضل هامش (60%): كل بيع لـ Emma يحتفظ بجزء أكبر من سعره.</p>',
-            '<p>Dune بیشترین سود (۱۰۰ دلار) را دارد چون بیشترین نسخه را می‌فروشد، اما Emma بهترین حاشیه را دارد (۶۰٪): هر فروش Emma سهم بیشتری از قیمتش را نگه می‌دارد.</p>',
+            '<p>Peach sold 40 jars for $160 and kept $120 of it as profit, a 75% margin: of every dollar a Peach customer pays, the stand keeps 75 cents. In your answer, compare all the flavors to find the top one on each measure.</p>',
+            '<p>باع الخوخ 40 برطمانًا بـ 160 دولارًا واحتفظ بـ 120 دولارًا منها ربحًا، أي هامش 75%: من كل دولار يدفعه زبون الخوخ يحتفظ الكشك بـ 75 سنتًا. في إجابتك، قارن كل النكهات لتجد النكهة الأولى في كل مقياس.</p>',
+            '<p>هلو ۴۰ شیشه به ۱۶۰ دلار فروخت و ۱۲۰ دلار آن سود ماند، یعنی حاشیهٔ ۷۵٪: از هر دلاری که مشتری هلو می‌پردازد، ۷۵ سنت برای غرفه می‌ماند. در پاسخت همهٔ طعم‌ها را مقایسه کن تا طعم برتر در هر معیار را پیدا کنی.</p>',
           ),
         },
       ],
     },
     {
-      title: L('Working with AI', 'العمل مع الذكاء الاصطناعي', 'کار با هوش مصنوعی'),
+      title: L('Check the AI, then decide', 'تحقق من الذكاء الاصطناعي، ثم قرّر', 'هوش مصنوعی را بررسی کن، سپس تصمیم بگیر'),
       prompt: L(
-        '<p>Describe one moment where you would need to explain, check or stand behind a JOIN an AI assistant wrote for you.</p>',
-        '<p>صِف لحظة واحدة ستحتاج فيها إلى شرح JOIN كتبه لك مساعد ذكاء اصطناعي أو التحقق منه أو تحمّل مسؤوليته.</p>',
-        '<p>یک لحظه را توصیف کن که باید یک JOIN نوشته‌شده توسط دستیار هوش مصنوعی را توضیح دهی، بررسی کنی یا پایش بایستی.</p>',
+        '<p>Ask an AI assistant for a query that gives the stand\'s total jars sold, check its answer against the raw table, and fix it if needed. Then, in 3–4 sentences, tell the owner what to do next month, using your profit and margin numbers.</p>',
+        '<p>اطلب من مساعد ذكاء اصطناعي استعلامًا يعطي إجمالي البرطمانات المباعة في الكشك، وتحقق من إجابته مقارنة بالجدول الخام، وصحّحها إذا لزم. ثم، في 3–4 جمل، أخبر صاحب الكشك بما يفعله الشهر القادم مستخدمًا أرقام الربح والهامش لديك.</p>',
+        '<p>از یک دستیار هوش مصنوعی کوئری‌ای بخواه که کل شیشه‌های فروخته‌شدهٔ غرفه را بدهد، پاسخش را با جدول خام مقایسه کن و در صورت نیاز اصلاحش کن. سپس در ۳ تا ۴ جمله به صاحب غرفه بگو ماه آینده چه کند و از اعداد سود و حاشیه‌ات استفاده کن.</p>',
+      ),
+      analogy: L(
+        '<p>Treat the AI like a classmate\'s homework you\'re about to sign your name on: you don\'t redo all of it, but you check the one number that would embarrass you if it were wrong. Then write the recommendation like a short note you\'d pin on the stand: what to do, and the two numbers that prove it.</p>',
+        '<p>تعامل مع الذكاء الاصطناعي كواجب زميل ستوقّع عليه باسمك: لا تعيده كله، لكنك تتحقق من الرقم الوحيد الذي سيحرجك إن كان خاطئًا. ثم اكتب التوصية كملاحظة قصيرة تعلّقها على الكشك: ماذا تفعل، والرقمان اللذان يثبتان ذلك.</p>',
+        '<p>با هوش مصنوعی مثل تکلیف هم‌کلاسی‌ای رفتار کن که می‌خواهی پایش امضا بزنی: همه‌اش را دوباره انجام نمی‌دهی، اما آن یک عددی را چک می‌کنی که اگر غلط باشد آبرویت را می‌برد. بعد توصیه را مثل یادداشت کوتاهی بنویس که روی غرفه می‌چسبانی: چه کاری بکن و دو عددی که ثابتش می‌کنند.</p>',
       ),
       include: [
-        L('The situation', 'الموقف', 'موقعیت'),
-        L('What you would check, and how', 'ما الذي ستتحقق منه، وكيف', 'چه چیزی را بررسی می‌کنی و چگونه'),
-      ],
-      example: [
-        {
-          type: 'html',
-          html: L(
-            '<p>The AI wrote an INNER JOIN for the "total copies sold" report. I would compare its total with <code>SELECT SUM(copies) FROM book_sales</code>: the difference (2 copies) is the Atlas sale it dropped, so for that report I would switch to a LEFT JOIN.</p>',
-            '<p>كتب الذكاء الاصطناعي INNER JOIN لتقرير "إجمالي النسخ المباعة". سأقارن إجماليه بـ <code>SELECT SUM(copies) FROM book_sales</code>: الفرق (نسختان) هو بيع Atlas الذي حذفه، لذا سأستخدم LEFT JOIN لهذا التقرير.</p>',
-            '<p>هوش مصنوعی برای گزارش «کل نسخه‌های فروخته‌شده» یک INNER JOIN نوشت. مجموع آن را با <code>SELECT SUM(copies) FROM book_sales</code> مقایسه می‌کنم: اختلاف (۲ نسخه) همان فروش Atlas است که حذف شده، پس برای این گزارش به LEFT JOIN تغییرش می‌دهم.</p>',
-          ),
-        },
-      ],
-    },
-    {
-      title: L('The decision', 'القرار', 'تصمیم'),
-      prompt: L(
-        '<p>What should the stand do next month? Give one clear recommendation and justify it with your numbers.</p>',
-        '<p>ماذا يجب أن يفعل الكشك الشهر القادم؟ قدّم توصية واضحة واحدة وبرّرها بأرقامك.</p>',
-        '<p>غرفه ماه آینده چه کاری باید بکند؟ یک توصیهٔ روشن بده و با اعدادت توجیهش کن.</p>',
-      ),
-      include: [
+        L('Your prompt, the AI\'s query and what you checked', 'طلبك، واستعلام الذكاء الاصطناعي، وما تحققت منه', 'درخواستت، کوئری هوش مصنوعی و آنچه بررسی کردی'),
         L('A clear recommendation in the first sentence', 'توصية واضحة في الجملة الأولى', 'یک توصیهٔ روشن در جملهٔ اول'),
-        L('At least two numbers from your results', 'رقمان على الأقل من نتائجك', 'دست‌کم دو عدد از نتایجت'),
+        L('At least two numbers from Question 2', 'رقمان على الأقل من السؤال 2', 'دست‌کم دو عدد از سؤال ۲'),
       ],
       example: [
         {
           type: 'html',
           html: L(
-            "<p>Reorder Dune first and give Emma the front table. Dune brings the most profit ($100 from 20 copies), while Emma keeps 60% of every sale, so selling a few more Emma copies is the cheapest way to raise profit. Before ordering Atlas, add it to books so its sales stop disappearing from the profit report.</p>",
-            '<p>أعد طلب Dune أولًا وضع Emma على الطاولة الأمامية. يحقق Dune أكبر ربح (100 دولار من 20 نسخة)، بينما يحتفظ Emma بـ 60% من كل بيع، لذا فبيع نسخ إضافية من Emma أرخص طريقة لزيادة الربح. قبل طلب Atlas، أضفه إلى books حتى لا تختفي مبيعاته من تقرير الربح.</p>',
-            '<p>اول Dune را دوباره سفارش بده و Emma را روی میز جلویی بگذار. Dune بیشترین سود را دارد (۱۰۰ دلار از ۲۰ نسخه)، در حالی که Emma ۶۰٪ هر فروش را نگه می‌دارد، پس فروش چند نسخهٔ بیشتر از Emma ارزان‌ترین راه افزایش سود است. پیش از سفارش Atlas، آن را به books اضافه کن تا فروشش از گزارش سود ناپدید نشود.</p>',
+            '<p><strong>AI check:</strong> the assistant\'s query joined jam_sales to jam_products with an INNER JOIN and returned 200 jars. A plain <code>SELECT SUM(units_sold) FROM jam_sales</code> gives 209: the 9 Lemon jars were silently dropped, so I switched to a LEFT JOIN (or no join at all, since counting jars doesn\'t need prices).</p><p><em>(The recommendation example answers a smaller question: should Peach stay on the table?)</em> Keep Peach. It sold only 40 jars, but it keeps 75 cents of every dollar, so each extra Peach jar is cheap profit. Try placing it next to the best-selling flavor for a month and compare.</p>',
+            '<p><strong>التحقق من الذكاء الاصطناعي:</strong> ربط استعلام المساعد jam_sales بـ jam_products باستخدام INNER JOIN وأرجع 200 برطمان. استعلام بسيط <code>SELECT SUM(units_sold) FROM jam_sales</code> يعطي 209: حُذفت برطمانات Lemon التسعة بصمت، فاستخدمت LEFT JOIN (أو بلا ربط أصلًا، لأن عدّ البرطمانات لا يحتاج أسعارًا).</p><p><em>(يجيب مثال التوصية عن سؤال أصغر: هل يبقى الخوخ على الطاولة؟)</em> أبقِ على الخوخ. باع 40 برطمانًا فقط، لكنه يحتفظ بـ 75 سنتًا من كل دولار، فكل برطمان خوخ إضافي ربح رخيص. جرّب وضعه بجانب النكهة الأكثر مبيعًا لمدة شهر وقارن.</p>',
+            '<p><strong>بررسی هوش مصنوعی:</strong> کوئری دستیار jam_sales را با INNER JOIN به jam_products وصل کرد و ۲۰۰ شیشه برگرداند. یک <code>SELECT SUM(units_sold) FROM jam_sales</code> ساده ۲۰۹ می‌دهد: ۹ شیشهٔ Lemon بی‌صدا حذف شده بودند، پس به LEFT JOIN تغییرش دادم (یا اصلاً بدون join، چون شمردن شیشه‌ها به قیمت نیاز ندارد).</p><p><em>(نمونهٔ توصیه به یک سؤال کوچک‌تر پاسخ می‌دهد: آیا هلو روی میز بماند؟)</em> هلو را نگه دار. فقط ۴۰ شیشه فروخت، اما از هر دلار ۷۵ سنت نگه می‌دارد، پس هر شیشهٔ اضافهٔ هلو سودی ارزان است. یک ماه آن را کنار پرفروش‌ترین طعم بگذار و مقایسه کن.</p>',
           ),
         },
       ],
     },
-    feedbackTask,
   ],
+  feedback: feedbackTask,
 }

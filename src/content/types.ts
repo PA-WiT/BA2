@@ -29,13 +29,25 @@ export type Block =
   | { type: 'formula'; eq: string; note: Localized }
   | { type: 'table'; headers: Localized[]; rows: Localized[][] }
   | { type: 'tabs'; tabs: { label: Localized; blocks: Block[] }[] }
-  | { type: 'homework'; scenario: Localized; tasks: HomeworkTask[] }
+  | {
+      type: 'homework'
+      /** Shown first, e.g. deadline and how to hand in (HTML). */
+      notice?: Localized
+      objectives: Localized[]
+      /** Which slice of the data the example answers use. */
+      scenario: Localized
+      tasks: HomeworkTask[]
+      /** Un-numbered, ungraded last card (e.g. session feedback). */
+      feedback?: HomeworkTask
+    }
 
-/** One homework question: what to do, a checklist, and (optionally) an example answer for a
- *  different scenario so students see the expected format without getting the real answer. */
+/** One homework question: what to do, an analogy, a checklist, and (optionally) an example answer worked
+ *  on a smaller slice of the same data, so students see the format but still do the full analysis. */
 export interface HomeworkTask {
   title: Localized
   prompt: Localized
+  /** Everyday comparison that makes the idea click ("Think of it like…"). */
+  analogy?: Localized
   include?: Localized[]
   example?: Block[]
 }

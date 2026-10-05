@@ -1000,9 +1000,9 @@ FROM clearance_sales;
       navLabel: { en: 'Homework', ar: 'الواجب', fa: 'تکلیف' },
       sectionLabel: { en: 'Section 11', ar: 'القسم ١١', fa: 'بخش ۱۱' },
       headingHtml: {
-        en: "<h2>Homework: write your report to the regional director</h2><p class=\"standfirst\">You're the analyst. The regional director from Section 1 is waiting on your answer. Write it up as a short report, in your own words — each section below is small on its own; answer them in order. Each question shows what to include and an example answer for a different business: copy the format, not the content. The last question asks for your feedback on the week.</p>",
-        ar: '<h2>الواجب: اكتب تقريرك للمدير الإقليمي</h2><p class="standfirst">أنت المحلّل. المدير الإقليمي من القسم ١ ينتظر إجابتك. اكتبها كتقرير قصير، بكلماتك الخاصة. يوضّح كل سؤال ما يجب أن تتضمنه إجابتك ومثالًا على إجابة لنشاط تجاري مختلف: انسخ الشكل لا المحتوى. السؤال الأخير يطلب رأيك في هذا الأسبوع.</p>',
-        fa: '<h2>تکلیف: گزارشت را برای مدیر منطقه‌ای بنویس</h2><p class="standfirst">تو تحلیل‌گر هستی. مدیر منطقه‌ای بخش ۱ منتظر پاسخ توست. آن را به‌صورت گزارشی کوتاه، با کلمات خودت بنویس. هر سؤال نشان می‌دهد پاسخت باید شامل چه باشد و یک نمونه‌پاسخ برای کسب‌وکاری دیگر دارد: قالب را الگو بگیر، نه محتوا را. سؤال آخر نظر تو را دربارهٔ این هفته می‌پرسد.</p>',
+        en: "<h2>Homework: write your report to the regional director</h2><p class=\"standfirst\">You're the analyst. The regional director from Section 1 is waiting on your answer. Write it up as a short report, in your own words — each section below is small on its own; answer them in order. Each question comes with an analogy, a checklist and an example answer worked on a smaller slice of the same data; redo the work on the full data. A short feedback question comes last.</p>",
+        ar: '<h2>الواجب: اكتب تقريرك للمدير الإقليمي</h2><p class="standfirst">أنت المحلّل. المدير الإقليمي من القسم ١ ينتظر إجابتك. اكتبها كتقرير قصير، بكلماتك الخاصة. يأتي كل سؤال مع تشبيه وقائمة تحقق ومثال على إجابة محسوب على جزء أصغر من البيانات نفسها؛ أعد العمل على البيانات كاملة. وفي النهاية سؤال قصير عن رأيك.</p>',
+        fa: '<h2>تکلیف: گزارشت را برای مدیر منطقه‌ای بنویس</h2><p class="standfirst">تو تحلیل‌گر هستی. مدیر منطقه‌ای بخش ۱ منتظر پاسخ توست. آن را به‌صورت گزارشی کوتاه، با کلمات خودت بنویس. هر سؤال یک تشبیه، یک فهرست بررسی و یک نمونه‌پاسخ دارد که روی بخش کوچک‌تری از همان داده حل شده؛ کار را روی کل داده انجام بده. در پایان یک سؤال کوتاه دربارهٔ نظر تو هست.</p>',
       },
       blocks: [
         week01Homework,
