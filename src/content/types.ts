@@ -29,6 +29,16 @@ export type Block =
   | { type: 'formula'; eq: string; note: Localized }
   | { type: 'table'; headers: Localized[]; rows: Localized[][] }
   | { type: 'tabs'; tabs: { label: Localized; blocks: Block[] }[] }
+  | { type: 'homework'; scenario: Localized; tasks: HomeworkTask[] }
+
+/** One homework question: what to do, a checklist, and (optionally) an example answer for a
+ *  different scenario so students see the expected format without getting the real answer. */
+export interface HomeworkTask {
+  title: Localized
+  prompt: Localized
+  include?: Localized[]
+  example?: Block[]
+}
 
 export interface Section {
   id: string

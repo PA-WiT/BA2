@@ -68,6 +68,9 @@ const resources = {
       accountCreatedCheckEmail: 'Account created. Check your email to confirm it before logging in.',
       viewOriginalPdf: 'View original PDF',
       saveAsPdf: 'Save as PDF',
+      question: 'Question {{n}}',
+      yourAnswerShouldInclude: 'Your answer should include',
+      exampleAnswer: 'Example answer (different business)',
     },
   },
   ar: {
@@ -136,6 +139,9 @@ const resources = {
       accountCreatedCheckEmail: 'تم إنشاء الحساب. تحقق من بريدك الإلكتروني لتأكيده قبل تسجيل الدخول.',
       viewOriginalPdf: 'عرض ملف PDF الأصلي',
       saveAsPdf: 'حفظ كملف PDF',
+      question: 'السؤال {{n}}',
+      yourAnswerShouldInclude: 'يجب أن تتضمن إجابتك',
+      exampleAnswer: 'مثال على إجابة (لنشاط تجاري مختلف)',
     },
   },
   fa: {
@@ -204,6 +210,9 @@ const resources = {
       accountCreatedCheckEmail: 'حساب ساخته شد. پیش از ورود، ایمیلت را برای تأیید بررسی کن.',
       viewOriginalPdf: 'مشاهده PDF اصلی',
       saveAsPdf: 'ذخیره به‌صورت PDF',
+      question: 'سؤال {{n}}',
+      yourAnswerShouldInclude: 'پاسخت باید شامل این‌ها باشد',
+      exampleAnswer: 'نمونهٔ پاسخ (برای یک کسب‌وکار دیگر)',
     },
   },
 }

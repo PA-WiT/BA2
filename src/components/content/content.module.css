@@ -452,65 +452,149 @@
   vertical-align: top;
 }
 
-/* ---------- TABS ---------- */
-.tabs {
-  border: 1px solid var(--rule);
-  border-radius: 10px;
-  overflow: hidden;
+/* ---------- VARIANTS (formerly tabs: all panels shown, stacked) ---------- */
+.variants {
   margin: 22px 0;
-  background: var(--surface);
-}
-.tabHeads {
   display: flex;
-  border-bottom: 1px solid var(--rule);
-  background: var(--paper-2);
+  flex-direction: column;
+  gap: 16px;
 }
-.tabHeads button {
-  flex: 1;
-  border: none;
-  background: transparent;
-  padding: 13px 10px;
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--ink-soft);
-  cursor: pointer;
-  font-family: inherit;
-  border-bottom: 3px solid transparent;
-}
-.tabHeads button.tabActive {
-  color: var(--teal);
-  border-bottom-color: var(--teal);
+.variant {
+  border: 1px solid var(--rule);
+  border-inline-start: 4px solid var(--teal);
+  border-radius: 10px;
+  padding: 16px 20px 4px 20px;
   background: var(--surface);
 }
-.tabPanel {
-  padding: 20px;
-}
-.tabPanelHidden {
-  display: none;
+.variantLabel {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 10px;
 }
 
+/* ---------- HOMEWORK (question cards with checklist + example answer) ---------- */
+.hwScenario {
+  background: var(--paper-2);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+}
+.content .hwList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.hwTask {
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  padding: 16px 20px 6px 20px;
+  background: var(--surface);
+}
+.hwHead {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.content .hwHead h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+.hwNum {
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--teal);
+  background: var(--teal-bg);
+  padding: 3px 10px;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+.hwInclude {
+  margin: 4px 0 14px 0;
+}
+.hwInclude .boxLabel {
+  color: var(--ink-soft);
+}
+.content .hwInclude ul {
+  margin-bottom: 0;
+}
+.content .hwInclude li {
+  margin-bottom: 4px;
+}
+.hwExample {
+  background: var(--teal-bg);
+  border-inline-start: 4px solid var(--teal);
+  border-radius: 8px;
+  padding: 12px 16px 2px 16px;
+  margin-bottom: 14px;
+  font-size: 0.95rem;
+}
+.hwExample .boxLabel {
+  color: var(--teal);
+}
+.hwExample .codeBlock,
+.hwExample .tableScroll {
+  margin: 10px 0 14px 0;
+}
+
+/* ---------- PRINT ("Save as PDF") ---------- */
 @media print {
   .coverTools,
-  .tabHeads,
-  .codeCopyBtn {
+  .codeCopyBtn,
+  .exerciseSubmit,
+  .exerciseFeedback {
     display: none;
   }
-  /* The on-screen tab switcher only shows one panel; print shows all, labelled. */
-  .tabPanelHidden {
-    display: block;
+  /* Keep figures and short blocks on one page instead of splitting them across a page break. */
+  .diagram,
+  .codeBlock,
+  .formula,
+  .exercise,
+  .objectives,
+  .takeaways,
+  .box,
+  .hwExample,
+  .tableScroll tr,
+  .content img,
+  .content figure {
+    break-inside: avoid;
+    page-break-inside: avoid;
   }
-  .tabPanel {
-    border-top: 1px solid var(--rule);
+  /* Cap height so a whole figure always fits on one A4 page. */
+  .content img {
+    max-width: 100%;
+    max-height: 190mm;
+    object-fit: contain;
   }
-  .tabPanel::before {
-    content: attr(data-print-label);
-    display: block;
-    font-weight: 800;
-    color: var(--teal);
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    padding-bottom: 8px;
+  .content h2,
+  .content h3,
+  .diagram .figTitle,
+  .variantLabel,
+  .hwHead {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+  .tableScroll {
+    overflow: visible;
+  }
+  /* On paper there is no horizontal scroll: wrap long code lines instead of clipping them. */
+  .codeBlock pre {
+    overflow: visible;
+    padding-inline-end: 18px;
+  }
+  .codeBlock code {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
   }
 }
 

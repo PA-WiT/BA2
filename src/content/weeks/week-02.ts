@@ -4,6 +4,7 @@
 // wrapper in the source HTML (an authoring gap on that page, inconsistent with week-01) — rendered
 // here with the variant that best matches each label's meaning instead of reproducing the gap.
 import type { Question, Week } from '../types'
+import { week02Homework } from './homework/week-02'
 
 const questions: Question[] = [
   {
@@ -842,25 +843,12 @@ GROUP BY p.flavor;
       navLabel: { en: 'Homework', ar: 'الواجب', fa: 'تکلیف' },
       sectionLabel: { en: 'Section 12', ar: 'القسم ١٢', fa: 'بخش ۱۲' },
       headingHtml: {
-        en: "<h2>Homework: write your report to the stand owner</h2><p class=\"standfirst\">You're the analyst. The stand owner from Section 1 is waiting on your recommendation. Write it up as a short report, in your own words — each section below is small on its own; answer them in order.</p>",
-        ar: '<h2>الواجب: اكتب تقريرك لصاحب الكشك</h2><p class="standfirst">أنت المحلّل. صاحب الكشك من القسم 1 ينتظر توصيتك.</p>',
-        fa: '<h2>تکلیف: گزارشت را برای صاحب غرفه بنویس</h2><p class="standfirst">تو تحلیل‌گر هستی. صاحب غرفهٔ بخش ۱ منتظر توصیهٔ توست.</p>',
+        en: "<h2>Homework: write your report to the stand owner</h2><p class=\"standfirst\">You're the analyst. The stand owner from Section 1 is waiting on your recommendation. Write it up as a short report, in your own words — each section below is small on its own; answer them in order. Each question shows what to include and an example answer for a different business: copy the format, not the content. The last question asks for your feedback on the week.</p>",
+        ar: '<h2>الواجب: اكتب تقريرك لصاحب الكشك</h2><p class="standfirst">أنت المحلّل. صاحب الكشك من القسم 1 ينتظر توصيتك. يوضّح كل سؤال ما يجب أن تتضمنه إجابتك ومثالًا على إجابة لنشاط تجاري مختلف: انسخ الشكل لا المحتوى. السؤال الأخير يطلب رأيك في هذا الأسبوع.</p>',
+        fa: '<h2>تکلیف: گزارشت را برای صاحب غرفه بنویس</h2><p class="standfirst">تو تحلیل‌گر هستی. صاحب غرفهٔ بخش ۱ منتظر توصیهٔ توست. هر سؤال نشان می‌دهد پاسخت باید شامل چه باشد و یک نمونه‌پاسخ برای کسب‌وکاری دیگر دارد: قالب را الگو بگیر، نه محتوا را. سؤال آخر نظر تو را دربارهٔ این هفته می‌پرسد.</p>',
       },
       blocks: [
-        {
-          type: 'box',
-          variant: 'keypoint',
-          label: {
-            en: 'Write your report, section by section, in order',
-            ar: 'اكتب تقريرك، قسمًا تلو الآخر، بالترتيب',
-            fa: 'گزارشت را بخش‌به‌بخش، به ترتیب بنویس',
-          },
-          html: {
-            en: "<ol><li><strong>Set the scene</strong> — In 2–3 sentences, describe the two tables and the question the stand owner actually wants answered.</li><li><strong>Why two tables, not one</strong> — Explain why price and cost live in jam_products instead of being copied into every row of jam_sales.</li><li><strong>INNER JOIN vs. LEFT JOIN</strong> — Run both joins yourself. What's different about the row count and the Lemon row? When would INNER JOIN actually be the right choice?</li><li><strong>The metrics</strong> — Paste your Section 8 query and its result. Which flavor earns the most total profit? Which has the best margin?</li><li><strong>Working with AI</strong> — Describe a moment where you'd need to explain, verify, or stand behind a JOIN an AI assistant wrote for you.</li><li><strong>The decision</strong> — What should the stand actually do next month? Justify it with the actual numbers.</li></ol>",
-            ar: '<ol><li><strong>حدّد المشهد</strong> — صف الجدولين والسؤال الذي يريد صاحب الكشك إجابة عنه.</li><li><strong>لماذا جدولان لا جدول واحد</strong> — اشرح سبب عيش السعر والتكلفة في jam_products.</li><li><strong>INNER JOIN مقابل LEFT JOIN</strong> — شغّل كلا النوعين بنفسك.</li><li><strong>المقاييس</strong> — الصق استعلام القسم 8 ونتيجته.</li><li><strong>العمل مع الذكاء الاصطناعي</strong> — صف لحظة تحتاج فيها للتحقق من JOIN كتبه مساعد ذكاء اصطناعي.</li><li><strong>القرار</strong> — ماذا يجب أن يفعل الكشك فعليًا الشهر القادم؟</li></ol>',
-            fa: '<ol><li><strong>صحنه را بچین</strong> — دو جدول و سؤالی که صاحب غرفه واقعاً پاسخش را می‌خواهد توصیف کن.</li><li><strong>چرا دو جدول، نه یکی</strong> — توضیح بده چرا قیمت و هزینه در jam_products زندگی می‌کنند.</li><li><strong>INNER JOIN در برابر LEFT JOIN</strong> — هر دو JOIN را خودت اجرا کن.</li><li><strong>معیارها</strong> — پرس‌وجوی بخش ۸ و نتیجه‌اش را جای‌گذاری کن.</li><li><strong>کار با هوش مصنوعی</strong> — لحظه‌ای را توصیف کن که لازم بود JOINای را تأیید کنی.</li><li><strong>تصمیم</strong> — غرفه ماه بعد واقعاً باید چه‌کاری انجام دهد؟</li></ol>',
-          },
-        },
+        week02Homework,
       ],
     },
     {
