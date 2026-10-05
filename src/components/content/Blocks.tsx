@@ -3,6 +3,7 @@ import { resolveAssetPath, resolveHtmlAssetPaths } from '../../content/resolveAs
 import { useLocalized } from '../../content/useLocalized'
 import { Exercise } from '../../features/quiz/Exercise'
 import { CodeBlock } from './CodeBlock'
+import { HomeworkTasks } from './HomeworkTasks'
 import { Tabs } from './Tabs'
 import styles from './content.module.css'
 
@@ -98,6 +99,9 @@ export function Blocks({ blocks }: { blocks: Block[] }) {
 
           case 'tabs':
             return <Tabs key={i} tabs={block.tabs} />
+
+          case 'homework':
+            return <HomeworkTasks key={i} scenario={block.scenario} tasks={block.tasks} />
 
           default:
             return null

@@ -1,33 +1,18 @@
-import { useState } from 'react'
 import type { Block, Localized } from '../../content/types'
 import { useLocalized } from '../../content/useLocalized'
 import { Blocks } from './Blocks'
 import styles from './content.module.css'
 
+/** Formerly a tab switcher; now every variant (e.g. Excel / Python / Power BI) is shown, stacked and
+ *  labelled, so nothing is hidden on screen or lost in a saved PDF. */
 export function Tabs({ tabs }: { tabs: { label: Localized; blocks: Block[] }[] }) {
   const t = useLocalized()
-  const [active, setActive] = useState(0)
 
   return (
-    <div className={styles.tabs}>
-      <div className={styles.tabHeads}>
-        {tabs.map((tab, i) => (
-          <button
-            key={i}
-            type="button"
-            className={i === active ? styles.tabActive : undefined}
-            onClick={() => setActive(i)}
-          >
-            {t(tab.label)}
-          </button>
-        ))}
-      </div>
+    <div className={styles.variants}>
       {tabs.map((tab, i) => (
-        <div
-          key={i}
-          className={`${styles.tabPanel} ${i === active ? '' : styles.tabPanelHidden}`}
-          data-print-label={t(tab.label)}
-        >
+        <div key={i} className={styles.variant}>
+          <div className={styles.variantLabel}>{t(tab.label)}</div>
           <Blocks blocks={tab.blocks} />
         </div>
       ))}

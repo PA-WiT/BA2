@@ -14,6 +14,7 @@
 //    public/notebooks/week-03-visualizing-data.ipynb (regenerate that file if they change).
 // ar/fa are draft translations awaiting native review, like the earlier weeks. Code stays English.
 import type { Question, Week } from '../types'
+import { week03Homework } from './homework/week-03'
 
 const months = [
   { en: 'Jan', ar: 'يناير', fa: 'ژانویه' },
@@ -1671,25 +1672,12 @@ F3:  =E3-E2       -- copy down to F13`,
       navLabel: { en: 'Homework', ar: 'الواجب', fa: 'تکلیف' },
       sectionLabel: { en: 'Section 14', ar: 'القسم ١٤', fa: 'بخش ۱۴' },
       headingHtml: {
-        en: '<h2>Homework: a one-page chart brief for the stand owner</h2><p class="standfirst">You have the monthly log from Section 1. Build three charts in Excel, rebuild one of them in Python or Power BI, and write a short brief around them in your own words. Answer the parts in order.</p>',
-        ar: '<h2>الواجب: موجز رسوم من صفحة واحدة لصاحب الكشك</h2><p class="standfirst">لديك السجل الشهري من القسم 1. ابنِ ثلاثة رسوم في Excel، وأعد بناء أحدها في Python أو Power BI، واكتب موجزًا قصيرًا حولها بكلماتك. أجب عن الأجزاء بالترتيب.</p>',
-        fa: '<h2>تکلیف: یک گزارش نموداری یک‌صفحه‌ای برای صاحب غرفه</h2><p class="standfirst">گزارش ماهانهٔ بخش ۱ را داری. سه نمودار در Excel بساز، یکی از آن‌ها را در Python یا Power BI دوباره بساز و با کلمات خودت یک گزارش کوتاه دورشان بنویس. بخش‌ها را به ترتیب پاسخ بده.</p>',
+        en: '<h2>Homework: a one-page chart brief for the stand owner</h2><p class="standfirst">You have the monthly log from Section 1. Build three charts in Excel, rebuild one of them in Python or Power BI, and write a short brief around them in your own words. Answer the parts in order. Each question shows what to include and an example answer for a different business: copy the format, not the content. The last question asks for your feedback on the week.</p>',
+        ar: '<h2>الواجب: موجز رسوم من صفحة واحدة لصاحب الكشك</h2><p class="standfirst">لديك السجل الشهري من القسم 1. ابنِ ثلاثة رسوم في Excel، وأعد بناء أحدها في Python أو Power BI، واكتب موجزًا قصيرًا حولها بكلماتك. أجب عن الأجزاء بالترتيب. يوضّح كل سؤال ما يجب أن تتضمنه إجابتك ومثالًا على إجابة لنشاط تجاري مختلف: انسخ الشكل لا المحتوى. السؤال الأخير يطلب رأيك في هذا الأسبوع.</p>',
+        fa: '<h2>تکلیف: یک گزارش نموداری یک‌صفحه‌ای برای صاحب غرفه</h2><p class="standfirst">گزارش ماهانهٔ بخش ۱ را داری. سه نمودار در Excel بساز، یکی از آن‌ها را در Python یا Power BI دوباره بساز و با کلمات خودت یک گزارش کوتاه دورشان بنویس. بخش‌ها را به ترتیب پاسخ بده. هر سؤال نشان می‌دهد پاسخت باید شامل چه باشد و یک نمونه‌پاسخ برای کسب‌وکاری دیگر دارد: قالب را الگو بگیر، نه محتوا را. سؤال آخر نظر تو را دربارهٔ این هفته می‌پرسد.</p>',
       },
       blocks: [
-        {
-          type: 'box',
-          variant: 'keypoint',
-          label: {
-            en: 'Build your brief, part by part, in order',
-            ar: 'ابنِ موجزك، جزءًا تلو الآخر، بالترتيب',
-            fa: 'گزارشت را بخش‌به‌بخش، به ترتیب بساز',
-          },
-          html: {
-            en: '<ol><li><strong>The question</strong> — In 2–3 sentences, state the one decision the owner has to make and which of the five chart questions it comes down to.</li><li><strong>A trend chart</strong> — Build a line chart of monthly units by flavor. Give it a takeaway title, axis titles, and a legend at the top. Paste a screenshot.</li><li><strong>A comparison or share chart</strong> — Build a sorted bar chart (or a pie with percentages) of yearly totals per flavor. Say why you picked bar or pie.</li><li><strong>A deliberately bad chart, and its fix</strong> — Make a truncated-axis or 3-D version of one chart, screenshot it, then rebuild it honestly. Name the trick and what it exaggerates.</li><li><strong>A second tool</strong> — Rebuild one of your three charts in Python (Colab) or Power BI. Add a screenshot, and note one thing that was easier and one that was harder than in Excel.</li><li><strong>Working with AI</strong> — Ask an AI assistant to recommend a chart for one of the owner\'s questions. Paste your prompt and what it returned, and say what you checked or changed.</li><li><strong>The recommendation</strong> — In 3–4 sentences, tell the owner what to do next month, pointing at the numbers on your charts.</li></ol>',
-            ar: '<ol><li><strong>السؤال</strong> — في 2–3 جمل، اذكر القرار الوحيد الذي على صاحب الكشك اتخاذه وأي من أسئلة الرسم الخمسة يرجع إليه.</li><li><strong>رسم اتجاه</strong> — ابنِ رسمًا خطيًا للوحدات الشهرية حسب النكهة. أعطه عنوان خلاصة وعناوين محاور ومفتاحًا في الأعلى. الصق لقطة شاشة.</li><li><strong>رسم مقارنة أو حصة</strong> — ابنِ رسم أعمدة مرتبًا (أو دائريًا بالنسب) للإجماليات السنوية لكل نكهة. اذكر لماذا اخترت الأعمدة أو الدائري.</li><li><strong>رسم سيئ عمدًا، وإصلاحه</strong> — اصنع نسخة بمحور مقتطع أو ثلاثية الأبعاد من أحد الرسوم، والتقط لها شاشة، ثم أعد بناءه بأمانة. سمِّ الحيلة وما تضخّمه.</li><li><strong>أداة ثانية</strong> — أعد بناء أحد رسومك الثلاثة في Python (Colab) أو Power BI. أضف لقطة شاشة، واذكر شيئًا كان أسهل وآخر كان أصعب مما في Excel.</li><li><strong>العمل مع الذكاء الاصطناعي</strong> — اطلب من مساعد ذكاء اصطناعي أن يوصي برسم لأحد أسئلة صاحب الكشك. الصق طلبك وما أعاده، واذكر ما تحققت منه أو غيّرته.</li><li><strong>التوصية</strong> — في 3–4 جمل، أخبر صاحب الكشك ماذا يفعل الشهر القادم، مشيرًا إلى الأرقام في رسومك.</li></ol>',
-            fa: '<ol><li><strong>سؤال</strong> — در ۲–۳ جمله، تصمیم یگانه‌ای را که صاحب غرفه باید بگیرد و اینکه به کدام یک از پنج سؤال نموداری برمی‌گردد بنویس.</li><li><strong>نمودار روند</strong> — نمودار خطی واحدهای ماهانه بر حسب طعم بساز. عنوان نتیجه‌محور، عنوان محورها و راهنما در بالا بده. تصویر صفحه را بگذار.</li><li><strong>نمودار مقایسه یا سهم</strong> — نمودار میله‌ای مرتب (یا دایره‌ای با درصد) از مجموع سالانهٔ هر طعم بساز. بگو چرا میله یا دایره‌ای را انتخاب کردی.</li><li><strong>یک نمودار عمداً بد، و اصلاحش</strong> — نسخهٔ محور بریده یا سه‌بعدی یکی از نمودارها را بساز، تصویرش را بگیر، بعد صادقانه دوباره بساز. ترفند را نام ببر و بگو چه چیزی را اغراق می‌کند.</li><li><strong>ابزار دوم</strong> — یکی از سه نمودارت را در Python (Colab) یا Power BI دوباره بساز. تصویر صفحه اضافه کن و بگو چه چیزی آسان‌تر و چه چیزی سخت‌تر از Excel بود.</li><li><strong>کار با هوش مصنوعی</strong> — از یک دستیار هوش مصنوعی بخواه برای یکی از سؤال‌های صاحب غرفه نمودار پیشنهاد کند. درخواستت و پاسخش را بگذار و بگو چه چیزی را بررسی یا تغییر دادی.</li><li><strong>توصیه</strong> — در ۳–۴ جمله به صاحب غرفه بگو ماه بعد چه کند، با اشاره به اعداد روی نمودارهایت.</li></ol>',
-          },
-        },
+        week03Homework,
         {
           type: 'html',
           html: {

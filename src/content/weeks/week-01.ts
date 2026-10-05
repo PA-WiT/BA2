@@ -2,6 +2,7 @@
 // ../../../../course/_shared/i18n/week-01.strings.js (see the migrate-week-content skill).
 // Fully migrated: all 12 sections, en/ar/fa.
 import type { Question, Week } from '../types'
+import { week01Homework } from './homework/week-01'
 
 const questions: Question[] = [
   {
@@ -999,25 +1000,12 @@ FROM clearance_sales;
       navLabel: { en: 'Homework', ar: 'الواجب', fa: 'تکلیف' },
       sectionLabel: { en: 'Section 11', ar: 'القسم ١١', fa: 'بخش ۱۱' },
       headingHtml: {
-        en: "<h2>Homework: write your report to the regional director</h2><p class=\"standfirst\">You're the analyst. The regional director from Section 1 is waiting on your answer. Write it up as a short report, in your own words — each section below is small on its own; answer them in order.</p>",
-        ar: '<h2>الواجب: اكتب تقريرك للمدير الإقليمي</h2><p class="standfirst">أنت المحلّل. المدير الإقليمي من القسم ١ ينتظر إجابتك. اكتبها كتقرير قصير، بكلماتك الخاصة.</p>',
-        fa: '<h2>تکلیف: گزارشت را برای مدیر منطقه‌ای بنویس</h2><p class="standfirst">تو تحلیل‌گر هستی. مدیر منطقه‌ای بخش ۱ منتظر پاسخ توست. آن را به‌صورت گزارشی کوتاه، با کلمات خودت بنویس.</p>',
+        en: "<h2>Homework: write your report to the regional director</h2><p class=\"standfirst\">You're the analyst. The regional director from Section 1 is waiting on your answer. Write it up as a short report, in your own words — each section below is small on its own; answer them in order. Each question shows what to include and an example answer for a different business: copy the format, not the content. The last question asks for your feedback on the week.</p>",
+        ar: '<h2>الواجب: اكتب تقريرك للمدير الإقليمي</h2><p class="standfirst">أنت المحلّل. المدير الإقليمي من القسم ١ ينتظر إجابتك. اكتبها كتقرير قصير، بكلماتك الخاصة. يوضّح كل سؤال ما يجب أن تتضمنه إجابتك ومثالًا على إجابة لنشاط تجاري مختلف: انسخ الشكل لا المحتوى. السؤال الأخير يطلب رأيك في هذا الأسبوع.</p>',
+        fa: '<h2>تکلیف: گزارشت را برای مدیر منطقه‌ای بنویس</h2><p class="standfirst">تو تحلیل‌گر هستی. مدیر منطقه‌ای بخش ۱ منتظر پاسخ توست. آن را به‌صورت گزارشی کوتاه، با کلمات خودت بنویس. هر سؤال نشان می‌دهد پاسخت باید شامل چه باشد و یک نمونه‌پاسخ برای کسب‌وکاری دیگر دارد: قالب را الگو بگیر، نه محتوا را. سؤال آخر نظر تو را دربارهٔ این هفته می‌پرسد.</p>',
       },
       blocks: [
-        {
-          type: 'box',
-          variant: 'keypoint',
-          label: {
-            en: 'Write your report, section by section, in order',
-            ar: 'اكتب تقريرك، قسمًا تلو الآخر، بالترتيب',
-            fa: 'گزارشت را بخش‌به‌بخش، به ترتیب بنویس',
-          },
-          html: {
-            en: '<ol><li><strong>Set the scene</strong> — In 2–3 sentences, describe the dataset and the business question the regional director actually wants answered.</li><li><strong>Why SQL, not Excel</strong> — Explain why this couldn\'t just be done by opening a spreadsheet.</li><li><strong>The center and the spread</strong> — What did AVG, COUNT, and SUM tell you? Then explain the standard deviation.</li><li><strong>The shape of the data</strong> — What did grouping the sales into buckets show you? What did the median add?</li><li><strong>Comparing regions</strong> — Which region had the highest average revenue per sale? Which was the most volatile? Paste the actual SQL query you ran and its result.</li><li><strong>Working with AI</strong> — Describe a moment where you\'d need to explain, verify, or stand behind a SQL query an AI wrote for you.</li><li><strong>The decision</strong> — Should the chain roll out the best-performing region\'s discount strategy everywhere next season? Justify it with the actual numbers.</li></ol>',
-            ar: '<ol><li><strong>حدّد المشهد</strong> — في ٢-٣ جمل، صف البيانات والسؤال التجاري الذي يريد المدير الإقليمي إجابة عنه.</li><li><strong>لماذا SQL لا Excel</strong> — اشرح سبب استحالة إنجاز هذا بمجرد فتح جدول بيانات.</li><li><strong>المركز والتشتت</strong> — ماذا أخبرتك AVG وCOUNT وSUM؟ ثم اشرح الانحراف المعياري.</li><li><strong>شكل البيانات</strong> — ماذا أظهر لك تجميع المبيعات في فئات؟ ماذا أضاف الوسيط؟</li><li><strong>مقارنة المناطق</strong> — أي منطقة كان لديها أعلى متوسط إيراد؟ أيها كانت الأكثر تقلبًا؟ الصق استعلام SQL الفعلي ونتيجته.</li><li><strong>العمل مع الذكاء الاصطناعي</strong> — صف لحظة تحتاج فيها لشرح أو التحقق من استعلام SQL كتبه ذكاء اصطناعي.</li><li><strong>القرار</strong> — هل ينبغي أن تعمم السلسلة استراتيجية أفضل منطقة الموسم القادم؟ برّر بالأرقام الفعلية.</li></ol>',
-            fa: '<ol><li><strong>صحنه را بچین</strong> — در ۲ تا ۳ جمله، دادگان و سؤال کسب‌وکاری مدیر منطقه‌ای را توصیف کن.</li><li><strong>چرا SQL، نه Excel</strong> — توضیح بده چرا این کار با یک صفحه‌گسترده انجام نمی‌شد.</li><li><strong>مرکز و پراکندگی</strong> — AVG، COUNT و SUM چه چیزی به تو گفتند؟ سپس انحراف معیار را توضیح بده.</li><li><strong>شکل داده</strong> — گروه‌بندی فروش‌ها چه چیزی نشان داد؟ میانه چه چیزی افزود؟</li><li><strong>مقایسهٔ مناطق</strong> — کدام منطقه بالاترین میانگین را داشت؟ کدام‌یک بی‌ثبات‌ترین بود؟ پرس‌وجوی SQL واقعی و نتیجه‌اش را جای‌گذاری کن.</li><li><strong>کار با هوش مصنوعی</strong> — لحظه‌ای را توصیف کن که لازم بود پرس‌وجوی نوشتهٔ هوش مصنوعی را تأیید کنی.</li><li><strong>تصمیم</strong> — آیا زنجیره باید استراتژی بهترین منطقه را فصل بعد اجرا کند؟ با اعداد واقعی توجیه کن.</li></ol>',
-          },
-        },
+        week01Homework,
       ],
     },
     {
