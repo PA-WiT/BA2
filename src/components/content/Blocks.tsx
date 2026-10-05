@@ -101,7 +101,7 @@ export function Blocks({ blocks }: { blocks: Block[] }) {
             return <Tabs key={i} tabs={block.tabs} />
 
           case 'homework':
-            return <HomeworkTasks key={i} scenario={block.scenario} tasks={block.tasks} />
+            return <HomeworkTasks key={i} block={block} />
 
           default:
             return null

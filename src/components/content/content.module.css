@@ -483,10 +483,7 @@
   font-size: 0.95rem;
   color: var(--ink-soft);
 }
-.content .hwList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.hwList {
   display: flex;
   flex-direction: column;
   gap: 18px;
@@ -518,6 +515,15 @@
   padding: 3px 10px;
   border-radius: 100px;
   white-space: nowrap;
+}
+.hwAnalogy {
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin: 4px 0 14px 0;
+  font-size: 0.95rem;
+}
+.hwAnalogy p:last-child {
+  margin-bottom: 0;
 }
 .hwInclude {
   margin: 4px 0 14px 0;
