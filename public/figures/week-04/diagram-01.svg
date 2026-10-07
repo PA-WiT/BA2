@@ -1,0 +1,28 @@
+<svg viewBox="0 0 400 222" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The six data preparation steps, each with the question it answers for the jam stand export">
+<text x="10" y="14" font-size="10" font-weight="700" fill="#55606E">Step</text>
+<text x="205" y="14" font-size="10" font-weight="700" fill="#55606E">Step</text>
+<rect x="10" y="22" width="185" height="56" rx="5" fill="#E3F1F3" stroke="#0E6F7E" stroke-width="1.4"/>
+<text x="20" y="40" font-size="10.5" font-weight="800" fill="#0E6F7E">01 Profiling</text>
+<text x="20" y="55" font-size="8.8" fill="#1C2B3A">What do we have? 15 rows,</text>
+<text x="20" y="67" font-size="8.8" fill="#1C2B3A">6 spellings, units -12 to 180</text>
+<rect x="205" y="22" width="185" height="56" rx="5" fill="#fff" stroke="#DED6C4"/>
+<text x="215" y="40" font-size="10.5" font-weight="800" fill="#6B4C9A">02 Discretization</text>
+<text x="215" y="55" font-size="8.8" fill="#1C2B3A">Which useful labels? Slow,</text>
+<text x="215" y="67" font-size="8.8" fill="#1C2B3A">normal, busy market days</text>
+<rect x="10" y="88" width="185" height="56" rx="5" fill="#E3F1F3" stroke="#0E6F7E" stroke-width="1.4"/>
+<text x="20" y="106" font-size="10.5" font-weight="800" fill="#0E6F7E">03 Cleaning</text>
+<text x="20" y="121" font-size="8.8" fill="#1C2B3A">What is wrong, and the fix?</text>
+<text x="20" y="133" font-size="8.8" fill="#1C2B3A">Blank, typo, sign, duplicate</text>
+<rect x="205" y="88" width="185" height="56" rx="5" fill="#fff" stroke="#DED6C4"/>
+<text x="215" y="106" font-size="10.5" font-weight="800" fill="#6B4C9A">04 Integration</text>
+<text x="215" y="121" font-size="8.8" fill="#1C2B3A">What else do we need? The</text>
+<text x="215" y="133" font-size="8.8" fill="#1C2B3A">supplier's prices (in cents)</text>
+<rect x="10" y="154" width="185" height="56" rx="5" fill="#fff" stroke="#DED6C4"/>
+<text x="20" y="172" font-size="10.5" font-weight="800" fill="#6B4C9A">05 Transformation</text>
+<text x="20" y="187" font-size="8.8" fill="#1C2B3A">What shape for the question?</text>
+<text x="20" y="199" font-size="8.8" fill="#1C2B3A">Revenue column, 0-to-1 scale</text>
+<rect x="205" y="154" width="185" height="56" rx="5" fill="#fff" stroke="#DED6C4" stroke-dasharray="4 3"/>
+<text x="215" y="172" font-size="10.5" font-weight="800" fill="#8A93A0">06 Reduction</text>
+<text x="215" y="187" font-size="8.8" fill="#55606E">What can we leave out? Only</text>
+<text x="215" y="199" font-size="8.8" fill="#55606E">the rows and columns needed</text>
+</svg>

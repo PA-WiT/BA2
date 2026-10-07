@@ -1,0 +1,47 @@
+<svg viewBox="0 0 400 214" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Two concept hierarchies. Time: day rolls up to week, month and season. Product: flavor rolls up to fruit family. Arrows show roll up and drill down.">
+<text x="10" y="14" font-size="10" font-weight="700" fill="#55606E">Time</text>
+<text x="190" y="14" font-size="10" font-weight="700" fill="#55606E">Product</text>
+<rect x="10" y="22" width="120" height="26" rx="4" fill="#E3F1F3" stroke="#0E6F7E" stroke-width="1.4"/>
+<text x="70" y="39" text-anchor="middle" font-size="9.5" font-weight="700" fill="#0E6F7E">Season: Spring</text>
+<rect x="10" y="66" width="120" height="26" rx="4" fill="#fff" stroke="#DED6C4"/>
+<text x="70" y="83" text-anchor="middle" font-size="9.5" fill="#1C2B3A">Month: May</text>
+<rect x="10" y="110" width="120" height="26" rx="4" fill="#fff" stroke="#DED6C4"/>
+<text x="70" y="127" text-anchor="middle" font-size="9.5" fill="#1C2B3A">Week: 18 to 21</text>
+<rect x="10" y="154" width="120" height="26" rx="4" fill="#fff" stroke="#DED6C4"/>
+<text x="70" y="171" text-anchor="middle" font-size="9.5" fill="#1C2B3A">Day: 4, 11, 18, 25 May</text>
+<line x1="70" y1="48" x2="70" y2="66" stroke="#8A93A0" stroke-width="1.2"/>
+<line x1="70" y1="92" x2="70" y2="110" stroke="#8A93A0" stroke-width="1.2"/>
+<line x1="70" y1="136" x2="70" y2="154" stroke="#8A93A0" stroke-width="1.2"/>
+<rect x="190" y="22" width="60" height="26" rx="4" fill="#E3F1F3" stroke="#0E6F7E" stroke-width="1.4"/>
+<text x="220" y="34" text-anchor="middle" font-size="8.8" font-weight="700" fill="#0E6F7E">Berry</text>
+<text x="220" y="44" text-anchor="middle" font-size="8" fill="#0E6F7E">160 jars</text>
+<rect x="260" y="22" width="60" height="26" rx="4" fill="#E3F1F3" stroke="#0E6F7E" stroke-width="1.4"/>
+<text x="290" y="34" text-anchor="middle" font-size="8.8" font-weight="700" fill="#0E6F7E">Stone fruit</text>
+<text x="290" y="44" text-anchor="middle" font-size="8" fill="#0E6F7E">40 jars</text>
+<rect x="330" y="22" width="60" height="26" rx="4" fill="#E3F1F3" stroke="#0E6F7E" stroke-width="1.4"/>
+<text x="360" y="34" text-anchor="middle" font-size="8.8" font-weight="700" fill="#0E6F7E">Citrus</text>
+<text x="360" y="44" text-anchor="middle" font-size="8" fill="#0E6F7E">9 jars</text>
+<rect x="183" y="80" width="56" height="26" rx="4" fill="#fff" stroke="#DED6C4"/>
+<text x="211" y="92" text-anchor="middle" font-size="8.5" fill="#1C2B3A">Strawberry</text>
+<text x="211" y="102" text-anchor="middle" font-size="8" fill="#55606E">100</text>
+<rect x="245" y="80" width="56" height="26" rx="4" fill="#fff" stroke="#DED6C4"/>
+<text x="273" y="92" text-anchor="middle" font-size="8.5" fill="#1C2B3A">Blueberry</text>
+<text x="273" y="102" text-anchor="middle" font-size="8" fill="#55606E">60</text>
+<rect x="307" y="80" width="40" height="26" rx="4" fill="#fff" stroke="#DED6C4"/>
+<text x="327" y="92" text-anchor="middle" font-size="8.5" fill="#1C2B3A">Peach</text>
+<text x="327" y="102" text-anchor="middle" font-size="8" fill="#55606E">40</text>
+<rect x="353" y="80" width="40" height="26" rx="4" fill="#fff" stroke="#DED6C4"/>
+<text x="373" y="92" text-anchor="middle" font-size="8.5" fill="#1C2B3A">Lemon</text>
+<text x="373" y="102" text-anchor="middle" font-size="8" fill="#55606E">9</text>
+<line x1="211" y1="80" x2="214" y2="48" stroke="#8A93A0" stroke-width="1.2"/>
+<line x1="273" y1="80" x2="228" y2="48" stroke="#8A93A0" stroke-width="1.2"/>
+<line x1="327" y1="80" x2="295" y2="48" stroke="#8A93A0" stroke-width="1.2"/>
+<line x1="373" y1="80" x2="362" y2="48" stroke="#8A93A0" stroke-width="1.2"/>
+<line x1="146" y1="170" x2="146" y2="34" stroke="#0E6F7E" stroke-width="1.6"/>
+<polygon points="141,36 146,26 151,36" fill="#0E6F7E"/>
+<text x="139" y="104" text-anchor="middle" font-size="8.5" font-weight="700" fill="#0E6F7E" transform="rotate(-90 139 104)">roll up</text>
+<line x1="160" y1="34" x2="160" y2="170" stroke="#6B4C9A" stroke-width="1.6"/>
+<polygon points="155,168 160,178 165,168" fill="#6B4C9A"/>
+<text x="169" y="104" text-anchor="middle" font-size="8.5" font-weight="700" fill="#6B4C9A" transform="rotate(90 169 104)">drill down</text>
+<text x="200" y="130" font-size="8.8" fill="#55606E">May totals from the clean data: 209 jars</text>
+</svg>

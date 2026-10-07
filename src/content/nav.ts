@@ -19,6 +19,7 @@ export const navGroups: NavGroup[] = [
       { id: 'week-01', title: { en: 'Week 1', ar: 'الأسبوع 1', fa: 'هفته ۱' }, href: '/week/week-01', homework: true },
       { id: 'week-02', title: { en: 'Week 2', ar: 'الأسبوع 2', fa: 'هفته ۲' }, href: '/week/week-02', homework: true },
       { id: 'week-03', title: { en: 'Week 3', ar: 'الأسبوع 3', fa: 'هفته ۳' }, href: '/week/week-03', homework: true },
+      { id: 'week-04', title: { en: 'Week 4', ar: 'الأسبوع 4', fa: 'هفته ۴' }, href: '/week/week-04', homework: true },
     ],
   },
 ]
