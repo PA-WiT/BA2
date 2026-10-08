@@ -8,8 +8,7 @@
 
 ## Next
 1. **Progress dashboard** at `/dashboard` (currently a placeholder): sections read and quiz accuracy per week, "continue where you left off", reset button.
-2. **Not-found route** (`*`) with a link home. Unknown URLs, including the removed `/login` and `/submissions`, show React Router's default error page.
-3. **Untranslated strings**: `Exercise.tsx` labels/feedback, theme toggle `aria-label`, sidebar brand.
-4. **Migrate remaining weeks** with the `migrate-week-content` skill.
-5. **Extras**: review-missed mode, progress export/import (JSON), spaced repetition, timed exam mode, notes/bookmarks.
-6. **Tests** (Vitest): `localProgress`, `useLocalized` fallback, registry ↔ nav consistency, content checks (unique question IDs, exercise refs, diagram files exist).
+2. **Untranslated strings**: `Exercise.tsx` labels/feedback, theme toggle `aria-label`, sidebar brand.
+3. **Migrate remaining weeks** with the `migrate-week-content` skill.
+4. **Extras**: review-missed mode, progress export/import (JSON), spaced repetition, timed exam mode, notes/bookmarks.
+5. **Tests** (Vitest): `localProgress`, `useLocalized` fallback, registry ↔ nav consistency, content checks (unique question IDs, exercise refs, diagram files exist).

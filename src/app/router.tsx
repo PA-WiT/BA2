@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom'
 import { AppShell } from '../components/AppShell'
 import { HomePage } from '../features/home/HomePage'
+import { NotFound } from '../components/NotFound'
 
 // Everything except the shell and home page is code-split: each route's chunk loads on first visit.
 export const router = createBrowserRouter(
@@ -19,6 +20,7 @@ export const router = createBrowserRouter(
           },
         },
         { path: 'dashboard', element: <h1>Dashboard</h1> },
+        { path: '*', element: <NotFound /> },
       ],
     },
   ],

@@ -5,6 +5,8 @@ import { useWeek } from '../../content/useWeek'
 import { Cover } from '../../components/content/Cover'
 import { SectionView } from '../../components/content/SectionView'
 import { WeekNav } from '../../components/content/WeekNav'
+import { NotFound } from '../../components/NotFound'
+import { flatNav } from '../../content/nav'
 import contentStyles from '../../components/content/content.module.css'
 import { markSectionRead } from '../progress/localProgress'
 import { WeekQuestionsContext } from '../quiz/weekQuestions'
@@ -30,7 +32,9 @@ export function WeekPage() {
   }, [week])
 
   if (loading) return <p>{t('loading')}</p>
-  if (notFound || !week) return <p>{t('weekNotFound')}</p>
+  // A course week that isn't migrated yet gets its own message; an id outside the course is a plain 404.
+  if (notFound) return flatNav.some((item) => item.id === id) ? <p>{t('weekNotFound')}</p> : <NotFound />
+  if (!week) return <p>{t('weekNotFound')}</p>
 
   return (
     <WeekQuestionsContext.Provider value={week.questions}>

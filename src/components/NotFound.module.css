@@ -1,0 +1,33 @@
+.hero {
+  max-width: 640px;
+  margin-bottom: 32px;
+}
+.hero h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 0 0 10px 0;
+  letter-spacing: -0.02em;
+}
+.hero p {
+  color: var(--ink-soft);
+  font-size: 1.05rem;
+  margin: 0 0 18px 0;
+}
+.homeLink {
+  display: inline-flex;
+  align-items: center;
+  background: var(--teal);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 13.5px;
+  padding-block: 9px;
+  padding-inline: 20px;
+  border-radius: 100px;
+}
+.homeLink:hover {
+  opacity: 0.88;
+}
+.weeks {
+  max-width: 480px;
+}
