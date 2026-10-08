@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next'
 import { useWeek } from '../content/useWeek'
 import { useLocalized } from '../content/useLocalized'
 import { useScrollSpy } from '../features/weeks/useScrollSpy'
+import { useWeekProgress } from '../features/progress/localProgress'
+import { formatPercent } from '../i18n/format'
 import { TopBar } from './TopBar'
 import { TopbarStart } from './TopbarStart'
 import { CourseContentsPanel } from './CourseContentsPanel'
@@ -23,23 +25,39 @@ function Sidebar() {
   const week = useActiveWeek()
   const sectionIds = useMemo(() => week?.sections.map((s) => s.id) ?? [], [week])
   const activeId = useScrollSpy(sectionIds)
+  const { readIds, percent } = useWeekProgress(week?.id)
 
   return (
     <aside className={styles.sidebar}>
       <div className={styles.brand}>Course</div>
       <div className={styles.brandSub}>Business Analytics</div>
       {week ? (
-        <nav>
-          {week.sections.map((section) => (
-            <a
-              key={section.id}
-              href={`#${section.id}`}
-              className={section.id === activeId ? styles.current : undefined}
-            >
-              {t(section.navLabel)}
-            </a>
-          ))}
-        </nav>
+        <>
+          <div className={styles.weekProgress}>
+            <span className={styles.weekProgressBar}>
+              <span style={{ inlineSize: `${percent}%` }} />
+            </span>
+            <span>{tUi('percentRead', { percent: formatPercent(percent) })}</span>
+          </div>
+          <nav>
+            {week.sections.map((section) => (
+              <a
+                key={section.id}
+                href={`#${section.id}`}
+                className={section.id === activeId ? styles.current : undefined}
+                aria-current={section.id === activeId ? 'location' : undefined}
+              >
+                <span>{t(section.navLabel)}</span>
+                {readIds.has(section.id) && (
+                  <span className={styles.readMark}>
+                    <span aria-hidden="true">✓</span>
+                    <span className={styles.srOnly}>{tUi('sectionRead')}</span>
+                  </span>
+                )}
+              </a>
+            ))}
+          </nav>
+        </>
       ) : (
         <p className={styles.sidebarHint}>{tUi('courseContents')}</p>
       )}

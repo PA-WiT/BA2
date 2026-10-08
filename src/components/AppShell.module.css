@@ -30,7 +30,10 @@
   line-height: 1.35;
 }
 .sidebar nav a {
-  display: block;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
   padding: 8px 10px;
   margin-bottom: 2px;
   border-radius: 6px;
@@ -47,6 +50,42 @@
   background: var(--teal-bg);
   color: var(--teal);
   font-weight: 700;
+}
+.readMark {
+  flex-shrink: 0;
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 700;
+}
+.weekProgress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: -10px 0 16px 0;
+  font-size: 12px;
+  color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+}
+.weekProgressBar {
+  flex: 1;
+  block-size: 4px;
+  background: var(--rule);
+  border-radius: 100px;
+  overflow: hidden;
+}
+.weekProgressBar span {
+  display: block;
+  block-size: 100%;
+  background: var(--teal);
+  transition: inline-size 0.3s;
+}
+.srOnly {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 .sidebarHint {
   font-size: 13px;

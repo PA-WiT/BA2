@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { WeeksList } from '../../components/WeeksList'
+import { WeekCards } from '../../components/WeekCards'
 import styles from './HomePage.module.css'
 
 export function HomePage() {
@@ -11,7 +11,7 @@ export function HomePage() {
         <p>{t('homeIntro')}</p>
       </header>
       <div className={styles.weeks}>
-        <WeeksList />
+        <WeekCards />
       </div>
     </div>
   )

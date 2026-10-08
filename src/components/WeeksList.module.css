@@ -16,6 +16,15 @@
 }
 .list a {
   color: var(--ink);
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+.progress {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
 }
 .list a:hover {
   background: var(--paper-2);

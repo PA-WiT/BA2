@@ -8,7 +8,7 @@ import { WeekNav } from '../../components/content/WeekNav'
 import { NotFound } from '../../components/NotFound'
 import { flatNav } from '../../content/nav'
 import contentStyles from '../../components/content/content.module.css'
-import { markSectionRead } from '../progress/localProgress'
+import { markSectionRead, setWeekSections } from '../progress/localProgress'
 import { WeekQuestionsContext } from '../quiz/weekQuestions'
 import { useScrollSpy } from './useScrollSpy'
 
@@ -23,6 +23,26 @@ export function WeekPage() {
   useEffect(() => {
     if (week && activeId) markSectionRead(week.id, activeId)
   }, [week, activeId])
+
+  // Saved so the home page can show this week's progress % without loading its content chunk.
+  useEffect(() => {
+    if (week) setWeekSections(week.id, sectionIds)
+  }, [week, sectionIds])
+
+  // A short last section may never reach the scroll-spy band near the top of the viewport,
+  // so reaching the bottom of the page counts as reading it.
+  useEffect(() => {
+    if (!week) return
+    const lastId = sectionIds[sectionIds.length - 1]
+    const onScroll = () => {
+      const { scrollY, innerHeight } = window
+      if (lastId && scrollY + innerHeight >= document.documentElement.scrollHeight - 80) {
+        markSectionRead(week.id, lastId)
+      }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [week, sectionIds])
 
   // Content loads asynchronously now, so a #section deep link can't be scrolled to by the browser on load.
   useEffect(() => {
