@@ -213,7 +213,6 @@ export const weekTwo: Week = {
   id: 'week-02',
   originalPdf: '/originals/week-02.pdf',
   order: 2,
-  preview: true,
   cover: {
     kicker: { en: 'Business Analytics 2 · Week 2', ar: 'تحليلات الأعمال 2 · الأسبوع 2', fa: 'تحلیل کسب‌وکار ۲ · هفته ۲' },
     titleHtml: {

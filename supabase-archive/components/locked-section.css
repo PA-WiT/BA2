@@ -1,0 +1,29 @@
+/* Styles for LockedSection.tsx — originally at the end of src/components/content/content.module.css. */
+/* ---------- LOCKED SECTION (new, for the free-preview gate) ---------- */
+.locked {
+  background: var(--paper-3);
+  border: 1.5px dashed var(--ink-faint);
+  border-radius: 10px;
+  padding: 22px 24px;
+  margin: 20px 0;
+  text-align: center;
+}
+.lockedTeaser {
+  color: var(--ink-soft);
+  margin: 0 0 14px 0;
+}
+.lockedCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--teal);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 13.5px;
+  padding: 9px 20px;
+  border-radius: 100px;
+}
+.lockedCta:hover {
+  opacity: 0.88;
+}
