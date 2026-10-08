@@ -1,19 +1,16 @@
 import { useState } from 'react'
 import { useLocalized } from '../../content/useLocalized'
-import { useAuth } from '../auth/AuthProvider'
-import { useRecordAttempt } from './api'
+import { getAttempt, recordAttempt } from '../progress/localProgress'
 import { useQuestion } from './weekQuestions'
 import styles from '../../components/content/content.module.css'
 
-/** One multiple-choice exercise, graded locally. Answers are recorded to `question_attempts`
- *  for signed-in users (best-effort — a failed insert doesn't block the UI). */
+/** One multiple-choice exercise, graded locally. The answer is saved in this browser
+ *  (src/features/progress/localProgress.ts), so a reload shows it as already checked. */
 export function Exercise({ questionId }: { questionId: string }) {
   const question = useQuestion(questionId)
   const t = useLocalized()
-  const { user } = useAuth()
-  const recordAttempt = useRecordAttempt()
-  const [selected, setSelected] = useState<number | null>(null)
-  const [submitted, setSubmitted] = useState(false)
+  const [selected, setSelected] = useState<number | null>(() => getAttempt(questionId)?.selected ?? null)
+  const [submitted, setSubmitted] = useState(() => getAttempt(questionId) !== undefined)
 
   if (!question) return null
 
@@ -21,14 +18,7 @@ export function Exercise({ questionId }: { questionId: string }) {
 
   function handleSubmit() {
     setSubmitted(true)
-    if (user && question && selected !== null) {
-      recordAttempt.mutate({
-        questionId: question.id,
-        weekId: question.weekId,
-        selected,
-        isCorrect: selected === question.answer,
-      })
-    }
+    if (question && selected !== null) recordAttempt(question.id, selected, selected === question.answer)
   }
 
   return (

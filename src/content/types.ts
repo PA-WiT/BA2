@@ -66,8 +66,6 @@ export interface Section {
 export interface Week {
   id: string
   order: number
-  /** First 2 sections are free for logged-out visitors (see src/content/access.ts). */
-  preview?: boolean
   /** Root-absolute path to the source slide deck in public/ (e.g. "/originals/week-03.pdf"); omit if none. */
   originalPdf?: string
   cover: {

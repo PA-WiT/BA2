@@ -2,14 +2,13 @@ import { useEffect, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useWeek } from '../../content/useWeek'
-import { isSectionFree } from '../../content/access'
 import { Cover } from '../../components/content/Cover'
 import { SectionView } from '../../components/content/SectionView'
-import { LockedSection } from '../../components/content/LockedSection'
 import { WeekNav } from '../../components/content/WeekNav'
+import { NotFound } from '../../components/NotFound'
+import { flatNav } from '../../content/nav'
 import contentStyles from '../../components/content/content.module.css'
-import { useAuth } from '../auth/AuthProvider'
-import { useMarkSectionRead } from '../progress/api'
+import { markSectionRead, setWeekSections } from '../progress/localProgress'
 import { WeekQuestionsContext } from '../quiz/weekQuestions'
 import { useScrollSpy } from './useScrollSpy'
 
@@ -17,18 +16,33 @@ export function WeekPage() {
   const { id } = useParams<{ id: string }>()
   const { t } = useTranslation()
   const { week, loading, notFound } = useWeek(id)
-  const { user } = useAuth()
-  const markSectionRead = useMarkSectionRead()
 
   const sectionIds = useMemo(() => week?.sections.map((s) => s.id) ?? [], [week])
   const activeId = useScrollSpy(sectionIds)
 
   useEffect(() => {
-    if (user && week && activeId) {
-      markSectionRead.mutate({ weekId: week.id, sectionId: activeId })
+    if (week && activeId) markSectionRead(week.id, activeId)
+  }, [week, activeId])
+
+  // Saved so the home page can show this week's progress % without loading its content chunk.
+  useEffect(() => {
+    if (week) setWeekSections(week.id, sectionIds)
+  }, [week, sectionIds])
+
+  // A short last section may never reach the scroll-spy band near the top of the viewport,
+  // so reaching the bottom of the page counts as reading it.
+  useEffect(() => {
+    if (!week) return
+    const lastId = sectionIds[sectionIds.length - 1]
+    const onScroll = () => {
+      const { scrollY, innerHeight } = window
+      if (lastId && scrollY + innerHeight >= document.documentElement.scrollHeight - 80) {
+        markSectionRead(week.id, lastId)
+      }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, week, activeId])
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [week, sectionIds])
 
   // Content loads asynchronously now, so a #section deep link can't be scrolled to by the browser on load.
   useEffect(() => {
@@ -38,20 +52,17 @@ export function WeekPage() {
   }, [week])
 
   if (loading) return <p>{t('loading')}</p>
-  if (notFound || !week) return <p>{t('weekNotFound')}</p>
-
-  // Stop at the first gated section for a logged-out visitor — one clear CTA, not one per section.
-  const firstLockedIndex = user ? -1 : week.sections.findIndex((_, i) => !isSectionFree(week, i))
+  // A course week that isn't migrated yet gets its own message; an id outside the course is a plain 404.
+  if (notFound) return flatNav.some((item) => item.id === id) ? <p>{t('weekNotFound')}</p> : <NotFound />
+  if (!week) return <p>{t('weekNotFound')}</p>
 
   return (
     <WeekQuestionsContext.Provider value={week.questions}>
       <div className={contentStyles.content}>
         <Cover week={week} />
-        {week.sections.map((section, i) => {
-          if (firstLockedIndex === -1 || i < firstLockedIndex) return <SectionView key={section.id} section={section} />
-          if (i === firstLockedIndex) return <LockedSection key={section.id} sectionId={section.id} />
-          return null
-        })}
+        {week.sections.map((section) => (
+          <SectionView key={section.id} section={section} />
+        ))}
         <WeekNav weekId={week.id} />
       </div>
     </WeekQuestionsContext.Provider>

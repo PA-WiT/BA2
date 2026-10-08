@@ -1,7 +1,5 @@
-import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from '../features/theme/useTheme'
-import { useAuth } from '../features/auth/AuthProvider'
 import styles from './TopBar.module.css'
 
 const LANGS = [
@@ -11,9 +9,8 @@ const LANGS = [
 ] as const
 
 export function TopBar() {
-  const { t, i18n } = useTranslation()
+  const { i18n } = useTranslation()
   const { theme, toggle } = useTheme()
-  const { user, profile } = useAuth()
 
   return (
     <div className={styles.langbar}>
@@ -35,19 +32,6 @@ export function TopBar() {
       >
         {theme === 'dark' ? '☀️' : '🌙'}
       </button>
-      {user && (
-        <Link to="/submissions" className={styles.accountPill}>
-          {t('mySubmissions')}
-        </Link>
-      )}
-      {profile?.role === 'admin' && (
-        <Link to="/admin/submissions" className={styles.accountPill}>
-          {t('admin')}
-        </Link>
-      )}
-      <Link to={user ? '/settings' : '/login'} className={styles.accountPill}>
-        {user ? user.email : t('login')}
-      </Link>
     </div>
   )
 }

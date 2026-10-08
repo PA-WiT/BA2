@@ -30,8 +30,6 @@ jobs:
       - name: Build
         env:
           GITHUB_PAGES: 'true'
-          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
-          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
         run: npm run build
 
       # SPA fallback: GitHub Pages has no server-side rewrites, so a direct

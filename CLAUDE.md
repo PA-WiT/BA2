@@ -1,6 +1,6 @@
 # Course React: working conventions
 
-Vite + React + TypeScript study app with Supabase (auth + Postgres). Successor to the static site in `../course`, which remains the content source.
+Vite + React + TypeScript study app, fully static (no accounts, no backend), deployed to GitHub Pages. Successor to the static site in `../course`, which remains the content source.
 
 ## Commands
 - `npm run dev`: dev server
@@ -9,13 +9,12 @@ Vite + React + TypeScript study app with Supabase (auth + Postgres). Successor t
 
 ## Conventions
 - Features live in `src/features/<name>/`; shared UI in `src/components/`.
-- Supabase client only via `src/lib/supabase.ts`; frontend uses the anon key only.
-- Every table has RLS. Schema changes = new migration file, never edit applied ones.
-- Question IDs are stable (`wXX-qNNN`); progress rows reference them.
-- All user-facing strings go through i18next (EN + FA); use logical CSS properties for RTL.
-- Secrets in `.env.local` (git-ignored).
+- All content is open to everyone. Reading + quiz progress is stored in the browser via `src/features/progress/localProgress.ts` (wrap every storage access in try/catch).
+- Question IDs are stable (`wXX-qNNN`); stored progress references them.
+- All user-facing strings go through i18next (EN + FA, AR where present); use logical CSS properties for RTL.
+- `supabase-archive/` holds the removed Supabase auth/submissions code for reuse elsewhere. Don't import it from `src/`.
 
 ## Skills
-`supabase-setup`, `migrate-week-content`, `add-progress-feature` in `.claude/skills/`.
+`migrate-week-content` in `.claude/skills/`.
 
 Roadmap: `docs/PLAN.md`.
