@@ -13,7 +13,7 @@
 // (regenerate that file if they change). ar/fa are draft translations awaiting native review, like the earlier
 // weeks. Code stays English.
 import type { Question, Week } from '../types'
-import { week04Homework, juneRawSql } from './homework/week-04'
+import { week04Homework } from './homework/week-04'
 
 const notebookUrl =
   'https://colab.research.google.com/github/PA-WiT/BA2/blob/main/public/notebooks/week-04-data-preparation.ipynb'
@@ -1110,22 +1110,11 @@ Expected after cleaning: 13 rows. If you get a different number, explain why.`,
       navLabel: t('Homework', 'الواجب', 'تکلیف'),
       sectionLabel: t('Section 14', 'القسم ١٤', 'بخش ۱۴'),
       headingHtml: t(
-        '<h2>Homework: clean the June export</h2><p class="standfirst">The till has exported June, and it has its own problems. Profile it, clean it with a change log, add the supplier\'s prices, and reshape it for the owner. Each question comes with an analogy, a checklist and an example answer worked on the lesson\'s May data; redo the work on June. A short feedback question comes last.</p>',
-        '<h2>الواجب: نظّف تصدير يونيو</h2><p class="standfirst">صدّر جهاز الدفع شهر يونيو، وفيه مشكلاته الخاصة. افحصه، ونظّفه مع سجل تغييرات، وأضف أسعار المورّد، وأعد تشكيله للمالك. يأتي كل سؤال مع تشبيه وقائمة تحقق ومثال على إجابة محسوب على بيانات مايو في الدرس؛ أعد العمل على يونيو. وفي النهاية سؤال قصير عن رأيك.</p>',
-        '<h2>تکلیف: خروجی ژوئن را تمیز کن</h2><p class="standfirst">صندوق ژوئن را خروجی گرفته و مشکل‌های خودش را دارد. پروفایلش کن، با گزارش تغییرات تمیزش کن، قیمت‌های تأمین‌کننده را اضافه کن و برای مالک تغییر شکلش بده. هر سؤال یک تشبیه، یک فهرست بررسی و یک نمونه‌پاسخ دارد که روی دادهٔ مهِ درس حل شده؛ کار را روی ژوئن انجام بده. در پایان یک سؤال کوتاه دربارهٔ نظر تو هست.</p>',
+        '<h2>Homework: step 1 of your final project</h2><p class="standfirst">From this week on, each homework is one step of the final project you will hand in with a partner. This week: pick your case study, define the project, and profile your dataset with what you learned today. Two questions, each with an analogy, a checklist and an example answer based on the jam stand; a short feedback question comes last.</p>',
+        '<h2>الواجب: الخطوة 1 من مشروعك النهائي</h2><p class="standfirst">بدءًا من هذا الأسبوع، كل واجب خطوة من المشروع النهائي الذي ستسلّمه مع شريك. هذا الأسبوع: اختر دراسة الحالة، وعرّف المشروع، وافحص بياناتك بما تعلّمته اليوم. سؤالان، لكل منهما تشبيه وقائمة تحقق ومثال على إجابة مبني على كشك المربى؛ وفي النهاية سؤال قصير عن رأيك.</p>',
+        '<h2>تکلیف: گام ۱ پروژهٔ نهایی تو</h2><p class="standfirst">از این هفته، هر تکلیف یک گام از پروژهٔ نهایی است که با یک هم‌گروهی تحویل می‌دهی. این هفته: مطالعهٔ موردی‌ات را انتخاب کن، پروژه را تعریف کن و داده‌ات را با آنچه امروز یاد گرفتی پروفایل کن. دو سؤال، هر کدام با یک تشبیه، یک فهرست بررسی و یک نمونه‌پاسخ بر پایهٔ غرفهٔ مربا؛ در پایان یک سؤال کوتاه دربارهٔ نظر تو.</p>',
       ),
-      blocks: [
-        {
-          type: 'html',
-          html: t(
-            '<p>Load the June export below (it uses the same <code>supplier_prices</code> table as Section 8). The stand\'s paper log says Strawberry sold <strong>30</strong> jars on 8 June, and the owner confirms the Strawberry figure for 15 June should be <strong>40</strong>.</p>',
-            '<p>حمّل تصدير يونيو أدناه (يستخدم جدول <code>supplier_prices</code> نفسه من القسم 8). يقول سجل الكشك الورقي إن Strawberry باعت <strong>30</strong> برطمانًا في 8 يونيو، ويؤكّد المالك أن رقم Strawberry في 15 يونيو يجب أن يكون <strong>40</strong>.</p>',
-            '<p>خروجی ژوئن زیر را بارگذاری کن (از همان جدول <code>supplier_prices</code> بخش ۸ استفاده می‌کند). دفتر کاغذی غرفه می‌گوید Strawberry در ۸ ژوئن <strong>۳۰</strong> شیشه فروخته و مالک تأیید می‌کند عدد Strawberry در ۱۵ ژوئن باید <strong>۴۰</strong> باشد.</p>',
-          ),
-        },
-        { type: 'code', code: juneRawSql },
-        week04Homework,
-      ],
+      blocks: [week04Homework],
     },
     {
       id: 'before-week-5',

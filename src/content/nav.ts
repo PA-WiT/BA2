@@ -61,6 +61,17 @@ export const navGroups: NavGroup[] = [
       },
     ],
   },
+  {
+    label: { en: 'Final Project', ar: 'المشروع النهائي', fa: 'پروژهٔ نهایی' },
+    items: [
+      {
+        id: 'final-project',
+        title: { en: 'Final Project', ar: 'المشروع النهائي', fa: 'پروژهٔ نهایی' },
+        href: '/week/final-project',
+        subtitle: { en: 'One case study, built week by week', ar: 'دراسة حالة واحدة تُبنى أسبوعًا بعد أسبوع', fa: 'یک مطالعهٔ موردی، هفته‌به‌هفته' },
+      },
+    ],
+  },
 ]
 
 /** Flattened course sequence, in reading order — used to find a week's prev/next neighbor

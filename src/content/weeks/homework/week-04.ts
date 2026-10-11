@@ -1,200 +1,89 @@
 import type { Block } from '../../types'
-import { L, driveNotice, feedbackTask } from './shared'
+import { L, feedbackTask, projectNotice } from './shared'
 
-// The task is a fresh June export (18 raw rows -> 17 clean, 385 jars) so the lesson's worked May example
-// can't be copied. Example answers use the lesson's May export, Peach rows only (ids 3, 6, 9, 12, 15).
-
-export const juneRawSql = `CREATE TABLE jam_sales_june_raw (
-  id          INT PRIMARY KEY,
-  flavor      TEXT,
-  market_date TEXT,
-  units_sold  INT
-);
-
-INSERT INTO jam_sales_june_raw (id, flavor, market_date, units_sold) VALUES
-(1,  'Strawberry', '2024-06-01', 30),
-(2,  'Blueberry',  '2024-06-01', 18),
-(3,  'peach',      '2024-06-01', 12),
-(4,  'Strawberry', '2024-06-08', NULL),
-(5,  ' Blueberry', '2024-06-08', 20),
-(6,  'Peach',      '2024-06-08', 14),
-(7,  'Strawberry', '2024-06-15', 400),
-(8,  'Blueberry',  '2024-06-15', 22),
-(9,  'Peach',      '15/06/2024', 16),
-(10, 'Strawberry', '2024-06-22', 38),
-(11, 'Blueberry',  '2024-06-22', 21),
-(12, 'Blueberry',  '2024-06-22', 21),
-(13, 'Peach',      '2024-06-22', -14),
-(14, 'Lemon',      '2024-06-22', 11),
-(15, 'Strawberry', '2024-06-29', 44),
-(16, 'Blueberry',  '2024-06-29', 25),
-(17, 'Peach',      '2024-06-29', 18),
-(18, 'LEMON',      '2024-06-29', 12);`
-
+// Week 4 homework is step 1 of the pair final project (roadmap on the Final Project page): pick a case,
+// define the project, and profile the dataset. Example answers treat the lesson's jam stand as if it were a
+// project, so they show the format without doing any case study for the students.
 export const week04Homework: Block = {
   type: 'homework',
-  notice: driveNotice,
+  notice: projectNotice,
   objectives: [
-    L('Profiled a raw export and listed every problem with its row id', 'فحصت تصديرًا خامًا وسردت كل مشكلة مع رقم صفها', 'یک خروجی خام را پروفایل کرده‌ای و هر مشکل را با شمارهٔ سطرش فهرست کرده‌ای'),
-    L('Cleaned a copy of the data with a change log, without losing a real sale', 'نظّفت نسخة من البيانات مع سجل تغييرات، دون فقدان عملية بيع حقيقية', 'یک کپی از داده را با گزارش تغییرات تمیز کرده‌ای، بدون از دست دادن یک فروش واقعی'),
-    L('Integrated a second source whose names and units disagree', 'دمجت مصدرًا ثانيًا تختلف أسماؤه ووحداته', 'یک منبع دوم را که نام‌ها و واحدهایش ناهمخوان‌اند یکپارچه کرده‌ای'),
-    L('Transformed the clean data with labels, a hierarchy and normalization', 'حوّلت البيانات النظيفة بتسميات وتسلسل وتطبيع', 'دادهٔ تمیز را با برچسب، سلسله‌مراتب و نرمال‌سازی تبدیل کرده‌ای'),
+    L('Formed a pair and chosen one case study from the Final Project page', 'كوّنت فريقًا من شخصين واخترت دراسة حالة واحدة من صفحة المشروع النهائي', 'یک گروه دونفره ساخته‌ای و یک مطالعهٔ موردی از صفحهٔ پروژهٔ نهایی انتخاب کرده‌ای'),
+    L('Written your project title, goals and expected outcomes (project parts 1 and 2)', 'كتبت عنوان مشروعك وأهدافه ونتائجه المتوقعة (الجزءان 1 و2 من المشروع)', 'عنوان، هدف‌ها و نتایج مورد انتظار پروژه‌ات را نوشته‌ای (بخش‌های ۱ و ۲ پروژه)'),
+    L('Profiled your dataset and planned how you will clean it in Week 5', 'فحصت مجموعة بياناتك وخطّطت لكيفية تنظيفها في الأسبوع 5', 'مجموعه‌داده‌ات را پروفایل کرده‌ای و برای پاک‌سازی‌اش در هفتهٔ ۵ برنامه ریخته‌ای'),
   ],
   scenario: L(
-    'The example answers use the lesson\'s May export, Peach rows only (ids 3, 6, 9, 12 and 15). Your answers use the whole June export above, so your numbers will be different.',
-    'أمثلة الإجابات تستخدم تصدير مايو من الدرس، صفوف الخوخ فقط (3 و6 و9 و12 و15). إجاباتك تستخدم تصدير يونيو كاملًا أعلاه، لذا ستختلف أرقامك.',
-    'نمونه‌پاسخ‌ها از خروجی مهِ درس، فقط سطرهای هلو (۳، ۶، ۹، ۱۲ و ۱۵) استفاده می‌کنند. پاسخ‌های تو از کل خروجی ژوئن بالا استفاده می‌کنند، پس اعدادت متفاوت خواهند بود.',
+    'The example answers treat the jam stand from this week\'s lesson as if it were a project. Your answers are about your pair\'s case study and its dataset.',
+    'تتعامل أمثلة الإجابات مع كشك المربى من درس هذا الأسبوع كأنه مشروع. إجاباتكما تخص دراسة الحالة التي اخترتماها ومجموعة بياناتها.',
+    'نمونه‌پاسخ‌ها با غرفهٔ مربای درس این هفته طوری رفتار می‌کنند که انگار یک پروژه است. پاسخ‌های شما دربارهٔ مطالعهٔ موردی گروهتان و مجموعه‌داده‌اش است.',
   ),
   tasks: [
     {
-      title: L('Profile the June export', 'افحص تصدير يونيو', 'خروجی ژوئن را پروفایل کن'),
+      title: L('Start your project: case, title, goals', 'ابدأ مشروعك: الحالة والعنوان والأهداف', 'پروژه‌ات را شروع کن: مورد، عنوان، هدف‌ها'),
       prompt: L(
-        '<p>Run profiling queries (SQL or pandas) on <code>jam_sales_june_raw</code>: total rows, rows with units, distinct flavor spellings, min and max units, total units. Then list every problem you find, with its row id and its kind (incomplete, noisy, inconsistent, disguised missing).</p>',
-        '<p>شغّل استعلامات الفحص (SQL أو pandas) على <code>jam_sales_june_raw</code>: إجمالي الصفوف، والصفوف التي فيها وحدات، وتهجئات النكهة المميزة، والحد الأدنى والأقصى للوحدات، وإجمالي الوحدات. ثم اسرد كل مشكلة تجدها مع رقم صفها ونوعها (ناقصة، مشوّشة، غير متسقة، مفقودة متنكّرة).</p>',
-        '<p>کوئری‌های پروفایل (SQL یا pandas) را روی <code>jam_sales_june_raw</code> اجرا کن: کل سطرها، سطرهای دارای واحد، املاهای یکتای طعم، کمینه و بیشینهٔ واحدها، مجموع واحدها. سپس هر مشکلی پیدا کردی را با شمارهٔ سطر و نوعش (ناقص، نویزی، ناسازگار، گمشدهٔ پنهان) فهرست کن.</p>',
+        '<p>With your partner, pick one case study from the <a href="/week/final-project">Final Project page</a> and tell your mentor which one. Then write, in your project document: a specific <strong>title</strong>, 2–3 <strong>goals</strong> starting with "To…", 3–4 measurable <strong>expected outcomes</strong>, and a short <strong>dataset</strong> note (source link, file name, number of rows, the 4–6 columns that matter most).</p>',
+        '<p>مع شريكك، اختر دراسة حالة واحدة من <a href="/week/final-project">صفحة المشروع النهائي</a> وأخبر مرشدك بها. ثم اكتبا في مستند المشروع: <strong>عنوانًا</strong> محددًا، و2–3 <strong>أهداف</strong> تبدأ بـ"أن…"، و3–4 <strong>نتائج متوقعة</strong> قابلة للقياس، وملاحظة قصيرة عن <strong>البيانات</strong> (رابط المصدر، اسم الملف، عدد الصفوف، أهم 4–6 أعمدة).</p>',
+        '<p>با هم‌گروهی‌ات یک مطالعهٔ موردی از <a href="/week/final-project">صفحهٔ پروژهٔ نهایی</a> انتخاب کن و به منتورت بگو کدام است. سپس در سند پروژه بنویسید: یک <strong>عنوان</strong> مشخص، ۲ تا ۳ <strong>هدف</strong> که با «اینکه…» شروع می‌شوند، ۳ تا ۴ <strong>نتیجهٔ مورد انتظار</strong> قابل اندازه‌گیری، و یک یادداشت کوتاه دربارهٔ <strong>داده</strong> (پیوند منبع، نام فایل، تعداد سطرها، ۴ تا ۶ ستون مهم‌تر).</p>',
       ),
       analogy: L(
-        '<p>It is a doctor\'s check-up: take the measurements and write down the symptoms first. You are not allowed to prescribe yet.</p>',
-        '<p>إنه كشف طبي: خذ القياسات ودوّن الأعراض أولًا. لا يُسمح لك بوصف العلاج بعد.</p>',
-        '<p>مثل معاینهٔ پزشک است: اول اندازه‌ها را بگیر و علائم را بنویس. هنوز اجازهٔ نسخه نوشتن نداری.</p>',
+        '<p>A title and goals are a film\'s title and trailer: before anyone watches two hours, they know what the story is about and what they will get out of it. "Sales Analysis" is a film called "Movie".</p>',
+        '<p>العنوان والأهداف هما عنوان الفيلم وإعلانه: قبل أن يشاهد أحد ساعتين، يعرف عمّ تدور القصة وماذا سيكسب منها. "تحليل المبيعات" فيلم اسمه "فيلم".</p>',
+        '<p>عنوان و هدف‌ها مثل عنوان و تیزر یک فیلم‌اند: پیش از اینکه کسی دو ساعت تماشا کند، می‌داند داستان دربارهٔ چیست و چه چیزی از آن می‌گیرد. «تحلیل فروش» یعنی فیلمی به اسم «فیلم».</p>',
       ),
       include: [
-        L('Your profiling query and its results', 'استعلام الفحص ونتائجه', 'کوئری پروفایل و نتایجش'),
-        L('A table of problems: row id, column, what is wrong, kind', 'جدول بالمشكلات: رقم الصف، العمود، الخطأ، النوع', 'جدولی از مشکلات: شمارهٔ سطر، ستون، ایراد، نوع'),
+        L('Case study id and both partners\' names', 'رقم دراسة الحالة واسما الشريكين', 'شمارهٔ مطالعهٔ موردی و نام هر دو نفر'),
+        L('A specific title that names the business and the question', 'عنوان محدد يذكر النشاط التجاري والسؤال', 'عنوانی مشخص که کسب‌وکار و سؤال را نام ببرد'),
+        L('2–3 goals ("To…") and 3–4 expected outcomes you could check at the end', '2–3 أهداف ("أن…") و3–4 نتائج متوقعة يمكن التحقق منها في النهاية', '۲ تا ۳ هدف («اینکه…») و ۳ تا ۴ نتیجهٔ مورد انتظار که در پایان قابل بررسی باشند'),
+        L('Dataset: source link, file, rows, key columns', 'البيانات: رابط المصدر، الملف، الصفوف، الأعمدة الأساسية', 'داده: پیوند منبع، فایل، سطرها، ستون‌های کلیدی'),
       ],
       example: [
-        {
-          type: 'code',
-          code: `SELECT COUNT(*) AS total_rows, COUNT(units_sold) AS rows_with_units,
-       MIN(units_sold) AS min_units, MAX(units_sold) AS max_units, SUM(units_sold) AS total_units
-FROM jam_sales_raw
-WHERE INITCAP(TRIM(flavor)) = 'Peach';   -- your version: the whole June table
--- total_rows 5 | rows_with_units 5 | min_units -12 | max_units 10 | total_units 16`,
-        },
-        {
-          type: 'table',
-          headers: [L('Row', 'الصف', 'سطر'), L('Column', 'العمود', 'ستون'), L('Problem', 'المشكلة', 'مشکل'), L('Kind', 'النوع', 'نوع')],
-          rows: [
-            [L('3', '3', '۳'), L('market_date', 'market_date', 'market_date'), L('04/05/2024 is not YYYY-MM-DD', '04/05/2024 ليست بصيغة YYYY-MM-DD', '04/05/2024 به شکل YYYY-MM-DD نیست'), L('Inconsistent', 'غير متسقة', 'ناسازگار')],
-            [L('9', '9', '۹'), L('units_sold', 'units_sold', 'units_sold'), L('-12 jars is impossible', '‎-12 برطمانًا مستحيل', '‎-12 شیشه ناممکن است'), L('Noisy (invalid)', 'مشوّشة (غير صالحة)', 'نویزی (نامعتبر)')],
-            [L('15', '15', '۱۵'), L('whole row', 'الصف كله', 'کل سطر'), L('0 jars on 2024-01-01, the till test', '0 برطمانات في 2024-01-01، اختبار الجهاز', '۰ شیشه در 2024-01-01، آزمایش صندوق'), L('Disguised missing', 'مفقودة متنكّرة', 'گمشدهٔ پنهان')],
-          ],
-        },
-      ],
-    },
-    {
-      title: L('Clean it, with a change log', 'نظّفه، مع سجل تغييرات', 'تمیزش کن، با گزارش تغییرات'),
-      prompt: L(
-        '<p>Copy the table, fix every problem from Question 1 on the copy, and write a change log. Use the paper log and the owner\'s confirmation given above for the two values you can\'t work out yourself. Report COUNT and SUM of units before and after.</p>',
-        '<p>انسخ الجدول، وأصلح كل مشكلة من السؤال 1 على النسخة، واكتب سجل تغييرات. استخدم السجل الورقي وتأكيد المالك الواردين أعلاه للقيمتين اللتين لا تستطيع استنتاجهما بنفسك. أبلغ عن COUNT وSUM للوحدات قبل التنظيف وبعده.</p>',
-        '<p>جدول را کپی کن، هر مشکل سؤال ۱ را روی کپی درست کن و گزارش تغییرات بنویس. برای دو مقداری که خودت نمی‌توانی بفهمی، از دفتر کاغذی و تأیید مالک که بالا آمده استفاده کن. COUNT و SUM واحدها را پیش و پس از پاک‌سازی گزارش کن.</p>',
-      ),
-      analogy: L(
-        '<p>Think of a mechanic\'s job card: every repair is written down with the part, the old value and the reason, so the owner can check the bill line by line.</p>',
-        '<p>فكّر في بطاقة عمل الميكانيكي: يُدوَّن كل إصلاح مع القطعة والقيمة القديمة والسبب، ليتحقق المالك من الفاتورة سطرًا سطرًا.</p>',
-        '<p>کارت کار مکانیک را تصور کن: هر تعمیر با قطعه، مقدار قبلی و دلیل نوشته می‌شود تا مالک بتواند صورت‌حساب را خط‌به‌خط چک کند.</p>',
-      ),
-      include: [
-        L('Your cleaning script (SQL, pandas or Power Query steps), working on a copy', 'سكربت التنظيف (SQL أو pandas أو خطوات Power Query)، يعمل على نسخة', 'اسکریپت پاک‌سازی (SQL، pandas یا گام‌های Power Query)، روی یک کپی'),
-        L('A change log table: row, from → to, why', 'جدول سجل التغييرات: الصف، من ← إلى، لماذا', 'جدول گزارش تغییرات: سطر، از ← به، چرا'),
-        L('COUNT and SUM before and after, and one sentence on why they changed', 'COUNT وSUM قبل وبعد، وجملة عن سبب تغيّرهما', 'COUNT و SUM پیش و پس، و یک جمله دربارهٔ اینکه چرا تغییر کردند'),
-      ],
-      example: [
-        {
-          type: 'code',
-          code: `CREATE TABLE peach_clean AS
-SELECT * FROM jam_sales_raw WHERE INITCAP(TRIM(flavor)) = 'Peach';
-
-UPDATE peach_clean SET market_date = '2024-05-04' WHERE id = 3;  -- day-first date
-UPDATE peach_clean SET units_sold = 12 WHERE id = 9;             -- sign error
-DELETE FROM peach_clean WHERE id = 15;                            -- till test row
-
-SELECT COUNT(*), SUM(units_sold) FROM peach_clean;   -- before: 5 | 16   after: 4 | 40`,
-        },
         {
           type: 'html',
           html: L(
-            '<p>Peach went from 5 rows and 16 jars to 4 rows and 40 jars: the -12 was pulling the total down by 24 jars, and the test row added a fake fifth market day. 40 matches Week 2\'s Peach total, so no real sale was lost.</p>',
-            '<p>انتقل الخوخ من 5 صفوف و16 برطمانًا إلى 4 صفوف و40 برطمانًا: كانت قيمة ‎-12 تخفض الإجمالي بمقدار 24 برطمانًا، وأضاف صف الاختبار يوم سوق خامسًا مزيفًا. يطابق 40 إجمالي الخوخ في الأسبوع 2، فلم تُفقد أي عملية بيع حقيقية.</p>',
-            '<p>هلو از ۵ سطر و ۱۶ شیشه به ۴ سطر و ۴۰ شیشه رسید: ‎-12 مجموع را ۲۴ شیشه پایین می‌کشید و سطر آزمایشی یک روز بازار پنجم جعلی اضافه می‌کرد. ۴۰ با مجموع هلو در هفتهٔ ۲ می‌خواند، پس هیچ فروش واقعی‌ای از دست نرفت.</p>',
+            '<p><strong>Title:</strong> Which jam flavors should a weekend market stand stock each month?</p><p><strong>Goals:</strong></p><ul><li>To find which flavors bring in the most revenue and profit.</li><li>To understand how demand for each flavor changes through the year.</li><li>To give the owner a monthly stocking plan.</li></ul><p><strong>Expected outcomes:</strong></p><ul><li>A ranked list of flavors by profit and by margin.</li><li>A line chart of monthly units per flavor with the peak month of each.</li><li>A regression of units sold against month or temperature, if the data allows.</li><li>A one-page stocking recommendation for next season.</li></ul><p><strong>Dataset:</strong> the stand\'s till export <code>jam_sales_raw</code> (15 rows; flavor, market_date, units_sold), the supplier price sheet (4 rows) and the 2024 monthly log (12 rows × 3 flavors).</p>',
+            '<p><strong>العنوان:</strong> أي نكهات المربى يجب أن يخزّنها كشك سوق نهاية الأسبوع كل شهر؟</p><p><strong>الأهداف:</strong></p><ul><li>أن نعرف أي النكهات تحقق أعلى إيراد وربح.</li><li>أن نفهم كيف يتغير الطلب على كل نكهة خلال السنة.</li><li>أن نعطي المالك خطة تخزين شهرية.</li></ul><p><strong>النتائج المتوقعة:</strong></p><ul><li>قائمة مرتبة للنكهات حسب الربح والهامش.</li><li>رسم خطي للوحدات الشهرية لكل نكهة مع شهر الذروة لكل منها.</li><li>انحدار للوحدات المباعة مقابل الشهر أو الحرارة، إن سمحت البيانات.</li><li>توصية تخزين من صفحة واحدة للموسم القادم.</li></ul><p><strong>البيانات:</strong> تصدير جهاز الدفع <code>jam_sales_raw</code> ‏(15 صفًا؛ flavor وmarket_date وunits_sold)، وورقة أسعار المورّد (4 صفوف)، والسجل الشهري لعام 2024 (12 صفًا × 3 نكهات).</p>',
+            '<p><strong>عنوان:</strong> یک غرفهٔ بازار آخر هفته هر ماه کدام طعم‌های مربا را باید انبار کند؟</p><p><strong>هدف‌ها:</strong></p><ul><li>اینکه بفهمیم کدام طعم‌ها بیشترین درآمد و سود را دارند.</li><li>اینکه بفهمیم تقاضای هر طعم در طول سال چگونه تغییر می‌کند.</li><li>اینکه به مالک یک برنامهٔ انبار ماهانه بدهیم.</li></ul><p><strong>نتایج مورد انتظار:</strong></p><ul><li>فهرست رتبه‌بندی‌شدهٔ طعم‌ها بر اساس سود و حاشیه.</li><li>نمودار خطی واحدهای ماهانهٔ هر طعم با ماه اوج هر کدام.</li><li>رگرسیون واحدهای فروخته‌شده در برابر ماه یا دما، اگر داده اجازه دهد.</li><li>یک توصیهٔ یک‌صفحه‌ای انبار برای فصل بعد.</li></ul><p><strong>داده:</strong> خروجی صندوق <code>jam_sales_raw</code> (۱۵ سطر؛ flavor، market_date، units_sold)، برگهٔ قیمت تأمین‌کننده (۴ سطر) و لاگ ماهانهٔ ۲۰۲۴ (۱۲ سطر × ۳ طعم).</p>',
           ),
         },
       ],
     },
     {
-      title: L('Add the supplier\'s prices', 'أضف أسعار المورّد', 'قیمت‌های تأمین‌کننده را اضافه کن'),
+      title: L('Profile your dataset and plan the cleaning', 'افحص بياناتك وخطّط للتنظيف', 'داده‌ات را پروفایل کن و برای پاک‌سازی برنامه بریز'),
       prompt: L(
-        '<p>Join your clean June table to <code>supplier_prices</code> (Section 8) on a cleaned key, convert cents to dollars, and compute units and revenue per flavor. Show that the join kept every clean row.</p>',
-        '<p>اربط جدول يونيو النظيف بـ <code>supplier_prices</code> (القسم 8) على مفتاح منظّف، وحوّل السنتات إلى دولارات، واحسب الوحدات والإيراد لكل نكهة. أثبت أن الربط أبقى كل صف نظيف.</p>',
-        '<p>جدول تمیز ژوئن را روی یک کلید تمیز به <code>supplier_prices</code> (بخش ۸) join کن، سنت را به دلار تبدیل کن و واحدها و درآمد هر طعم را حساب کن. نشان بده join همهٔ سطرهای تمیز را نگه داشته است.</p>',
+        '<p>Open your dataset in Excel, Python (pandas) or Power BI and profile it the way this week\'s Section 3 does: number of rows and columns, blanks per column, distinct values of 2 category columns, and min / max / mean of 2 numeric columns. List every problem you find, then write a <strong>cleaning plan</strong>: what you will fix in Week 5, how, and why. Don\'t clean anything yet.</p>',
+        '<p>افتح بياناتك في Excel أو Python ‏(pandas) أو Power BI وافحصها كما يفعل القسم 3 من هذا الأسبوع: عدد الصفوف والأعمدة، والفراغات في كل عمود، والقيم المميزة لعمودين فئويين، والحد الأدنى والأقصى والمتوسط لعمودين رقميين. اسرد كل مشكلة تجدها، ثم اكتب <strong>خطة تنظيف</strong>: ما الذي ستصلحه في الأسبوع 5، وكيف، ولماذا. لا تنظّف شيئًا بعد.</p>',
+        '<p>داده‌ات را در Excel، Python ‏(pandas) یا Power BI باز کن و همان‌طور که بخش ۳ این هفته انجام می‌دهد پروفایلش کن: تعداد سطرها و ستون‌ها، خانه‌های خالی هر ستون، مقدارهای یکتای ۲ ستون دسته‌ای و کمینه / بیشینه / میانگین ۲ ستون عددی. هر مشکلی پیدا کردی فهرست کن، سپس یک <strong>برنامهٔ پاک‌سازی</strong> بنویس: در هفتهٔ ۵ چه چیزی را، چگونه و چرا درست می‌کنی. هنوز چیزی را تمیز نکن.</p>',
       ),
       analogy: L(
-        '<p>Two class registers spell the same student differently and grade out of different totals. Agree who is who and put the grades on one scale before you rank anyone.</p>',
-        '<p>قائمتا صفّين تكتبان اسم الطالب نفسه بطريقتين وتعطيان الدرجات من مجموعين مختلفين. اتفق على من هو من وضع الدرجات على مقياس واحد قبل ترتيب أحد.</p>',
-        '<p>دو دفتر کلاس نام یک شاگرد را متفاوت می‌نویسند و نمره را از سقف‌های مختلف می‌دهند. پیش از رتبه‌بندی هر کسی، توافق کن چه کسی کیست و نمره‌ها را روی یک مقیاس ببر.</p>',
+        '<p>It is the check-up before the operation: the doctor measures, writes down the symptoms and plans the treatment, but nobody picks up a scalpel today. Week 5 is the operation.</p>',
+        '<p>إنه الفحص قبل العملية: يقيس الطبيب ويدوّن الأعراض ويخطط للعلاج، لكن لا أحد يمسك المشرط اليوم. الأسبوع 5 هو العملية.</p>',
+        '<p>معاینهٔ پیش از عمل است: پزشک اندازه می‌گیرد، علائم را می‌نویسد و درمان را برنامه‌ریزی می‌کند، اما امروز کسی چاقوی جراحی برنمی‌دارد. هفتهٔ ۵ همان عمل است.</p>',
       ),
       include: [
-        L('Your join query, with the key cleaned on both sides', 'استعلام الربط، مع تنظيف المفتاح في الجانبين', 'کوئری join، با کلید تمیزشده در هر دو طرف'),
-        L('Units, price and revenue per flavor', 'الوحدات والسعر والإيراد لكل نكهة', 'واحدها، قیمت و درآمد هر طعم'),
-        L('Row count after the join, and how many prices are NULL', 'عدد الصفوف بعد الربط، وكم سعرًا قيمته NULL', 'تعداد سطرها پس از join و اینکه چند قیمت NULL است'),
-      ],
-      example: [
-        {
-          type: 'code',
-          code: `SELECT s.flavor, SUM(s.units_sold) AS units, sp.price_cents / 100.0 AS price,
-       ROUND(SUM(s.units_sold) * sp.price_cents / 100.0, 2) AS revenue
-FROM jam_sales_clean s
-LEFT JOIN supplier_prices sp
-  ON UPPER(REPLACE(s.flavor, ' ', '')) = UPPER(REPLACE(sp.flavour_name, ' ', ''))
-WHERE s.flavor IN ('Peach', 'Lemon')   -- your version: every flavor, June table
-GROUP BY s.flavor, sp.price_cents;
--- Peach 40 | 4.00 | 160.00
--- Lemon  9 | 4.50 |  40.50`,
-        },
-        {
-          type: 'html',
-          html: L(
-            '<p>Both flavors found a price, so no NULLs: the LEFT JOIN kept all 5 Peach and Lemon rows. Lemon\'s $40.50 is new information; before the supplier sheet, Lemon could not be priced at all.</p>',
-            '<p>وجدت النكهتان سعرًا، فلا قيم NULL: أبقى LEFT JOIN صفوف الخوخ والليمون الخمسة كلها. إيراد Lemon ‏(40.50 دولارًا) معلومة جديدة؛ قبل ورقة المورّد لم يكن ممكنًا تسعير Lemon أصلًا.</p>',
-            '<p>هر دو طعم قیمت پیدا کردند، پس هیچ NULL نیست: LEFT JOIN هر ۵ سطر هلو و لیمو را نگه داشت. ۴۰٫۵۰ دلار Lemon اطلاعات تازه است؛ پیش از برگهٔ تأمین‌کننده اصلاً نمی‌شد برای Lemon قیمت گذاشت.</p>',
-          ),
-        },
-      ],
-    },
-    {
-      title: L('Reshape it for the owner', 'أعد تشكيله للمالك', 'برای مالک تغییر شکلش بده'),
-      prompt: L(
-        '<p>Label every clean June row as slow (under 12 jars), normal (12–24) or busy (25+), roll the units up by fruit family (berry, stone fruit, citrus), and min-max normalize the family totals. In two sentences, tell the owner what the labels and the families show.</p>',
-        '<p>صنّف كل صف نظيف في يونيو إلى بطيء (أقل من 12 برطمانًا) أو عادي (12–24) أو مزدحم (25 فأكثر)، واجمع الوحدات لأعلى حسب عائلة الفاكهة (توتيات، ذات نواة، حمضيات)، وطبّع إجماليات العائلات بطريقة min-max. في جملتين، أخبر المالك بما تُظهره التسميات والعائلات.</p>',
-        '<p>هر سطر تمیز ژوئن را کند (کمتر از ۱۲ شیشه)، عادی (۱۲ تا ۲۴) یا شلوغ (۲۵ به بالا) برچسب بزن، واحدها را بر اساس خانوادهٔ میوه (توت‌ها، هسته‌دارها، مرکبات) roll up کن و مجموع خانواده‌ها را با min-max نرمال کن. در دو جمله به مالک بگو برچسب‌ها و خانواده‌ها چه نشان می‌دهند.</p>',
-      ),
-      analogy: L(
-        '<p>Like a map with zoom levels: single market days are the street view, fruit families are the city view. Normalizing puts the cities on one 0-to-1 ruler so they can be compared at a glance.</p>',
-        '<p>كخريطة بمستويات تكبير: أيام السوق المفردة هي منظر الشارع، وعائلات الفاكهة هي منظر المدينة. يضع التطبيع المدن على مسطرة واحدة من 0 إلى 1 لتُقارن بنظرة.</p>',
-        '<p>مثل نقشه‌ای با سطح‌های بزرگ‌نمایی: تک‌روزهای بازار نمای خیابان‌اند و خانواده‌های میوه نمای شهر. نرمال‌سازی شهرها را روی یک خط‌کش ۰ تا ۱ می‌گذارد تا در یک نگاه مقایسه شوند.</p>',
-      ),
-      include: [
-        L('The count of slow, normal and busy rows', 'عدد الصفوف البطيئة والعادية والمزدحمة', 'تعداد سطرهای کند، عادی و شلوغ'),
-        L('Units per fruit family and their min-max values', 'الوحدات لكل عائلة فاكهة وقيم min-max لها', 'واحدهای هر خانوادهٔ میوه و مقدارهای min-max آن‌ها'),
-        L('Two sentences for the owner', 'جملتان للمالك', 'دو جمله برای مالک'),
+        L('A profile table with the numbers above', 'جدول فحص بالأرقام المذكورة أعلاه', 'یک جدول پروفایل با عددهای بالا'),
+        L('A problem table: column (and rows), what is wrong, kind (incomplete, noisy, inconsistent, disguised missing)', 'جدول مشكلات: العمود (والصفوف)، الخطأ، النوع (ناقصة، مشوّشة، غير متسقة، مفقودة متنكّرة)', 'جدول مشکلات: ستون (و سطرها)، ایراد، نوع (ناقص، نویزی، ناسازگار، گمشدهٔ پنهان)'),
+        L('A cleaning plan: one line per problem with the fix and the reason', 'خطة تنظيف: سطر لكل مشكلة مع الإصلاح والسبب', 'برنامهٔ پاک‌سازی: یک خط برای هر مشکل با راه اصلاح و دلیل'),
       ],
       example: [
         {
           type: 'table',
-          headers: [L('May (lesson data)', 'مايو (بيانات الدرس)', 'مه (دادهٔ درس)'), L('Result', 'النتيجة', 'نتیجه')],
+          headers: [L('Profile', 'الفحص', 'پروفایل'), L('Jam stand May export', 'تصدير مايو لكشك المربى', 'خروجی مه غرفهٔ مربا')],
           rows: [
-            [L('Peach rows labelled', 'تسميات صفوف الخوخ', 'برچسب سطرهای هلو'), L('10 slow, 8 slow, 12 normal, 10 slow: 3 slow, 1 normal', '10 بطيء، 8 بطيء، 12 عادي، 10 بطيء: 3 بطيئة و1 عادي', '۱۰ کند، ۸ کند، ۱۲ عادی، ۱۰ کند: ۳ کند، ۱ عادی')],
-            [L('Units by family', 'الوحدات حسب العائلة', 'واحدها بر حسب خانواده'), L('berry 160, stone fruit 40, citrus 9', 'توتيات 160، ذات نواة 40، حمضيات 9', 'توت‌ها ۱۶۰، هسته‌دارها ۴۰، مرکبات ۹')],
-            [L('Min-max of family totals', 'min-max لإجماليات العائلات', 'min-max مجموع خانواده‌ها'), L('berry 1.00, stone fruit 0.21, citrus 0.00', 'توتيات 1.00، ذات نواة 0.21، حمضيات 0.00', 'توت‌ها ۱٫۰۰، هسته‌دارها ۰٫۲۱، مرکبات ۰٫۰۰')],
+            [L('Rows × columns', 'الصفوف × الأعمدة', 'سطر × ستون'), L('15 × 4', '15 × 4', '۱۵ × ۴')],
+            [L('Blanks', 'الفراغات', 'خانه‌های خالی'), L('units_sold: 1; other columns: 0', 'units_sold: ‏1؛ الأعمدة الأخرى: 0', 'units_sold: ۱؛ ستون‌های دیگر: ۰')],
+            [L('Distinct flavor values', 'القيم المميزة للنكهة', 'مقدارهای یکتای flavor'), L('6 (for 4 real flavors)', '6 (لأربع نكهات حقيقية)', '۶ (برای ۴ طعم واقعی)')],
+            [L('units_sold min / max / mean', 'units_sold الأدنى / الأقصى / المتوسط', 'units_sold کمینه / بیشینه / میانگین'), L('-12 / 180 / 26.43', '-12 / 180 / 26.43', '‎-12 / ۱۸۰ / ۲۶٫۴۳')],
           ],
         },
         {
-          type: 'html',
-          html: L(
-            '<p>Peach had mostly slow days in May, so one person can run the Peach table. Berries carry the stand (1.00 on the family scale), while Peach sits about a fifth of the way up and Lemon is still too new to compare.</p>',
-            '<p>كانت أيام الخوخ في مايو بطيئة غالبًا، فيكفي شخص واحد لطاولة الخوخ. التوتيات تحمل الكشك (1.00 على مقياس العائلات)، بينما يقع الخوخ عند نحو خُمس المسافة، والليمون ما زال جديدًا جدًا للمقارنة.</p>',
-            '<p>هلو در مه بیشتر روزهای کند داشت، پس یک نفر می‌تواند میز هلو را بچرخاند. توت‌ها بار غرفه را می‌کشند (۱٫۰۰ روی مقیاس خانواده)، هلو حدود یک‌پنجم مسیر بالا است و لیمو هنوز برای مقایسه خیلی تازه است.</p>',
-          ),
+          type: 'table',
+          headers: [L('Problem', 'المشكلة', 'مشکل'), L('Kind', 'النوع', 'نوع'), L('Plan for Week 5', 'الخطة للأسبوع 5', 'برنامه برای هفتهٔ ۵')],
+          rows: [
+            [L('flavor: "blueberry", "Strawberry " (rows 2, 4)', 'flavor: ‏"blueberry" و"Strawberry " (الصفان 2 و4)', 'flavor: ‏"blueberry"، "Strawberry " (سطرهای ۲ و ۴)'), L('Inconsistent', 'غير متسقة', 'ناسازگار'), L('TRIM + PROPER on a copy, so 4 flavors remain', 'TRIM + PROPER على نسخة، لتبقى 4 نكهات', 'TRIM + PROPER روی یک کپی تا ۴ طعم بماند')],
+            [L('units_sold blank (row 5)', 'units_sold فارغ (الصف 5)', 'units_sold خالی (سطر ۵)'), L('Incomplete', 'ناقصة', 'ناقص'), L('Ask the owner for the paper log value; don\'t use 0', 'اطلب قيمة السجل الورقي من المالك؛ لا تستخدم 0', 'مقدار دفتر کاغذی را از مالک بپرس؛ از ۰ استفاده نکن')],
+            [L('units_sold -12 and 180 (rows 9, 7)', 'units_sold قيمتا ‎-12 و180 (الصفان 9 و7)', 'units_sold مقدارهای ‎-12 و ۱۸۰ (سطرهای ۹ و ۷)'), L('Noisy', 'مشوّشة', 'نویزی'), L('Fix the sign; check 180 with the owner before changing', 'أصلح الإشارة؛ وتحقق من 180 مع المالك قبل التغيير', 'علامت را درست کن؛ ۱۸۰ را پیش از تغییر با مالک چک کن')],
+            [L('Row 15: 0 jars on 2024-01-01', 'الصف 15: ‏0 برطمانات في 2024-01-01', 'سطر ۱۵: ۰ شیشه در 2024-01-01'), L('Disguised missing', 'مفقودة متنكّرة', 'گمشدهٔ پنهان'), L('Delete: it is the till\'s test row', 'احذفه: إنه صف اختبار الجهاز', 'حذف: سطر آزمایشی صندوق است')],
+          ],
         },
       ],
     },

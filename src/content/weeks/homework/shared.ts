@@ -32,3 +32,10 @@ export const deadlineNotice = L(
   '<p><strong>الموعد النهائي: الأحد 11 أكتوبر 2026.</strong> ينطبق ذلك على واجبي الأسبوع 2 والأسبوع 3.</p>' + drive.ar,
   '<p><strong>مهلت: یکشنبه ۱۱ اکتبر ۲۰۲۶.</strong> این مهلت برای تکلیف‌های هفتهٔ ۲ و هفتهٔ ۳ است.</p>' + drive.fa,
 )
+
+/** From Week 4 on, homework is a step of the pair final project (see src/content/weeks/final-project.ts). */
+export const projectNotice = L(
+  '<p><strong>From this week, your homework builds your final project.</strong> Work with your partner on one case study from the <a href="/week/final-project">Final Project page</a>; each homework from now on adds one part, so by Week 10 most of the project is already done.</p><p><strong>How to hand in:</strong> one partner creates a Google Drive folder named <em>BA2 Final Project – [case] – [your two names]</em>, shares it with the other partner (Editor) and with your mentor (Viewer or Commenter), and keeps one project document in it. Add each week\'s answers to that document under the week\'s heading.</p>',
+  '<p><strong>بدءًا من هذا الأسبوع، يبني واجبك مشروعك النهائي.</strong> اعمل مع شريكك على دراسة حالة واحدة من <a href="/week/final-project">صفحة المشروع النهائي</a>؛ كل واجب من الآن يضيف جزءًا، فبحلول الأسبوع 10 يكون معظم المشروع منجزًا.</p><p><strong>طريقة التسليم:</strong> ينشئ أحد الشريكين مجلدًا في Google Drive باسم <em>BA2 Final Project – [الحالة] – [اسماكما]</em>، ويشاركه مع الشريك الآخر (Editor) ومع مرشدكما (Viewer أو Commenter)، ويحتفظ فيه بمستند واحد للمشروع. أضيفا إجابات كل أسبوع إلى ذلك المستند تحت عنوان الأسبوع.</p>',
+  '<p><strong>از این هفته، تکلیف تو پروژهٔ نهایی‌ات را می‌سازد.</strong> با هم‌گروهی‌ات روی یک مطالعهٔ موردی از <a href="/week/final-project">صفحهٔ پروژهٔ نهایی</a> کار کن؛ هر تکلیف از این به بعد یک بخش اضافه می‌کند، پس تا هفتهٔ ۱۰ بیشتر پروژه انجام شده است.</p><p><strong>نحوهٔ تحویل:</strong> یکی از دو نفر یک پوشهٔ Google Drive با نام <em>BA2 Final Project – [مورد] – [نام شما دو نفر]</em> می‌سازد، آن را با هم‌گروهی (Editor) و منتورتان (Viewer یا Commenter) به اشتراک می‌گذارد و یک سند پروژه در آن نگه می‌دارد. پاسخ‌های هر هفته را زیر عنوان همان هفته به آن سند اضافه کنید.</p>',
+)
