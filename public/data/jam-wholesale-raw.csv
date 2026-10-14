@@ -1,0 +1,27 @@
+order_id;customer;order_date;flavor;jars;unit_price;postcode
+1001;Green Grocer Ltd;03/06/2024;Strawberry;60;5,00;02134
+1002;Cafe Rose;03/06/2024;Blueberry;36;6,00;10115
+1003;Harbour Market;04/06/2024;Peach;48;4,00;20457
+1004;Farm Shop Direct;05/06/2024;strawberry;72;5,00;02138
+1005; Sunny Deli ;05/06/2024;Lemon;24;4,50;10117
+1006;The Pantry;06/06/2024;Blueberry;48;6,00;20459
+1007;Green Grocer Ltd;07/06/2024;Peach;36;4,00;02134
+1007;Green Grocer Ltd ;07/06/2024;Peach;36;4,00;02134
+1008;Café Rosé;10/06/2024;Strawberry;48;5,00;10115
+1009;Harbour Market;11/06/2024;Blueberry ;60;6,00;20457
+1010;Farm Shop Direct;12/06/2024;Lemon;36;4,50;02138
+1011;Sunny Deli;13/06/2024;Strawberry;72;5.00;10117
+1011;Sunny Deli;13/06/2024;Strawberry;72;5.00;10117
+1012;the pantry;14/06/2024;Peach;24;4,00;20459
+1013;Greengrocer Ltd.;17/06/2024;Blueberry;72;6,00;02134
+1014;Café Rosé;18/06/2024;Lemon;-24;4,50;10115
+1015;Harbor Market;19/06/2024;Strawberry;84;5,00;20457
+1016;Farm Shop Direct;20/06/2024;Peach;48;4,00;02138
+1017;Sunny Deli;21/06/2025;Blueberry;60;6,00;10117
+1018;The Pantry;24/06/2024;Strawberry;360;5,00;20459
+1019;Green Grocers Limited;25/06/2024;Lemon;48;4,50;02134
+1020;Café Rosé;26/06/2024;Peech;60;4,00;10115
+1021;Harbour Market;27/06/2024;Lemon;36;4,50;20457
+1022;Farm Shop Direct;28/06/2024;Blueberry;48;6,00;02138
+1023;Greenfield Grocer Ltd;28/06/2024;Peach;24;4,00;10119
+1024;TEST;01/06/2024;Strawberry;0;5,00;00000
