@@ -1018,6 +1018,7 @@ If you get a different number, explain which row differs and why.`),
 
 export const weekFive: Week = {
   id: 'week-05',
+  originalPdf: '/originals/week-05.pdf',
   order: 5,
   cover: {
     kicker: t('Business Analytics 2 · Week 5', 'تحليلات الأعمال 2 · الأسبوع 5', 'تحلیل کسب‌وکار ۲ · هفته ۵'),
