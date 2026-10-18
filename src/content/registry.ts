@@ -9,6 +9,7 @@ const weekLoaders: Record<string, () => Promise<Week>> = {
   'week-02': () => import('./weeks/week-02').then((m) => m.weekTwo),
   'week-03': () => import('./weeks/week-03').then((m) => m.weekThree),
   'week-04': () => import('./weeks/week-04').then((m) => m.weekFour),
+  'week-06': () => import('./weeks/week-06').then((m) => m.weekSix),
   'final-project': () => import('./weeks/final-project').then((m) => m.finalProject),
 }
 

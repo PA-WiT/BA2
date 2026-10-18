@@ -1,0 +1,52 @@
+<svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Residual plot: the error of the temperature regression for each month, plotted against temperature, scattered around zero with no fan shape">
+<line x1="46" y1="194.4" x2="385" y2="194.4" stroke="#EDE7D9" stroke-width="1"/>
+<text x="40" y="197.4" text-anchor="end" font-size="8.5" fill="#55606E">-15</text>
+<line x1="46" y1="166.6" x2="385" y2="166.6" stroke="#EDE7D9" stroke-width="1"/>
+<text x="40" y="169.6" text-anchor="end" font-size="8.5" fill="#55606E">-10</text>
+<line x1="46" y1="138.8" x2="385" y2="138.8" stroke="#EDE7D9" stroke-width="1"/>
+<text x="40" y="141.8" text-anchor="end" font-size="8.5" fill="#55606E">-5</text>
+<line x1="46" y1="111.0" x2="385" y2="111.0" stroke="#8A93A0" stroke-width="1.2"/>
+<text x="40" y="114.0" text-anchor="end" font-size="8.5" fill="#55606E">0</text>
+<line x1="46" y1="83.2" x2="385" y2="83.2" stroke="#EDE7D9" stroke-width="1"/>
+<text x="40" y="86.2" text-anchor="end" font-size="8.5" fill="#55606E">5</text>
+<line x1="46" y1="55.4" x2="385" y2="55.4" stroke="#EDE7D9" stroke-width="1"/>
+<text x="40" y="58.4" text-anchor="end" font-size="8.5" fill="#55606E">10</text>
+<line x1="46" y1="27.6" x2="385" y2="27.6" stroke="#EDE7D9" stroke-width="1"/>
+<text x="40" y="30.6" text-anchor="end" font-size="8.5" fill="#55606E">15</text>
+<text x="46.0" y="213" text-anchor="middle" font-size="8.5" fill="#55606E">0</text>
+<text x="102.5" y="213" text-anchor="middle" font-size="8.5" fill="#55606E">5</text>
+<text x="159.0" y="213" text-anchor="middle" font-size="8.5" fill="#55606E">10</text>
+<text x="215.5" y="213" text-anchor="middle" font-size="8.5" fill="#55606E">15</text>
+<text x="272.0" y="213" text-anchor="middle" font-size="8.5" fill="#55606E">20</text>
+<text x="328.5" y="213" text-anchor="middle" font-size="8.5" fill="#55606E">25</text>
+<text x="385.0" y="213" text-anchor="middle" font-size="8.5" fill="#55606E">30</text>
+<line x1="46" y1="22" x2="46" y2="200" stroke="#8A93A0"/>
+<text x="215.5" y="232" text-anchor="middle" font-size="9.5" font-weight="700" fill="#1C2B3A">Average temperature (°C)</text>
+<text x="12" y="111.0" text-anchor="middle" font-size="9.5" font-weight="700" fill="#1C2B3A" transform="rotate(-90 12 111.0)">Residual (actual − predicted)</text>
+<line x1="91.2" y1="111.0" x2="91.2" y2="76.4" stroke="#0E6F7E" stroke-width="1" stroke-opacity="0.45"/>
+<circle cx="91.2" cy="76.4" r="3.6" fill="#0E6F7E"/>
+<line x1="113.8" y1="111.0" x2="113.8" y2="105.2" stroke="#0E6F7E" stroke-width="1" stroke-opacity="0.45"/>
+<circle cx="113.8" cy="105.2" r="3.6" fill="#0E6F7E"/>
+<line x1="159.0" y1="111.0" x2="159.0" y2="151.7" stroke="#0E6F7E" stroke-width="1" stroke-opacity="0.45"/>
+<circle cx="159.0" cy="151.7" r="3.6" fill="#0E6F7E"/>
+<line x1="204.2" y1="111.0" x2="204.2" y2="159.3" stroke="#0E6F7E" stroke-width="1" stroke-opacity="0.45"/>
+<circle cx="204.2" cy="159.3" r="3.6" fill="#0E6F7E"/>
+<line x1="249.4" y1="111.0" x2="249.4" y2="116.7" stroke="#0E6F7E" stroke-width="1" stroke-opacity="0.45"/>
+<circle cx="249.4" cy="116.7" r="3.6" fill="#0E6F7E"/>
+<line x1="305.9" y1="111.0" x2="305.9" y2="85.8" stroke="#0E6F7E" stroke-width="1" stroke-opacity="0.45"/>
+<circle cx="305.9" cy="85.8" r="3.6" fill="#0E6F7E"/>
+<line x1="351.1" y1="111.0" x2="351.1" y2="87.8" stroke="#0E6F7E" stroke-width="1" stroke-opacity="0.45"/>
+<circle cx="351.1" cy="87.8" r="3.6" fill="#0E6F7E"/>
+<line x1="339.8" y1="111.0" x2="339.8" y2="65.1" stroke="#0E6F7E" stroke-width="1" stroke-opacity="0.45"/>
+<circle cx="339.8" cy="65.1" r="3.6" fill="#0E6F7E"/>
+<line x1="283.3" y1="111.0" x2="283.3" y2="140.5" stroke="#0E6F7E" stroke-width="1" stroke-opacity="0.45"/>
+<circle cx="283.3" cy="140.5" r="3.6" fill="#0E6F7E"/>
+<line x1="215.5" y1="111.0" x2="215.5" y2="170.9" stroke="#0E6F7E" stroke-width="1" stroke-opacity="0.45"/>
+<circle cx="215.5" cy="170.9" r="3.6" fill="#0E6F7E"/>
+<line x1="147.7" y1="111.0" x2="147.7" y2="140.1" stroke="#0E6F7E" stroke-width="1" stroke-opacity="0.45"/>
+<circle cx="147.7" cy="140.1" r="3.6" fill="#0E6F7E"/>
+<line x1="102.5" y1="111.0" x2="102.5" y2="32.4" stroke="#0E6F7E" stroke-width="1" stroke-opacity="0.45"/>
+<circle cx="102.5" cy="32.4" r="3.6" fill="#0E6F7E"/>
+<text x="221.5" y="173.9" font-size="8" fill="#55606E">Oct (-10.8)</text>
+<text x="108.5" y="35.4" font-size="8" fill="#55606E">Dec (+14.1)</text>
+</svg>
