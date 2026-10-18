@@ -1,0 +1,19 @@
+<svg viewBox="0 0 420 236" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Two pairs of duplicate rows. Order 1011 is an exact copy, so Remove Duplicates finds it at once. Order 1007 differs by one trailing space, so it is missed until TRIM has cleaned the customer name.">
+<text x="10" y="16" font-size="10" font-weight="700" fill="#55606E">Raw export: what Remove Duplicates compares</text>
+<rect x="10" y="24" width="400" height="30" rx="4" fill="#fff" stroke="#DED6C4"/>
+<text x="20" y="43" font-size="9.5" fill="#1C2B3A" font-family="monospace">1011  Sunny Deli  13/06/2024  Strawberry  72</text>
+<rect x="10" y="58" width="400" height="30" rx="4" fill="#fff" stroke="#DED6C4"/>
+<text x="20" y="77" font-size="9.5" fill="#1C2B3A" font-family="monospace">1011  Sunny Deli  13/06/2024  Strawberry  72</text>
+<text x="288" y="43" font-size="9" font-weight="700" fill="#1F6B47">identical text</text>
+<text x="288" y="77" font-size="9" font-weight="700" fill="#1F6B47">found</text>
+<rect x="10" y="100" width="400" height="30" rx="4" fill="#fff" stroke="#DED6C4"/>
+<text x="20" y="119" font-size="9.5" fill="#1C2B3A" font-family="monospace">1007  Green Grocer Ltd   07/06/2024  Peach  36</text>
+<rect x="10" y="134" width="400" height="30" rx="4" fill="#FBF0D9" stroke="#9A6B00"/>
+<text x="20" y="153" font-size="9.5" fill="#1C2B3A" font-family="monospace">1007  Green Grocer Ltd␣  07/06/2024  Peach  36</text>
+<text x="288" y="119" font-size="9" font-weight="700" fill="#9A6B00">one hidden trailing</text>
+<text x="288" y="153" font-size="9" font-weight="700" fill="#9A6B00">space: not identical</text>
+<rect x="10" y="176" width="400" height="50" rx="5" fill="#E3F1F3" stroke="#0E6F7E" stroke-width="1.4"/>
+<text x="20" y="194" font-size="10.5" font-weight="800" fill="#0E6F7E">Raw: Remove Duplicates removes 1 row</text>
+<text x="20" y="209" font-size="9.2" fill="#1C2B3A">After TRIM on the customer column it removes 2: both copies are found.</text>
+<text x="20" y="221" font-size="9.2" fill="#1C2B3A">Clean the text first, then look for duplicates.</text>
+</svg>
