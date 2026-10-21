@@ -1,0 +1,36 @@
+<svg viewBox="0 0 420 262" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Supervised learning: past examples come with answers (4 degrees gives 16 jars, 14 degrees gives 42, 27 degrees gives 108), the algorithm learns a rule and predicts about 75 jars for 20 degrees. Unsupervised learning: unlabeled points with no answers are sorted by the algorithm into groups it finds itself.">
+<defs><marker id="a3" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#55606E"/></marker></defs>
+<rect x="6" y="6" width="200" height="250" rx="6" fill="#fff" stroke="#DED6C4"/>
+<text x="16" y="25" font-size="12" font-weight="800" fill="#0E6F7E">Supervised</text>
+<text x="16" y="39" font-size="8.8" fill="#55606E">the examples come with the answer</text>
+<rect x="16" y="50" width="180" height="24" rx="4" fill="#E3F1F3" stroke="#0E6F7E"/>
+<text x="26" y="66" font-size="9.5" fill="#1C2B3A" font-family="monospace">4 °C  → 16 jars</text>
+<rect x="16" y="80" width="180" height="24" rx="4" fill="#E3F1F3" stroke="#0E6F7E"/>
+<text x="26" y="96" font-size="9.5" fill="#1C2B3A" font-family="monospace">14 °C → 42 jars</text>
+<rect x="16" y="110" width="180" height="24" rx="4" fill="#E3F1F3" stroke="#0E6F7E"/>
+<text x="26" y="126" font-size="9.5" fill="#1C2B3A" font-family="monospace">27 °C → 108 jars</text>
+<line x1="106" y1="136" x2="106" y2="156" stroke="#55606E" stroke-width="1.4" marker-end="url(#a3)"/>
+<rect x="36" y="158" width="140" height="28" rx="14" fill="#0E6F7E"/>
+<text x="106" y="176" text-anchor="middle" font-size="10" font-weight="700" fill="#fff">learns the rule</text>
+<line x1="106" y1="188" x2="106" y2="206" stroke="#55606E" stroke-width="1.4" marker-end="url(#a3)"/>
+<rect x="16" y="208" width="180" height="40" rx="5" fill="#FBF0D9" stroke="#9A6B00"/>
+<text x="26" y="224" font-size="9.2" fill="#1C2B3A">New month, 20 °C:</text>
+<text x="26" y="238" font-size="9.8" font-weight="700" fill="#9A6B00">predicts about 75 jars</text>
+<rect x="214" y="6" width="200" height="250" rx="6" fill="#fff" stroke="#DED6C4"/>
+<text x="224" y="25" font-size="12" font-weight="800" fill="#6B4C9A">Unsupervised</text>
+<text x="224" y="39" font-size="8.8" fill="#55606E">no answers, only the data</text>
+<g fill="#8A93A0">
+<circle cx="244" cy="70" r="5"/><circle cx="268" cy="96" r="5"/><circle cx="300" cy="64" r="5"/><circle cx="330" cy="102" r="5"/>
+<circle cx="360" cy="72" r="5"/><circle cx="392" cy="98" r="5"/><circle cx="252" cy="116" r="5"/><circle cx="312" cy="124" r="5"/>
+<circle cx="382" cy="126" r="5"/><circle cx="344" cy="58" r="5"/>
+</g>
+<text x="314" y="146" text-anchor="middle" font-size="8.8" fill="#55606E">a pile of unlabeled points</text>
+<line x1="314" y1="152" x2="314" y2="170" stroke="#55606E" stroke-width="1.4" marker-end="url(#a3)"/>
+<rect x="250" y="172" width="128" height="26" rx="13" fill="#6B4C9A"/>
+<text x="314" y="189" text-anchor="middle" font-size="10" font-weight="700" fill="#fff">finds groups itself</text>
+<line x1="314" y1="200" x2="314" y2="212" stroke="#55606E" stroke-width="1.4" marker-end="url(#a3)"/>
+<ellipse cx="260" cy="232" rx="34" ry="16" fill="#EFE9F7" stroke="#6B4C9A"/>
+<circle cx="250" cy="230" r="4.5" fill="#6B4C9A"/><circle cx="262" cy="238" r="4.5" fill="#6B4C9A"/><circle cx="272" cy="228" r="4.5" fill="#6B4C9A"/>
+<ellipse cx="364" cy="232" rx="34" ry="16" fill="#E3F1F3" stroke="#0E6F7E"/>
+<circle cx="354" cy="230" r="4.5" fill="#0E6F7E"/><circle cx="366" cy="238" r="4.5" fill="#0E6F7E"/><circle cx="376" cy="228" r="4.5" fill="#0E6F7E"/>
+</svg>

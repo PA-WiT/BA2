@@ -1,0 +1,22 @@
+<svg viewBox="0 0 420 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The regression line read as stairs: the line starts at minus 6.57 jars at 0 degrees and climbs 4.09 jars for every degree. At 10 degrees it reaches 34 jars, at 20 degrees 75 jars, at 30 degrees 116 jars.">
+<line x1="50" y1="206" x2="400" y2="206" stroke="#55606E" stroke-width="1.2"/>
+<line x1="50" y1="20" x2="50" y2="206" stroke="#55606E" stroke-width="1.2"/>
+<g stroke="#EDE7D9"><line x1="50" y1="158" x2="400" y2="158"/><line x1="50" y1="110" x2="400" y2="110"/><line x1="50" y1="62" x2="400" y2="62"/></g>
+<g font-size="8.8" fill="#55606E">
+<text x="50.0" y="220" text-anchor="middle">0</text><text x="137.5" y="220" text-anchor="middle">10</text><text x="225.0" y="220" text-anchor="middle">20</text><text x="312.5" y="220" text-anchor="middle">30</text>
+<text x="225" y="238" text-anchor="middle">average temperature (°C)</text>
+<text x="44" y="209" text-anchor="end">0</text><text x="44" y="161" text-anchor="end">40</text><text x="44" y="113" text-anchor="end">80</text><text x="44" y="65" text-anchor="end">120</text>
+<text x="12" y="120" transform="rotate(-90 12 120)" text-anchor="middle">jars per month</text>
+</g>
+<polyline fill="none" stroke="#0E6F7E" stroke-width="2" points="50.0,213.9 312.5,66.7"/>
+<path d="M137.5,164.8 h8.75 v-4.91 h8.75 v-4.91 h8.75 v-4.91 h8.75 v-4.91 h8.75 v-4.91 h8.75 v-4.91 h8.75 v-4.91 h8.75 v-4.91 h8.75 v-4.91 h8.75 v-4.91" fill="none" stroke="#6B4C9A" stroke-width="1.6"/>
+<circle cx="50.0" cy="213.9" r="4.5" fill="#A8322A"/>
+<circle cx="137.5" cy="164.8" r="4.5" fill="#0E6F7E"/><circle cx="225.0" cy="115.7" r="4.5" fill="#0E6F7E"/><circle cx="312.5" cy="66.7" r="4.5" fill="#0E6F7E"/>
+<text x="58" y="196" font-size="9.5" font-weight="700" fill="#A8322A">start: −6.57 (the intercept)</text>
+<text x="146" y="179" font-size="9.5" font-weight="700" fill="#0E6F7E">10 °C → 34 jars</text>
+<text x="233" y="130" font-size="9.5" font-weight="700" fill="#0E6F7E">20 °C → 75 jars</text>
+<text x="320" y="61" font-size="9.5" font-weight="700" fill="#0E6F7E">30 °C → 116 jars</text>
+<text x="142" y="98" font-size="9" fill="#6B4C9A" font-weight="700">each °C is one step up:</text>
+<text x="142" y="110" font-size="9" fill="#6B4C9A" font-weight="700">+4.09 jars (the slope)</text>
+<text x="56" y="30" font-size="9.5" fill="#1C2B3A">jars = −6.57 + 4.09 × temperature</text>
+</svg>

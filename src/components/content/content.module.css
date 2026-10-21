@@ -251,6 +251,10 @@
   height: auto;
   display: block;
 }
+.diagram .figLink {
+  display: block;
+  cursor: zoom-in;
+}
 .diagram figcaption {
   font-size: 0.95rem;
   color: #55606e;

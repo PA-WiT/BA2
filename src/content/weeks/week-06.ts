@@ -7,11 +7,15 @@
 //  - Every number here was computed by least squares before writing (simple: jars = -6.57 + 4.09 × temp,
 //    R² 0.950; with market_days, adjusted R² falls to 0.939). The figures are drawn from those numbers.
 //  - Hypothesis tests come in Week 7, so p-values are read only as "below 0.05 or not" here.
+// Revised to use the original deck's figures (public/figures/week-06/deck-NN-*.png, cropped from the PDF), its
+// Direct Marketing and diamond examples, and plain-words explanations, analogies and recaps; those extra blocks and
+// the deck mistakes corrected on purpose are documented in week06Extra.ts.
 // Python snippets live in `py` and are exported to public/notebooks/week-06-linear-regression.ipynb
 // (regenerate it if they change). ar/fa are draft translations awaiting native review. Code stays English.
 import type { Block, Question, Week } from '../types'
 import { L } from './homework/shared'
 import { week06Homework } from './homework/week-06'
+import * as extra from './week06Extra'
 
 const t = L
 const notebookUrl =
@@ -272,12 +276,12 @@ export const weekSix: Week = {
       '<h1>رگرسیون خطی:<em>کشیدن خط میان علت و معلول، با احتیاط</em></h1><p class="lede">تا اینجا آنچه را اتفاق افتاده توصیف کردی. رگرسیون به تو اجازه می‌دهد بگویی وقتی چیزی تغییر می‌کند چیز دیگر چقدر جابه‌جا می‌شود و آن را به پیش‌بینی تبدیل کنی: «ماهی با ۲۰ درجه باید حدود ۷۵ شیشه بفروشد». این هفته یک رگرسیون را در Excel، Python و Power BI برازش می‌کنی، می‌خوانی و بررسی می‌کنی.</p>',
     ),
     timeEstimate: t(
-      '≈ 90 min · reading + Excel, Python and Power BI practice',
-      '≈ ٩٠ دقيقة · قراءة وتدريب Excel وPython وPower BI',
-      '≈ ۹۰ دقیقه · مطالعه و تمرین Excel، Python و Power BI',
+      '≈ 120 min · reading + Excel, Python and Power BI practice',
+      '≈ ١٢٠ دقيقة · قراءة وتدريب Excel وPython وPower BI',
+      '≈ ۱۲۰ دقیقه · مطالعه و تمرین Excel، Python و Power BI',
     ),
   },
-  questions,
+  questions: [...questions, ...extra.extraQuestions],
   sections: [
     {
       id: 'welcome',
@@ -301,6 +305,7 @@ export const weekSix: Week = {
             t('Add variables in a multiple regression and judge them with adjusted R²', 'إضافة متغيرات في انحدار متعدد والحكم عليها بـ R² المعدّل', 'در رگرسیون چندگانه متغیر اضافه کنی و با R² تعدیل‌شده دربارهٔ آن‌ها قضاوت کنی'),
           ],
         },
+        ...extra.welcomeIntro,
         {
           type: 'html',
           html: t(
@@ -314,6 +319,7 @@ export const weekSix: Week = {
           headers: [t('Month (A)', 'الشهر (A)', 'ماه (A)'), t('avg_temp_c (B)', 'avg_temp_c ‏(B)', 'avg_temp_c ‏(B)'), t('market_days (C)', 'market_days ‏(C)', 'market_days ‏(C)'), t('jars (D)', 'jars ‏(D)', 'jars ‏(D)')],
           rows: months.map((m, i) => [cell(m), cell(temp[i]), cell(marketDays[i]), cell(jars[i])]),
         },
+        ...extra.welcomeCheat,
         { type: 'exercise', questionId: 'w06-q001' },
       ],
     },
@@ -328,6 +334,7 @@ export const weekSix: Week = {
         '<h2>یادگیری با نظارت و بدون نظارت: آیا داده با جواب می‌آید؟</h2><p class="standfirst">رگرسیون به خانواده‌ای از روش‌ها تعلق دارد که از مثال‌ها یاد می‌گیرند. شناختن این خانواده می‌گوید کی رگرسیون ابزار درست است.</p>',
       ),
       blocks: [
+        ...extra.supervisedStart,
         {
           type: 'table',
           headers: [t('', '', ''), t('Supervised', 'موجّه', 'با نظارت'), t('Unsupervised', 'غير موجّه', 'بدون نظارت')],
@@ -345,6 +352,7 @@ export const weekSix: Week = {
             '<h3>دو نوع یادگیری با نظارت</h3><ul><li><strong>رگرسیون</strong>: جواب (Y، متغیر وابسته) یک <em>عدد</em> است: قیمت خانه، تقاضای محصول، شیشه‌های فروخته‌شده.</li><li><strong>دسته‌بندی</strong>: جواب یک <em>دسته</em> است: تقلبی یا نه، خوش‌خیم یا بدخیم، هرزنامه یا نه.</li></ul><p>اسلایدها یک تغییر در شیوهٔ کار را هم اضافه می‌کنند: آمار سنتی از یک مجموعه‌دادهٔ کوچک و تمیز که کارشناسان حوزه آماده کرده بودند شروع می‌کرد؛ امروز تحلیل‌گرها اغلب از یک مجموعه‌دادهٔ بزرگ با ستون‌های زیاد و دانش حوزهٔ محدود شروع می‌کنند، و به همین دلیل هفته‌های ۴ و ۵ (آماده‌سازی داده) پیش از این هفته می‌آیند.</p>',
           ),
         },
+        ...extra.supervisedEnd,
         { type: 'exercise', questionId: 'w06-q002' },
       ],
     },
@@ -359,18 +367,20 @@ export const weekSix: Week = {
         '<h2>رگرسیون خطی ساده: خط راستی که بهترین برازش را دارد</h2><p class="standfirst">رگرسیون خطی ساده رابطهٔ میان دو متغیر عددی را برآورد می‌کند: چقدر قوی است و Y در یک X مشخص چقدر باید باشد.</p>',
       ),
       blocks: [
+        ...extra.simpleIntro,
         { type: 'formula', eq: 'y = β₀ + β₁x + ε', note: t('the regression equation', 'معادلة الانحدار', 'معادلهٔ رگرسیون') },
         {
           type: 'html',
           html: t(
-            '<ul><li><strong>y</strong>: the predicted value of the dependent variable (jars).</li><li><strong>x</strong>: the independent variable, the one we expect to influence y (temperature).</li><li><strong>β₀ (intercept)</strong>: the predicted y when x is 0.</li><li><strong>β₁ (slope, regression coefficient)</strong>: how much y is expected to change when x goes up by one.</li><li><strong>ε (error)</strong>: what the line can\'t explain; every real point sits a little above or below the line.</li></ul><p>Regression finds the β₀ and β₁ that make the total error as small as possible. Precisely, it minimizes the sum of the <em>squared</em> vertical distances from each point to the line, which is why it is called <strong>least squares</strong>.</p>',
-            '<ul><li><strong>y</strong>: القيمة المتنبأ بها للمتغير التابع (البرطمانات).</li><li><strong>x</strong>: المتغير المستقل، الذي نتوقع أن يؤثر في y (الحرارة).</li><li><strong>β₀ (المقطع)</strong>: قيمة y المتنبأ بها حين تكون x صفرًا.</li><li><strong>β₁ (الميل، معامل الانحدار)</strong>: مقدار التغير المتوقع في y حين تزيد x بمقدار واحد.</li><li><strong>ε (الخطأ)</strong>: ما لا يستطيع الخط تفسيره؛ فكل نقطة حقيقية تقع فوق الخط أو تحته قليلًا.</li></ul><p>يجد الانحدار قيمتي β₀ وβ₁ اللتين تجعلان الخطأ الكلي أصغر ما يمكن. بدقة، يقلّل مجموع <em>مربعات</em> المسافات الرأسية من كل نقطة إلى الخط، ولهذا يسمى <strong>المربعات الصغرى</strong>.</p>',
-            '<ul><li><strong>y</strong>: مقدار پیش‌بینی‌شدهٔ متغیر وابسته (شیشه‌ها).</li><li><strong>x</strong>: متغیر مستقل، همان که انتظار داریم بر y اثر بگذارد (دما).</li><li><strong>β₀ (عرض از مبدأ)</strong>: y پیش‌بینی‌شده وقتی x صفر است.</li><li><strong>β₁ (شیب، ضریب رگرسیون)</strong>: وقتی x یک واحد بالا می‌رود، انتظار داریم y چقدر تغییر کند.</li><li><strong>ε (خطا)</strong>: چیزی که خط نمی‌تواند توضیح دهد؛ هر نقطهٔ واقعی کمی بالا یا پایین خط است.</li></ul><p>رگرسیون β₀ و β₁ را طوری پیدا می‌کند که خطای کل تا حد ممکن کوچک شود. دقیق‌تر، مجموع <em>مربع</em> فاصله‌های عمودی هر نقطه تا خط را کمینه می‌کند و به همین دلیل به آن <strong>کمترین مربعات</strong> می‌گویند.</p>',
+            '<p>Regression finds the β₀ and β₁ that make the total error as small as possible. Precisely, it minimizes the sum of the <em>squared</em> vertical distances from each point to the line, which is why it is called <strong>least squares</strong>.</p>',
+            '<p>يجد الانحدار قيمتي β₀ وβ₁ اللتين تجعلان الخطأ الكلي أصغر ما يمكن. بدقة، يقلّل مجموع <em>مربعات</em> المسافات الرأسية من كل نقطة إلى الخط، ولهذا يسمى <strong>المربعات الصغرى</strong>.</p>',
+            '<p>رگرسیون β₀ و β₁ را طوری پیدا می‌کند که خطای کل تا حد ممکن کوچک شود. دقیق‌تر، مجموع <em>مربع</em> فاصله‌های عمودی هر نقطه تا خط را کمینه می‌کند و به همین دلیل به آن <strong>کمترین مربعات</strong> می‌گویند.</p>',
           ),
         },
+        ...extra.simpleFormula,
         {
           type: 'diagram',
-          fig: t('Figure 1', 'الشكل 1', 'شکل ۱'),
+          fig: t('Figure 5', 'الشكل 5', 'شکل ۵'),
           title: t('Jars sold per month against average temperature, 2024', 'البرطمانات المباعة شهريًا مقابل متوسط الحرارة، 2024', 'شیشه‌های فروخته‌شدهٔ ماهانه در برابر میانگین دما، ۲۰۲۴'),
           src: '/figures/week-06/diagram-01.svg',
           alt: 'Scatter plot of the 12 months: jars rise steadily with temperature, from 16 jars at 4 °C to 108 jars at 26–27 °C, with the fitted line jars = -6.57 + 4.09 × temp',
@@ -390,6 +400,7 @@ export const weekSix: Week = {
             '<p>تصور کن یک چوب راست را روی نقطه‌ها می‌گذاری و هر نقطه را با یک کش به آن وصل می‌کنی. کش‌ها نقطه‌های دورتر را محکم‌تر می‌کشند، پس چوب جایی آرام می‌گیرد که کشش کل کمترین باشد. همان جا خط کمترین مربعات است.</p>',
           ),
         },
+        ...extra.simpleEnd,
         { type: 'exercise', questionId: 'w06-q003' },
       ],
     },
@@ -404,7 +415,9 @@ export const weekSix: Week = {
         '<h2>گام‌به‌گام: رگرسیون را خودت برازش کن</h2><p class="standfirst">همین رگرسیون را در هر ابزار اجرا کن. Data Analysis ToolPak در Excel روش اسلایدهاست؛ Python و Power BI همان خط را می‌دهند.</p>',
       ),
       blocks: [
+        ...extra.followStart,
         tools([{ type: 'html', html: excel.toolpak }], [py.setup, py.simple, py.plot], [{ type: 'html', html: powerBi.simple }]),
+        ...extra.followEnd,
         {
           type: 'html',
           html: t(
@@ -426,6 +439,7 @@ export const weekSix: Week = {
         '<h2>خواندن خروجی: مدل به ما چه می‌گوید؟</h2><p class="standfirst">Excel سه جدول چاپ می‌کند. از آن‌ها چهار عدد لازم داری: R Square، عرض از مبدأ، شیب و اینکه شیب معنادار است یا نه.</p>',
       ),
       blocks: [
+        ...extra.readingStart,
         {
           type: 'table',
           headers: [t('Regression statistics', 'إحصاءات الانحدار', 'آمار رگرسیون'), t('Value', 'القيمة', 'مقدار'), t('Plain words', 'بكلمات بسيطة', 'به زبان ساده')],
@@ -454,16 +468,7 @@ export const weekSix: Week = {
           ),
         },
         tools([{ type: 'html', html: t('<p><code>=FORECAST.LINEAR(20, D2:D13, B2:B13)</code> → 75.2</p>', '<p><code>=FORECAST.LINEAR(20, D2:D13, B2:B13)</code> ← 75.2</p>', '<p><code>=FORECAST.LINEAR(20, D2:D13, B2:B13)</code> ← ۷۵٫۲</p>') }], [py.predict], [{ type: 'html', html: t('<p>A measure: <code>Predicted 20C = -6.57 + 4.09 * 20</code>, or read <code>Slope1</code> and <code>Intercept</code> from the LINEST table.</p>', '<p>مقياس: <code>Predicted 20C = -6.57 + 4.09 * 20</code>، أو اقرأ <code>Slope1</code> و<code>Intercept</code> من جدول LINEST.</p>', '<p>یک معیار: <code>Predicted 20C = -6.57 + 4.09 * 20</code>، یا <code>Slope1</code> و <code>Intercept</code> را از جدول LINEST بخوان.</p>') }]),
-        {
-          type: 'box',
-          variant: 'example',
-          label: t('The deck\'s example', 'مثال العرض', 'مثال اسلایدها'),
-          html: t(
-            '<p>The deck runs the same tool on a direct-marketing firm\'s customers (AmountSpent against Salary) and reads: R Square ≈ 48.94%, so about half of the variability in spending is explained by salary; slope ≈ 0.021, so each extra dollar of salary goes with about 2 cents more spending; intercept ≈ −15.31. Same three sentences, different business.</p>',
-            '<p>يطبّق العرض الأداة نفسها على عملاء شركة تسويق مباشر (AmountSpent مقابل Salary) ويقرأ: R Square ≈ 48.94%، أي أن نحو نصف تغير الإنفاق يفسّره الراتب؛ والميل ≈ 0.021، أي أن كل دولار إضافي من الراتب يقابله نحو سنتين من الإنفاق الإضافي؛ والمقطع ≈ ‎−15.31. الجمل الثلاث نفسها، لنشاط مختلف.</p>',
-            '<p>اسلایدها همین ابزار را روی مشتریان یک شرکت بازاریابی مستقیم (AmountSpent در برابر Salary) اجرا می‌کنند و می‌خوانند: R Square ≈ ۴۸٫۹۴٪، یعنی حدود نیمی از تغییرپذیری خرج را حقوق توضیح می‌دهد؛ شیب ≈ ۰٫۰۲۱، یعنی هر دلار حقوق اضافه با حدود ۲ سنت خرج بیشتر همراه است؛ عرض از مبدأ ≈ ‎−15.31. همان سه جمله، برای کسب‌وکاری دیگر.</p>',
-          ),
-        },
+        ...extra.readingEnd,
         { type: 'exercise', questionId: 'w06-q004' },
         { type: 'exercise', questionId: 'w06-q005' },
       ],
@@ -479,6 +484,7 @@ export const weekSix: Week = {
         '<h2>فرض‌ها: کی می‌شود به خط اعتماد کرد؟</h2><p class="standfirst">رگرسیون خطی یک روش پارامتری است: عددهایش فقط وقتی قابل اعتمادند که داده به شکل‌های مشخصی رفتار کند. باقی‌مانده‌ها، یعنی واقعی منهای پیش‌بینی‌شده، راه بررسی‌اند.</p>',
       ),
       blocks: [
+        ...extra.assumptionsStart,
         {
           type: 'table',
           headers: [t('Assumption', 'الافتراض', 'فرض'), t('Meaning', 'المعنى', 'معنا'), t('How to check', 'كيف تتحقق', 'چطور بررسی کنی'), t('Jam stand', 'كشك المربى', 'غرفهٔ مربا')],
@@ -491,7 +497,7 @@ export const weekSix: Week = {
         },
         {
           type: 'diagram',
-          fig: t('Figure 2', 'الشكل 2', 'شکل ۲'),
+          fig: t('Figure 14', 'الشكل 14', 'شکل ۱۴'),
           title: t('Residual plot: actual minus predicted jars, by temperature', 'مخطط البواقي: البرطمانات الفعلية ناقص المتنبأ بها، حسب الحرارة', 'نمودار باقی‌مانده: شیشه‌های واقعی منهای پیش‌بینی‌شده، بر حسب دما'),
           src: '/figures/week-06/diagram-02.svg',
           alt: 'Residuals for the 12 months scattered between about -11 and +14 around a zero line, with no fan shape; December at +14.1 and October at -10.8 are the largest',
@@ -511,6 +517,7 @@ export const weekSix: Week = {
           [py.residuals],
           [{ type: 'html', html: t('<p>Add a calculated column <code>Residual = Monthly[jars] - (-6.57 + 4.09 * Monthly[avg_temp_c])</code> and plot it against avg_temp_c in a scatter chart with a constant line at 0 (Analytics pane).</p>', '<p>أضف عمودًا محسوبًا <code>Residual = Monthly[jars] - (-6.57 + 4.09 * Monthly[avg_temp_c])</code> وارسمه مقابل avg_temp_c في مخطط انتشار مع خط ثابت عند 0 (جزء Analytics).</p>', '<p>یک ستون محاسباتی <code>Residual = Monthly[jars] - (-6.57 + 4.09 * Monthly[avg_temp_c])</code> اضافه کن و آن را در برابر avg_temp_c در یک نمودار پراکندگی با خط ثابت روی ۰ (پنل Analytics) رسم کن.</p>') }],
         ),
+        ...extra.assumptionsEnd,
         { type: 'exercise', questionId: 'w06-q006' },
       ],
     },
@@ -525,6 +532,7 @@ export const weekSix: Week = {
         '<h2>رگرسیون خطی چندگانه: بیش از یک X</h2><p class="standfirst">رگرسیون چندگانه رابطهٔ یک متغیر وابسته را با دو یا چند متغیر مستقل هم‌زمان برآورد می‌کند و هر کدام «با کنترل» بقیه است.</p>',
       ),
       blocks: [
+        ...extra.multipleStart,
         { type: 'formula', eq: 'y = β₀ + β₁x₁ + β₂x₂ + … + βₙxₙ + ε', note: t('one coefficient per X', 'معامل لكل X', 'یک ضریب برای هر X') },
         {
           type: 'html',
@@ -553,24 +561,16 @@ export const weekSix: Week = {
           ),
         },
         tools([{ type: 'html', html: excel.multiple }], [py.multiple], [{ type: 'html', html: powerBi.multiple }]),
-        {
-          type: 'box',
-          variant: 'example',
-          label: t('The deck\'s example: when an extra X does help', 'مثال العرض: حين يفيد X إضافي فعلًا', 'مثال اسلایدها: وقتی یک X اضافه واقعاً کمک می‌کند'),
-          html: t(
-            '<p>For the direct-marketing customers, adding Catalogs and Children to Salary lifts R Square from about 48.94% to 65.84%: AmountSpent = −442.76 + 47.7 × Catalog + 0.02 × Salary − 198.69 × Children. Controlling for the others, one more catalog goes with $47.70 more spending, and one more child with $198.69 less. Here the extra variables carry real information, so the model improves.</p>',
-            '<p>لعملاء التسويق المباشر، ترفع إضافة Catalogs وChildren إلى Salary قيمة R Square من نحو 48.94% إلى 65.84%: ‏AmountSpent = −442.76 + 47.7 × Catalog + 0.02 × Salary − 198.69 × Children. مع التحكم في الباقي، يقابل كل كتالوج إضافي 47.70 دولارًا إنفاقًا أكثر، وكل طفل إضافي 198.69 دولارًا أقل. هنا تحمل المتغيرات الإضافية معلومات حقيقية، فيتحسّن النموذج.</p>',
-            '<p>برای مشتریان بازاریابی مستقیم، افزودن Catalogs و Children به Salary مقدار R Square را از حدود ۴۸٫۹۴٪ به ۶۵٫۸۴٪ می‌رساند: AmountSpent = −442.76 + 47.7 × Catalog + 0.02 × Salary − 198.69 × Children. با کنترل بقیه، هر کاتالوگ اضافه با ۴۷٫۷۰ دلار خرج بیشتر و هر بچهٔ اضافه با ۱۹۸٫۶۹ دلار خرج کمتر همراه است. اینجا متغیرهای اضافه اطلاعات واقعی دارند، پس مدل بهتر می‌شود.</p>',
-          ),
-        },
+        ...extra.multipleDeck,
         { type: 'exercise', questionId: 'w06-q007' },
         { type: 'exercise', questionId: 'w06-q008' },
       ],
     },
+    extra.practiceDiamonds,
     {
       id: 'cautions',
       navLabel: t('Three cautions', 'ثلاثة تحذيرات', 'سه هشدار'),
-      sectionLabel: t('Section 08', 'القسم ٠٨', 'بخش ۰۸'),
+      sectionLabel: t('Section 09', 'القسم ٠٩', 'بخش ۰۹'),
       timeEst: t('5 min', '٥ دقائق', '۵ دقیقه'),
       headingHtml: t(
         '<h2>Three cautions before you hand a regression to a manager</h2><p class="standfirst">A regression with R² = 0.95 looks like certainty. These are the three ways it most often misleads.</p>',
@@ -578,6 +578,7 @@ export const weekSix: Week = {
         '<h2>سه هشدار پیش از اینکه رگرسیونی را به مدیری بدهی</h2><p class="standfirst">رگرسیونی با R² = 0.95 شبیه قطعیت به نظر می‌رسد. این سه راه رایج‌ترین گمراه‌کنندگی آن است.</p>',
       ),
       blocks: [
+        ...extra.cautionsStart,
         {
           type: 'html',
           html: t(
@@ -586,13 +587,14 @@ export const weekSix: Week = {
             '<ol><li><strong>همبستگی علیت نیست.</strong> مدل نشان می‌دهد شیشه‌ها و دما با هم حرکت می‌کنند، نه اینکه گرما مردم را به خرید مربا وامی‌دارد. تابستان گردشگر، ساعت‌های طولانی‌تر بازار و میوهٔ تازه هم می‌آورد. تصمیمی کسب‌وکاری بر پایهٔ «گرما باعث فروش است» شاید درست باشد، اما رگرسیون به‌تنهایی ثابتش نمی‌کند.</li><li><strong>برون‌یابی نکن.</strong> داده از ۴ تا ۲۷ درجه است. در ۴۰ درجه خط حدود ۱۵۷ شیشه می‌گوید، اما شاید موج گرما بازار را خالی کند. فقط درون بازه‌ای که دیده‌ای پیش‌بینی کن.</li><li><strong>عرض از مبدأ اغلب بی‌معناست.</strong> ‎−6.57 شیشه در ۰ درجه واقعیتی دربارهٔ غرفه نیست؛ جایی است که خط محوری را قطع می‌کند که هیچ‌کس به آن نرسیده.</li></ol>',
           ),
         },
+        ...extra.cautionsEnd,
         { type: 'exercise', questionId: 'w06-q009' },
       ],
     },
     {
       id: 'ai-corner',
       navLabel: t('AI co-pilot corner', 'ركن مساعد الذكاء الاصطناعي', 'گوشهٔ همیار هوش مصنوعی'),
-      sectionLabel: t('Section 09', 'القسم ٠٩', 'بخش ۰۹'),
+      sectionLabel: t('Section 10', 'القسم ١٠', 'بخش ۱۰'),
       timeEst: t('5 min', '٥ دقائق', '۵ دقیقه'),
       headingHtml: t(
         '<h2>AI co-pilot corner: let it run the numbers, you check the story</h2><p class="standfirst">AI assistants fit regressions instantly. They are much less careful about what the numbers mean.</p>',
@@ -633,13 +635,14 @@ Do not claim causation, and do not predict outside 4–27 °C.`,
             '<p>عددهای هوش مصنوعی را با یک فرمول که خودت اجرا می‌کنی مقایسه کن (<code>=SLOPE</code> و <code>=RSQ</code> چند ثانیه طول می‌کشند)، سپس نتیجه‌گیری‌هایش را بازنویسی کن: «همراه است با»، نه «باعث می‌شود»؛ درون بازهٔ داده، نه بیرون آن.</p>',
           ),
         },
+        ...extra.aiRecap,
         { type: 'exercise', questionId: 'w06-q010' },
       ],
     },
     {
       id: 'worked-example',
       navLabel: t('Worked example', 'مثال تطبيقي', 'مثال حل‌شده'),
-      sectionLabel: t('Section 10', 'القسم ١٠', 'بخش ۱۰'),
+      sectionLabel: t('Section 11', 'القسم ١١', 'بخش ۱۱'),
       timeEst: t('5 min', '٥ دقائق', '۵ دقیقه'),
       headingHtml: t(
         '<h2>Worked example: the note to the stand owner</h2><p class="standfirst">Everything above, condensed into what the owner actually needs to read.</p>',
@@ -657,12 +660,13 @@ Do not claim causation, and do not predict outside 4–27 °C.`,
             '<p><strong>تولید را بر اساس پیش‌بینی دما برنامه‌ریزی کن.</strong> در طول ۲۰۲۴، هر درجهٔ اضافهٔ میانگین دمای ماهانه با حدود ۴ شیشهٔ بیشتر همراه بود و دما ۹۵٪ تغییرات ماه‌به‌ماه را توضیح داد. برای ماهی با پیش‌بینی ۲۰ درجه، حدود ۷۵ شیشه برنامه بریز (انتظار داشته باش حدود ۸ شیشه بالا یا پایین باشد). اینکه ماه ۴ یا ۵ شنبهٔ بازار داشته باشد تفاوت قابل اندازه‌گیری‌ای نداشت. دو ماه بیش از ۱۰ شیشه از پیش‌بینی جلو یا عقب بودند: دسامبر ۱۴ شیشه بیشتر (هدیهٔ تعطیلات؟) و اکتبر ۱۱ شیشه کمتر فروخت. برای دسامبر کمی موجودی اضافه بگذار و این قاعده را برای موج‌های گرمای بالای ۲۷ درجه، که داده هرگز پوشش نداده، به کار نبر.</p>',
           ),
         },
+        ...extra.workedRecap,
       ],
     },
     {
       id: 'common-mistakes',
       navLabel: t('Common mistakes', 'أخطاء شائعة', 'اشتباهات رایج'),
-      sectionLabel: t('Section 11', 'القسم ١١', 'بخش ۱۱'),
+      sectionLabel: t('Section 12', 'القسم ١٢', 'بخش ۱۲'),
       headingHtml: t(
         '<h2>Common mistakes</h2><p class="standfirst">Each one produces a regression that runs without errors and still misleads.</p>',
         '<h2>أخطاء شائعة</h2><p class="standfirst">كل واحد منها ينتج انحدارًا يعمل دون أخطاء ومع ذلك يضلّل.</p>',
@@ -686,7 +690,7 @@ Do not claim causation, and do not predict outside 4–27 °C.`,
     {
       id: 'homework',
       navLabel: t('Homework', 'الواجب', 'تکلیف'),
-      sectionLabel: t('Section 12', 'القسم ١٢', 'بخش ۱۲'),
+      sectionLabel: t('Section 13', 'القسم ١٣', 'بخش ۱۳'),
       headingHtml: t(
         '<h2>Homework: step 3 of your final project, the regression</h2><p class="standfirst">Apply this week to your pair\'s case study: fit the regression on your card, read it, check it, and write the README paragraphs. Two questions, each with an analogy, a checklist and an example answer worked on the jam stand\'s January–June data; a short feedback question comes last.</p>',
         '<h2>الواجب: الخطوة 3 من مشروعك النهائي، الانحدار</h2><p class="standfirst">طبّقا هذا الأسبوع على دراسة حالتكما: طبّقا الانحدار المذكور في بطاقتكما، واقرآه، وتحققا منه، واكتبا فقرات README. سؤالان، لكل منهما تشبيه وقائمة تحقق ومثال على إجابة محسوب على بيانات كشك المربى من يناير إلى يونيو؛ وفي النهاية سؤال قصير عن رأيك.</p>',
@@ -697,7 +701,7 @@ Do not claim causation, and do not predict outside 4–27 °C.`,
     {
       id: 'before-week-7',
       navLabel: t('Before Week 7', 'قبل الأسبوع 7', 'پیش از هفته ۷'),
-      sectionLabel: t('Section 13', 'القسم ١٣', 'بخش ۱۳'),
+      sectionLabel: t('Section 14', 'القسم ١٤', 'بخش ۱۴'),
       headingHtml: t(
         '<h2>Before Week 7</h2><p>You read p-values this week as "below 0.05 or not". Week 7 explains what they actually measure: hypothesis testing, null and alternative hypotheses, and how to decide whether a difference in your data is real or just chance. Your pair will run the test on your case card.</p>',
         '<h2>قبل الأسبوع 7</h2><p>قرأت قيم p هذا الأسبوع على أنها "أقل من 0.05 أم لا". يشرح الأسبوع 7 ما تقيسه فعلًا: اختبار الفرضيات، والفرضيتين الصفرية والبديلة، وكيف تقرر هل الفرق في بياناتك حقيقي أم مجرد صدفة. وسيشغّل فريقكما الاختبار المذكور في بطاقة حالتكما.</p>',
