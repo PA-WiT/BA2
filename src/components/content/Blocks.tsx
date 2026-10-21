@@ -57,7 +57,14 @@ export function Blocks({ blocks }: { blocks: Block[] }) {
               <figure key={i} className={styles.diagram}>
                 <div className={styles.fig}>{t(block.fig)}</div>
                 <div className={styles.figTitle}>{t(block.title)}</div>
-                <img src={resolveAssetPath(block.src)} alt={block.alt} />
+                {/* Screenshots have small text: raster figures open full size in a new tab. SVGs scale on their own. */}
+                {/\.(png|jpe?g)$/i.test(block.src) ? (
+                  <a href={resolveAssetPath(block.src)} target="_blank" rel="noopener noreferrer" className={styles.figLink}>
+                    <img src={resolveAssetPath(block.src)} alt={block.alt} />
+                  </a>
+                ) : (
+                  <img src={resolveAssetPath(block.src)} alt={block.alt} />
+                )}
                 <figcaption>{t(block.caption)}</figcaption>
               </figure>
             )

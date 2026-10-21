@@ -65,6 +65,12 @@ export const navGroups: NavGroup[] = [
         href: '/week/week-05',
         subtitle: { en: 'Data Preparation in Excel', ar: 'تحضير البيانات في Excel', fa: 'آماده‌سازی داده در Excel' },
       },
+      {
+        id: 'week-06',
+        title: { en: 'Week 6', ar: 'الأسبوع 6', fa: 'هفته ۶' },
+        href: '/week/week-06',
+        subtitle: { en: 'Linear Regression', ar: 'الانحدار الخطي', fa: 'رگرسیون خطی' },
+      },
     ],
   },
   {
