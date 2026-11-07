@@ -1,0 +1,28 @@
+<svg viewBox="0 0 420 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A two by two table. Columns: the truth is H0 true, the defendant is innocent; the truth is H0 false, the defendant is guilty. Rows: we reject H0, convict; we fail to reject H0, acquit. Convicting an innocent person is a Type I error, a false alarm, with probability alpha. Letting a guilty person go is a Type II error, a missed effect. The other two cells are correct decisions.">
+<text x="270" y="16" text-anchor="middle" font-size="10.5" font-weight="800" fill="#55606E">THE TRUTH (we never see it directly)</text>
+<text x="200" y="36" text-anchor="middle" font-size="10" font-weight="700" fill="#1C2B3A">H₀ true: innocent</text>
+<text x="340" y="36" text-anchor="middle" font-size="10" font-weight="700" fill="#1C2B3A">H₀ false: guilty</text>
+<text x="62" y="92" text-anchor="middle" font-size="10" font-weight="700" fill="#1C2B3A">Reject H₀</text>
+<text x="62" y="106" text-anchor="middle" font-size="9" fill="#55606E">(convict)</text>
+<text x="62" y="182" text-anchor="middle" font-size="10" font-weight="700" fill="#1C2B3A">Fail to reject</text>
+<text x="62" y="196" text-anchor="middle" font-size="9" fill="#55606E">(acquit)</text>
+<text x="14" y="140" transform="rotate(-90 14 140)" text-anchor="middle" font-size="10.5" font-weight="800" fill="#55606E">OUR DECISION</text>
+<rect x="132" y="48" width="136" height="82" rx="6" fill="#FBE9E7" stroke="#A8322A" stroke-width="1.4"/>
+<text x="200" y="74" text-anchor="middle" font-size="11" font-weight="800" fill="#A8322A">Type I error</text>
+<text x="200" y="90" text-anchor="middle" font-size="9.2" fill="#1C2B3A">false alarm: an innocent</text>
+<text x="200" y="102" text-anchor="middle" font-size="9.2" fill="#1C2B3A">person is convicted</text>
+<text x="200" y="119" text-anchor="middle" font-size="9.2" font-weight="700" fill="#A8322A">chance = α</text>
+<rect x="274" y="48" width="136" height="82" rx="6" fill="#E4F2EA" stroke="#1F6B47" stroke-width="1.4"/>
+<text x="342" y="84" text-anchor="middle" font-size="11" font-weight="800" fill="#1F6B47">Correct</text>
+<text x="342" y="100" text-anchor="middle" font-size="9.2" fill="#1C2B3A">a real effect is found</text>
+<rect x="132" y="138" width="136" height="82" rx="6" fill="#E4F2EA" stroke="#1F6B47" stroke-width="1.4"/>
+<text x="200" y="174" text-anchor="middle" font-size="11" font-weight="800" fill="#1F6B47">Correct</text>
+<text x="200" y="190" text-anchor="middle" font-size="9.2" fill="#1C2B3A">nothing is there, and</text>
+<text x="200" y="202" text-anchor="middle" font-size="9.2" fill="#1C2B3A">we say so</text>
+<rect x="274" y="138" width="136" height="82" rx="6" fill="#FBF0D9" stroke="#9A6B00" stroke-width="1.4"/>
+<text x="342" y="164" text-anchor="middle" font-size="11" font-weight="800" fill="#9A6B00">Type II error</text>
+<text x="342" y="180" text-anchor="middle" font-size="9.2" fill="#1C2B3A">a miss: a guilty</text>
+<text x="342" y="192" text-anchor="middle" font-size="9.2" fill="#1C2B3A">person goes free</text>
+<text x="342" y="209" text-anchor="middle" font-size="9.2" font-weight="700" fill="#9A6B00">more likely with small samples</text>
+<text x="210" y="242" text-anchor="middle" font-size="9.2" fill="#55606E">Lowering α makes Type I rarer but Type II more likely: you can't remove both risks at once.</text>
+</svg>

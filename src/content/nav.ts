@@ -71,6 +71,12 @@ export const navGroups: NavGroup[] = [
         href: '/week/week-06',
         subtitle: { en: 'Linear Regression', ar: 'الانحدار الخطي', fa: 'رگرسیون خطی' },
       },
+      {
+        id: 'week-07',
+        title: { en: 'Week 7', ar: 'الأسبوع 7', fa: 'هفته ۷' },
+        href: '/week/week-07',
+        subtitle: { en: 'Hypothesis Testing', ar: 'اختبار الفرضيات', fa: 'آزمون فرض' },
+      },
     ],
   },
   {
