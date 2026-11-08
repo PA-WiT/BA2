@@ -10,6 +10,9 @@
 //  - Slide 21's callout says the carat slope is $4,329.86, but the output table printed beside it says 4329.88535,
 //    which is $4,329.89. The table is used.
 //  - Slide 16's callout says the intercept is -15.31; its table says -15.317825, which rounds to -15.32.
+// Later revision (simpler): from section 7 on, the page uses only jam stand examples. The deck's Direct Marketing
+// multiple-regression output and the diamond assignment were replaced by the stand's 20 Saturdays (visitors +
+// tasting, public/data/jam-tasting.csv); questions q008 and q014-q016 were retired and q017-q020 added.
 // The toy least-squares example, both stair/flashcard diagrams and every prediction below were computed by script.
 // ar/fa are draft translations awaiting native review. Code and formulas stay English.
 import type { Block, Localized, Question, Week } from '../types'
@@ -98,62 +101,6 @@ export const extraQuestions: Question[] = [
       q('He is predicted to spend about $22 more', 'يُتنبأ بأنه سينفق نحو 22 دولارًا أكثر', 'پیش‌بینی می‌شود حدود ۲۲ دلار بیشتر خرج کند'),
       q('He is predicted to spend about 2 cents more', 'يُتنبأ بأنه سينفق نحو سنتين أكثر', 'پیش‌بینی می‌شود حدود ۲ سنت بیشتر خرج کند'),
       q('He will spend 2.2% more', 'سينفق 2.2% أكثر', '۲٫۲٪ بیشتر خرج خواهد کرد'),
-    ],
-  },
-  {
-    id: 'w06-q014',
-    weekId: 'week-06',
-    topic: 'multiple-regression',
-    answer: 0,
-    prompt: q(
-      'Using AmountSpent = −442.76 + 47.7 × Catalogs + 0.0204 × Salary − 198.69 × Children, what is the predicted spending for a customer with a $60,000 salary, 12 catalogs and 2 children?',
-      'باستخدام AmountSpent = −442.76 + 47.7 × Catalogs + 0.0204 × Salary − 198.69 × Children، ما الإنفاق المتوقع لعميل راتبه 60,000 دولار و12 كتالوجًا وطفلان؟',
-      'با AmountSpent = −442.76 + 47.7 × Catalogs + 0.0204 × Salary − 198.69 × Children، خرج پیش‌بینی‌شده برای مشتری‌ای با حقوق ۶۰٬۰۰۰ دلار، ۱۲ کاتالوگ و ۲ فرزند چقدر است؟',
-    ),
-    options: [
-      q('About $956', 'نحو 956 دولارًا', 'حدود ۹۵۶ دلار'),
-      q('About $1,354 (the answer with no children)', 'نحو 1,354 دولارًا (الجواب بلا أطفال)', 'حدود ۱٬۳۵۴ دلار (جواب بدون فرزند)'),
-      q('About −$442 (the intercept)', 'نحو ‎−442 دولارًا (المقطع)', 'حدود ‎−۴۴۲ دلار (عرض از مبدأ)'),
-    ],
-  },
-  {
-    id: 'w06-q015',
-    weekId: 'week-06',
-    topic: 'multiple-regression',
-    answer: 0,
-    prompt: q(
-      '"Controlling for salary and children, one more catalog goes with $47.70 more spending." What does "controlling for" mean?',
-      '"مع التحكم في الراتب وعدد الأطفال، يقابل كتالوج إضافي 47.70 دولارًا إنفاقًا أكثر." ماذا يعني "مع التحكم في"؟',
-      '«با کنترل حقوق و تعداد فرزند، یک کاتالوگ بیشتر با ۴۷٫۷۰ دلار خرج بیشتر همراه است.» «کنترل» یعنی چه؟',
-    ),
-    options: [
-      q(
-        'Comparing customers who are the same on salary and children, and differ only in catalogs',
-        'مقارنة عملاء متماثلين في الراتب وعدد الأطفال ويختلفون في الكتالوجات فقط',
-        'مقایسهٔ مشتری‌هایی که در حقوق و فرزند یکسان‌اند و فقط در کاتالوگ فرق دارند',
-      ),
-      q('Removing salary and children from the data', 'حذف الراتب وعدد الأطفال من البيانات', 'حذف حقوق و فرزند از داده'),
-      q('Making catalogs the only variable in the model', 'جعل الكتالوجات المتغير الوحيد في النموذج', 'کاتالوگ را تنها متغیر مدل کردن'),
-    ],
-  },
-  {
-    id: 'w06-q016',
-    weekId: 'week-06',
-    topic: 'practice-diamonds',
-    answer: 1,
-    prompt: q(
-      'In the lesson\'s diamond model the carat slope is about 4,329.89. What does that mean?',
-      'في نموذج الألماس في الدرس يبلغ ميل carat نحو 4,329.89. ماذا يعني ذلك؟',
-      'در مدل الماس درس، شیب carat حدود ۴٬۳۲۹٫۸۹ است. این یعنی چه؟',
-    ),
-    options: [
-      q('A diamond costs exactly $4,329.89 per carat', 'يكلّف الألماس 4,329.89 دولارًا للقيراط بالضبط', 'الماس دقیقاً قیراطی ۴٬۳۲۹٫۸۹ دلار قیمت دارد'),
-      q(
-        'Each extra carat goes with about $4,330 more in price, on average',
-        'كل قيراط إضافي يقابله نحو 4,330 دولارًا زيادة في السعر، في المتوسط',
-        'هر قیراط بیشتر به‌طور میانگین با حدود ۴٬۳۳۰ دلار قیمت بیشتر همراه است',
-      ),
-      q('Carat explains 4,329.89% of the price', 'يفسّر carat نسبة 4,329.89% من السعر', 'carat ‏۴٬۳۲۹٫۸۹٪ از قیمت را توضیح می‌دهد'),
     ],
   },
 ]
@@ -593,137 +540,6 @@ export const assumptionsEnd: Block[] = [
   ),
 ]
 
-// ---------- Section 7: multiple regression ----------
-export const multipleStart: Block[] = [
-  analogy(
-    '<p>Imagine two customers who are twins in everything except one thing: the same salary and the same number of children, but one received 12 catalogs and the other 6. The difference in what they spend is the catalogs\' own effect, <em>"controlling for"</em> salary and children. That is the question every coefficient in a multiple regression answers: one more of this X, with the others held the same.</p>',
-    '<p>تخيّل عميلين توأمين في كل شيء إلا شيئًا واحدًا: الراتب نفسه وعدد الأطفال نفسه، لكن أحدهما تلقّى 12 كتالوجًا والآخر 6. الفرق في ما ينفقانه هو أثر الكتالوجات نفسها، <em>"مع التحكم في"</em> الراتب وعدد الأطفال. وهذا هو السؤال الذي يجيب عنه كل معامل في الانحدار المتعدد: وحدة أكثر من هذا X، مع بقاء الباقي كما هو.</p>',
-    '<p>دو مشتری را تصور کن که در همه‌چیز جز یک چیز دوقلوی هم‌اند: حقوق یکسان و تعداد فرزند یکسان، اما یکی ۱۲ کاتالوگ گرفته و دیگری ۶. تفاوت خرجشان اثر خود کاتالوگ‌هاست، <em>«با کنترل»</em> حقوق و فرزند. هر ضریب در رگرسیون چندگانه به همین پرسش پاسخ می‌دهد: یک واحد بیشتر از این X، در حالی که بقیه یکسان می‌مانند.</p>',
-  ),
-]
-
-export const multipleDeck: Block[] = [
-  html(
-    '<h3>A bigger case: more columns for the direct-marketing firm</h3><p>Salary alone explained about half of the spending. What happens when we also use how many catalogs were sent and how many children the customer has?</p>',
-    '<h3>حالة أكبر: أعمدة أكثر لشركة التسويق المباشر</h3><p>فسّر الراتب وحده نحو نصف الإنفاق. ماذا يحدث حين نستخدم أيضًا عدد الكتالوجات المرسلة وعدد أطفال العميل؟</p>',
-    '<h3>یک نمونهٔ بزرگ‌تر: ستون‌های بیشتر برای شرکت بازاریابی مستقیم</h3><p>حقوق به‌تنهایی حدود نصف خرج را توضیح می‌داد. وقتی تعداد کاتالوگ‌های ارسالی و تعداد فرزندان مشتری را هم به کار ببریم چه می‌شود؟</p>',
-  ),
-  figure(
-    15,
-    t('The multiple regression equation: one coefficient for each X', 'معادلة الانحدار المتعدد: معامل لكل X', 'معادلهٔ رگرسیون چندگانه: یک ضریب برای هر X'),
-    '/figures/week-06/deck-11-formula-multiple.png',
-    'The equation y = β0 + β1X1 + … + βnXn + ε from the original lesson, each part circled in its own colour, with a legend explaining y, the intercept, the coefficient of the first variable, the dots meaning "the same for every other variable", the last coefficient and the model error.',
-    fromDeck(
-      'The same sentence as before, with one more "β × x" part for every extra X.',
-      'الجملة نفسها كما قبل، مع جزء "β × x" إضافي لكل X إضافي.',
-      'همان جملهٔ قبل، با یک بخش «β × x» بیشتر برای هر X اضافه.',
-    ),
-  ),
-  figure(
-    16,
-    t('Direct Marketing with Salary, Catalogs and Children together', 'التسويق المباشر بالراتب والكتالوجات والأطفال معًا', 'بازاریابی مستقیم با حقوق، کاتالوگ و فرزند با هم'),
-    '/figures/week-06/deck-12-output-multiple.png',
-    'Excel Summary Output with R Square 0.658435 and 1,000 observations. The coefficient table shows Intercept -442.7579, Catalogs 47.69532, Salary 0.020406 and Children -198.6947. Grey callouts read each coefficient using the words controlling for the others, and the equation AmountSpent = -442.76 + 47.7 × Catalog + 0.02 × Salary - 198.69 × Children + ε is shown.',
-    fromDeck(
-      'R Square rises from 0.4894 (Salary alone) to 0.6584. Each callout reads one coefficient "controlling for" the others.',
-      'يرتفع R Square من 0.4894 (الراتب وحده) إلى 0.6584. وكل شرح يقرأ معاملًا واحدًا "مع التحكم في" الباقي.',
-      'R Square از ۰٫۴۸۹۴ (فقط حقوق) به ۰٫۶۵۸۴ می‌رسد. هر توضیح یک ضریب را «با کنترل» بقیه می‌خواند.',
-    ),
-  ),
-  {
-    type: 'table',
-    headers: [t('Variable', 'المتغير', 'متغیر'), t('Coefficient', 'المعامل', 'ضریب'), t('Read it as…', 'اقرأه هكذا…', 'این‌طور بخوانش…')],
-    rows: [
-      [t('Intercept', 'المقطع', 'عرض از مبدأ'), cell('−442.76', '‎−442.76', '‎−۴۴۲٫۷۶'), t('A customer with $0 salary, 0 catalogs and 0 children: not a real customer, so just the starting point', 'عميل براتب 0 دولار و0 كتالوج و0 طفل: ليس عميلًا حقيقيًا، فهو مجرد نقطة البداية', 'مشتری‌ای با حقوق ۰ دلار، ۰ کاتالوگ و ۰ فرزند: مشتری واقعی نیست، پس فقط نقطهٔ شروع است')],
-      [t('Catalogs', 'الكتالوجات', 'کاتالوگ‌ها'), cell('+47.70', '‎+47.70', '‎+۴۷٫۷۰'), t('Controlling for salary and children, one more catalog goes with $47.70 more spending', 'مع التحكم في الراتب والأطفال، كتالوج إضافي يقابله 47.70 دولارًا إنفاقًا أكثر', 'با کنترل حقوق و فرزند، یک کاتالوگ بیشتر با ۴۷٫۷۰ دلار خرج بیشتر همراه است')],
-      [t('Salary', 'الراتب', 'حقوق'), cell('+0.0204', '‎+0.0204', '‎+۰٫۰۲۰۴'), t('Controlling for catalogs and children, each extra $1 of salary goes with about 2 cents more (about $20 per $1,000)', 'مع التحكم في الكتالوجات والأطفال، كل دولار إضافي من الراتب يقابله نحو سنتين أكثر (نحو 20 دولارًا لكل 1,000)', 'با کنترل کاتالوگ و فرزند، هر ۱ دلار حقوق بیشتر با حدود ۲ سنت بیشتر همراه است (حدود ۲۰ دلار برای هر ۱٬۰۰۰)')],
-      [t('Children', 'الأطفال', 'فرزندان'), cell('−198.69', '‎−198.69', '‎−۱۹۸٫۶۹'), t('Controlling for catalogs and salary, each extra child goes with $198.69 less spending', 'مع التحكم في الكتالوجات والراتب، كل طفل إضافي يقابله 198.69 دولارًا إنفاقًا أقل', 'با کنترل کاتالوگ و حقوق، هر فرزند بیشتر با ۱۹۸٫۶۹ دلار خرج کمتر همراه است')],
-    ],
-  },
-  html(
-    '<h3>Predict by hand</h3><p>A customer with a <strong>$60,000 salary, 12 catalogs and 2 children</strong>: −442.76 + 47.70 × 12 + 0.0204 × 60,000 − 198.69 × 2 = −442.76 + 572.4 + 1,224 − 397.38 = about <strong>$956</strong>. With no children the same customer is predicted at about <strong>$1,354</strong>: the two children account for roughly $397 less. The model gives a number you can act on, and each part of it has a plain meaning.</p>',
-    '<h3>تنبأ بيدك</h3><p>عميل <strong>براتب 60,000 دولار و12 كتالوجًا وطفلين</strong>: ‎−442.76 + 47.70 × 12 + 0.0204 × 60,000 − 198.69 × 2 = ‎−442.76 + 572.4 + 1,224 − 397.38 = نحو <strong>956 دولارًا</strong>. وبلا أطفال يُتنبأ للعميل نفسه بنحو <strong>1,354 دولارًا</strong>: أي إن الطفلين يفسّران نحو 397 دولارًا أقل. يعطيك النموذج رقمًا تتصرف على أساسه، ولكل جزء منه معنى بسيط.</p>',
-    '<h3>دستی پیش‌بینی کن</h3><p>مشتری‌ای با <strong>حقوق ۶۰٬۰۰۰ دلار، ۱۲ کاتالوگ و ۲ فرزند</strong>: ‎−442.76 + 47.70 × 12 + 0.0204 × 60,000 − 198.69 × 2 = ‎−442.76 + 572.4 + 1,224 − 397.38 = حدود <strong>۹۵۶ دلار</strong>. بدون فرزند همین مشتری حدود <strong>۱٬۳۵۴ دلار</strong> پیش‌بینی می‌شود: دو فرزند حدود ۳۹۷ دلار کمتر را توضیح می‌دهند. مدل عددی می‌دهد که می‌شود بر پایهٔ آن تصمیم گرفت و هر بخشش معنای ساده‌ای دارد.</p>',
-  ),
-  html(
-    '<h3>Why did R² go up, and when should you trust that?</h3><p>Adding a column can only help the line fit the rows you already have, so R² never goes down. Here the rise from 0.4894 to 0.6584 is real, because catalogs and children carry real information (their coefficients are far from zero). The jam stand\'s market_days column shows the opposite: R² stayed at 0.950 and <strong>adjusted R²</strong>, which charges a small penalty for every added X, fell. A new column has earned its place only when adjusted R² rises: in the lesson\'s table it goes from 0.4889 to 0.6574.</p>',
-    '<h3>لماذا ارتفع R²، ومتى تثق بذلك؟</h3><p>إضافة عمود لا يمكن إلا أن تساعد الخط على ملاءمة الصفوف التي لديك، فلا ينخفض R² أبدًا. هنا الارتفاع من 0.4894 إلى 0.6584 حقيقي، لأن الكتالوجات والأطفال يحملان معلومات حقيقية (معاملاهما بعيدان عن الصفر). أما عمود market_days في كشك المربى فيُظهر العكس: بقي R² عند 0.950 و<strong>انخفض R² المعدّل</strong> الذي يفرض عقوبة صغيرة على كل X مضاف. لا يكسب العمود الجديد مكانه إلا حين يرتفع R² المعدّل: وفي جدول الدرس ينتقل من 0.4889 إلى 0.6574.</p>',
-    '<h3>چرا R² بالا رفت و کی باید به آن اعتماد کرد؟</h3><p>افزودن یک ستون فقط می‌تواند به برازش خط روی سطرهایی که داری کمک کند، پس R² هرگز پایین نمی‌آید. اینجا افزایش از ۰٫۴۸۹۴ به ۰٫۶۵۸۴ واقعی است، چون کاتالوگ و فرزند اطلاعات واقعی دارند (ضریبشان از صفر دور است). ستون market_days غرفهٔ مربا عکس را نشان می‌دهد: R² روی ۰٫۹۵۰ ماند و <strong>R² تعدیل‌شده</strong> که برای هر X اضافه جریمهٔ کوچکی می‌گیرد پایین آمد. ستون تازه فقط وقتی جایش را کسب کرده که R² تعدیل‌شده بالا برود: در جدول درس از ۰٫۴۸۸۹ به ۰٫۶۵۷۴ می‌رسد.</p>',
-  ),
-  recap(
-    t('Each coefficient answers: one more of this X, with the other Xs held the same.', 'كل معامل يجيب: وحدة أكثر من هذا X، مع بقاء المتغيرات الأخرى كما هي.', 'هر ضریب پاسخ می‌دهد: یک واحد بیشتر از این X، با ثابت ماندن Xهای دیگر.'),
-    t('To predict, plug every X into the equation and add up the parts.', 'للتنبؤ، ضع كل X في المعادلة واجمع الأجزاء.', 'برای پیش‌بینی هر X را در معادله بگذار و بخش‌ها را جمع بزن.'),
-    t('Keep a new column only if adjusted R² rises.', 'أبقِ العمود الجديد فقط إن ارتفع R² المعدّل.', 'ستون تازه را فقط اگر R² تعدیل‌شده بالا رفت نگه دار.'),
-  ),
-  { type: 'exercise', questionId: 'w06-q014' },
-  { type: 'exercise', questionId: 'w06-q015' },
-]
-
-// ---------- New section: practice with the lesson's diamond data ----------
-export const practiceDiamonds: Week['sections'][number] = {
-  id: 'practice-diamonds',
-  navLabel: t('Practice: diamonds', 'تدريب: الألماس', 'تمرین: الماس'),
-  sectionLabel: t('Section 08', 'القسم ٠٨', 'بخش ۰۸'),
-  timeEst: t('8 min', '٨ دقائق', '۸ دقیقه'),
-  headingHtml: t(
-    '<h2>Practice: price a diamond from its weight</h2><p class="standfirst">A last case from the lesson, to run the whole routine on data you have not seen: fit the line, read it in three sentences, and make a prediction.</p>',
-    '<h2>تدريب: قدّر سعر ألماسة من وزنها</h2><p class="standfirst">حالة أخيرة من الدرس، لتشغّل الروتين كله على بيانات لم ترها: لائم الخط، واقرأه في ثلاث جمل، وأجرِ تنبؤًا.</p>',
-    '<h2>تمرین: قیمت یک الماس را از وزنش حدس بزن</h2><p class="standfirst">آخرین نمونه از درس، تا کل روال را روی داده‌ای که ندیده‌ای اجرا کنی: خط را برازش کن، در سه جمله بخوانش و یک پیش‌بینی بکن.</p>',
-  ),
-  blocks: [
-    html(
-      '<p>The lesson\'s assignment gives a dataset of diamonds (carat, cut, color, clarity, depth, table, price and size). The task has three parts: <strong>1.</strong> fit a simple regression with <em>Price</em> as Y and <em>Carat</em> as X; <strong>2.</strong> find R² and interpret it; <strong>3.</strong> interpret the slope. Try it on paper first: what would you expect the slope to look like, large or small?</p>',
-      '<p>يعطي واجب الدرس مجموعة بيانات ألماس (carat وcut وcolor وclarity وdepth وtable وprice والأبعاد). للمهمة ثلاثة أجزاء: <strong>1.</strong> لائم انحدارًا بسيطًا بـ <em>Price</em> كـ Y و<em>Carat</em> كـ X؛ <strong>2.</strong> أوجد R² وفسّره؛ <strong>3.</strong> فسّر الميل. جرّبه على الورق أولًا: كيف تتوقع أن يبدو الميل، كبيرًا أم صغيرًا؟</p>',
-      '<p>تکلیف درس یک مجموعه‌داده از الماس‌ها می‌دهد (carat، cut، color، clarity، depth، table، price و اندازه). کار سه بخش دارد: <strong>۱.</strong> یک رگرسیون ساده با <em>Price</em> به‌عنوان Y و <em>Carat</em> به‌عنوان X برازش کن؛ <strong>۲.</strong> R² را پیدا کن و تفسیرش کن؛ <strong>۳.</strong> شیب را تفسیر کن. اول روی کاغذ امتحان کن: انتظار داری شیب بزرگ باشد یا کوچک؟</p>',
-    ),
-    figure(
-      17,
-      t('The diamond data (first rows)', 'بيانات الألماس (الصفوف الأولى)', 'دادهٔ الماس (سطرهای اول)'),
-      '/figures/week-06/deck-13-diamond-table.png',
-      'Table of diamond data with columns carat, cut, color, clarity, depth, table, price, x, y and z, showing five rows such as carat 0.23, cut Ideal, color E, clarity SI2, price 326.',
-      fromDeck(
-        'Price (Y) is the number to predict; carat (X) is the weight. Same steps as Section 4: Data Analysis, Regression, Input Y Range = price, Input X Range = carat, tick Labels.',
-        'Price (Y) هو الرقم المراد التنبؤ به؛ وcarat (X) هو الوزن. الخطوات نفسها في القسم 4: Data Analysis ثم Regression، وInput Y Range = price، وInput X Range = carat، وفعّل Labels.',
-        'Price (Y) عددی است که باید پیش‌بینی شود؛ carat (X) وزن است. همان گام‌های بخش ۴: Data Analysis، Regression، Input Y Range = price، Input X Range = carat و Labels را تیک بزن.',
-      ),
-    ),
-    analogy(
-      '<p>Fruit is sold by the kilo. The slope is the price per kilo: every extra kilo on the scale adds that much to the bill. For diamonds the "kilo" is the carat, and the regression tells you how much one more carat adds to the price, on average.</p>',
-      '<p>تُباع الفاكهة بالكيلو. والميل هو سعر الكيلو: كل كيلو إضافي على الميزان يضيف هذا المقدار إلى الفاتورة. وفي الألماس "الكيلو" هو القيراط، ويخبرك الانحدار كم يضيف قيراط إضافي إلى السعر في المتوسط.</p>',
-      '<p>میوه را کیلویی می‌فروشند. شیب قیمت هر کیلو است: هر کیلو اضافه روی ترازو همین‌قدر به صورت‌حساب اضافه می‌کند. در الماس «کیلو» قیراط است و رگرسیون می‌گوید یک قیراط بیشتر به‌طور میانگین چقدر به قیمت اضافه می‌کند.</p>',
-    ),
-    figure(
-      18,
-      t('The lesson\'s answer: R² and the carat slope', 'إجابة الدرس: R² وميل carat', 'پاسخ درس: R² و شیب carat'),
-      '/figures/week-06/deck-14-diamond-answer.png',
-      'Excel Summary Output for Price against carat with 100 observations. A red box marks R Square 0.9070892 and another marks the carat coefficient 4329.88535 (intercept -731.064). Grey callouts say about 90.71% of the variability in Price is explained by Carat, and that one more carat is predicted to increase the price.',
-      fromDeck(
-        '100 diamonds. Carat explains about 90.7% of the variation in price, and the carat coefficient is 4329.89. (The lesson\'s callout writes $4329.86; the table beside it prints 4329.88535, which is $4,329.89.)',
-        '100 ألماسة. يفسّر carat نحو 90.7% من تغيّر السعر، ومعامل carat هو 4329.89. (يكتب شرح الدرس 4329.86 دولارًا؛ أما الجدول بجانبه فيطبع 4329.88535، أي 4,329.89 دولارًا.)',
-        '۱۰۰ الماس. carat حدود ۹۰٫۷٪ از تغییرات قیمت را توضیح می‌دهد و ضریب carat برابر ۴۳۲۹٫۸۹ است. (توضیح درس ۴۳۲۹٫۸۶ دلار نوشته؛ جدول کنارش ۴۳۲۹٫۸۸۵۳۵ چاپ می‌کند که ۴٬۳۲۹٫۸۹ دلار است.)',
-      ),
-    ),
-    html(
-      '<h3>Reading it in three sentences</h3><ul><li><strong>R² = 0.9071.</strong> About 90.7% of the variation in price is explained by carat: a very strong line.</li><li><strong>Slope = 4,329.89.</strong> Each extra carat goes with about <strong>$4,330 more</strong> in price, on average (so an extra tenth of a carat is about $433).</li><li><strong>Intercept = −731.06.</strong> A diamond of 0 carats would cost −$731, which is nonsense: no diamond weighs 0 carats, so the intercept only positions the line.</li></ul><p><strong>A prediction:</strong> a 1-carat diamond is predicted at −731.06 + 4,329.89 = <strong>$3,598.82</strong>. <strong>A check against the first row:</strong> a 0.23-carat diamond that really cost $326 is predicted at −731.06 + 4,329.89 × 0.23 = $264.81, so its error is +$61.19. The line under-predicts the small diamonds, a hint worth a look at the residual plot (Section 6).</p>',
-      '<h3>قراءتها في ثلاث جمل</h3><ul><li><strong>R² = 0.9071.</strong> يُفسَّر نحو 90.7% من تغيّر السعر بالقيراط: خط قوي جدًا.</li><li><strong>الميل = 4,329.89.</strong> كل قيراط إضافي يقابله نحو <strong>4,330 دولارًا زيادة</strong> في السعر، في المتوسط (أي إن عُشر قيراط إضافي نحو 433 دولارًا).</li><li><strong>المقطع = ‎−731.06.</strong> ألماسة وزنها 0 قيراط سيكون سعرها ‎−731 دولارًا، وهذا كلام بلا معنى: لا توجد ألماسة وزنها 0 قيراط، فالمقطع يحدد موضع الخط فقط.</li></ul><p><strong>تنبؤ:</strong> يُتنبأ لألماسة وزنها قيراط واحد بـ ‎−731.06 + 4,329.89 = <strong>3,598.82 دولارًا</strong>. <strong>مقارنة مع الصف الأول:</strong> ألماسة وزنها 0.23 قيراط كلّفت فعلًا 326 دولارًا يُتنبأ لها بـ ‎−731.06 + 4,329.89 × 0.23 = 264.81 دولارًا، فخطؤها ‎+61.19 دولارًا. يقلّل الخط من تقدير الألماسات الصغيرة، وهي إشارة تستحق نظرة على مخطط البواقي (القسم 6).</p>',
-      '<h3>خواندن در سه جمله</h3><ul><li><strong>R² = ۰٫۹۰۷۱.</strong> حدود ۹۰٫۷٪ از تغییرات قیمت را carat توضیح می‌دهد: خطی بسیار قوی.</li><li><strong>شیب = ۴٬۳۲۹٫۸۹.</strong> هر قیراط بیشتر به‌طور میانگین با حدود <strong>۴٬۳۳۰ دلار قیمت بیشتر</strong> همراه است (یعنی یک‌دهم قیراط بیشتر حدود ۴۳۳ دلار).</li><li><strong>عرض از مبدأ = ‎−۷۳۱٫۰۶.</strong> الماسی با وزن ۰ قیراط ‎−۷۳۱ دلار قیمت می‌داشت که بی‌معناست: هیچ الماسی وزن ۰ قیراط ندارد، پس عرض از مبدأ فقط جای خط را مشخص می‌کند.</li></ul><p><strong>یک پیش‌بینی:</strong> الماس ۱ قیراطی ‎−731.06 + 4,329.89 = <strong>۳٬۵۹۸٫۸۲ دلار</strong> پیش‌بینی می‌شود. <strong>سنجش با سطر اول:</strong> الماس ۰٫۲۳ قیراطی که واقعاً ۳۲۶ دلار بود ‎−731.06 + 4,329.89 × 0.23 = ۲۶۴٫۸۱ دلار پیش‌بینی می‌شود، پس خطایش ‎+۶۱٫۱۹ دلار است. خط الماس‌های کوچک را کمتر پیش‌بینی می‌کند که نشانه‌ای است که ارزش یک نگاه به نمودار باقی‌مانده را دارد (بخش ۶).</p>',
-    ),
-    box(
-      'keypoint',
-      t('A strong line is still not the whole story', 'الخط القوي ليس القصة كلها', 'خط قوی هم کل ماجرا نیست'),
-      '<p>R² = 0.91 says carat is the main thing moving price, not that it is the only one. Cut, colour and clarity matter too; adding them is a job for multiple regression (Section 7), and "goes with" is still safer wording than "causes".</p>',
-      '<p>يقول R² = 0.91 إن القيراط هو الشيء الرئيسي الذي يحرّك السعر، لا إنه الوحيد. فالقطع واللون والنقاء مهمة أيضًا؛ وإضافتها مهمة للانحدار المتعدد (القسم 7)، وتبقى عبارة "يقابله" أسلم من "يسبّب".</p>',
-      '<p>R² = ۰٫۹۱ می‌گوید carat چیز اصلی است که قیمت را جابه‌جا می‌کند، نه اینکه تنها چیز است. برش، رنگ و شفافیت هم مهم‌اند؛ افزودن‌شان کار رگرسیون چندگانه است (بخش ۷) و «همراه است» هنوز امن‌تر از «باعث می‌شود» است.</p>',
-    ),
-    recap(
-      t('Same routine every time: fit, read three sentences, predict.', 'الروتين نفسه كل مرة: لائم، واقرأ ثلاث جمل، وتنبأ.', 'هر بار همان روال: برازش، سه جمله خواندن، پیش‌بینی.'),
-      t('Slope in plain words: each extra carat goes with about $4,330 more.', 'الميل بكلمات بسيطة: كل قيراط إضافي يقابله نحو 4,330 دولارًا أكثر.', 'شیب به زبان ساده: هر قیراط بیشتر با حدود ۴٬۳۳۰ دلار بیشتر همراه است.'),
-      t('Check a prediction against a real row to see where the line is off.', 'قارن تنبؤًا بصف حقيقي لترى أين يخطئ الخط.', 'یک پیش‌بینی را با یک سطر واقعی بسنج تا ببینی خط کجا اشتباه می‌کند.'),
-    ),
-    { type: 'exercise', questionId: 'w06-q016' },
-  ],
-}
-
 // ---------- Sections 8-10: cautions, AI corner, worked example ----------
 export const cautionsStart: Block[] = [
   analogy(
@@ -754,4 +570,233 @@ export const workedRecap: Block[] = [
     '<h3>كيف تُبنى الملاحظة</h3><p>ثلاث حركات بهذا الترتيب: <strong>1. القرار</strong> (خطّط للإنتاج من التوقعات)، <strong>2. الرقم مع هامشه</strong> (نحو 75 برطمانًا عند 20 °م، زيادة أو نقصانًا بنحو 8)، <strong>3. ما لا يمكنك استنتاجه</strong> (لا دليل على أن الحرارة تسبّب المبيعات، ولا شيء خارج 4–27 °م). يستطيع المدير أن يتصرف على الأول، ويثق بالثاني، ولن يضلله الثالث.</p>',
     '<h3>یادداشت چطور ساخته می‌شود</h3><p>سه حرکت، به این ترتیب: <strong>۱. تصمیم</strong> (تولید را از روی پیش‌بینی برنامه‌ریزی کن)، <strong>۲. عدد با حاشیه‌اش</strong> (حدود ۷۵ شیشه در ۲۰ درجه، با حدود ۸ بالا و پایین)، <strong>۳. آنچه نمی‌توانی نتیجه بگیری</strong> (دلیلی نیست که گرما باعث فروش می‌شود، و چیزی بیرون از ۴ تا ۲۷ درجه). مدیر می‌تواند بر اساس اولی عمل کند، به دومی اعتماد کند و سومی گمراهش نمی‌کند.</p>',
   ),
+]
+
+// ---------- Section 7 (simplified, jam stand only) and the jam practice section ----------
+// Numbers: statsmodels on public/data/jam-tasting.csv (20 Saturdays) and the monthly log in week-06.ts.
+const tastingCode = `import pandas as pd
+import statsmodels.formula.api as smf
+
+BASE = "https://raw.githubusercontent.com/PA-WiT/BA2/main/public/data/"   # or upload the CSV
+sat = pd.read_csv(BASE + "jam-tasting.csv")             # 20 Saturdays: visitors, tasting, jars
+sat["tasting_01"] = (sat["tasting"] == "yes").astype(int)  # yes -> 1, no -> 0
+
+m3 = smf.ols("jars ~ visitors + tasting_01", data=sat).fit()
+print(m3.params.round(2))                  # Intercept -26.26, visitors 0.58, tasting_01 6.24
+print(m3.pvalues.round(3))                 # tasting_01 p = 0.023
+print(round(m3.rsquared, 2), round(m3.rsquared_adj, 2))   # 0.71 0.67`
+
+const practiceCode = `import pandas as pd
+import statsmodels.formula.api as smf
+
+BASE = "https://raw.githubusercontent.com/PA-WiT/BA2/main/public/data/"   # or upload the CSV
+sat = pd.read_csv(BASE + "jam-tasting.csv")
+
+m4 = smf.ols("jars ~ visitors", data=sat).fit()
+print(m4.params.round(3))                  # Intercept -33.655, visitors 0.656
+print(round(m4.rsquared, 2))               # 0.6
+print(m4.predict(pd.DataFrame({"visitors": [150]})).round(1))   # 64.7 jars`
+
+export const multipleIntro: Block[] = [
+  html(
+    '<p>One X rarely tells the whole story. On the jam stand, the number of <strong>visitors</strong> matters, and so does whether the <strong>tasting table</strong> was out. Multiple regression puts both into one line, and tells you what each one adds <em>on its own</em>.</p>',
+    '<p>نادرًا ما يروي X واحد القصة كلها. في كشك المربى يهمّ عدد <strong>الزوار</strong>، ويهمّ أيضًا وجود <strong>طاولة التذوق</strong>. يضع الانحدار المتعدد الاثنين في خط واحد، ويخبرك بما يضيفه كل منهما <em>وحده</em>.</p>',
+    '<p>یک X به‌ندرت کل داستان را می‌گوید. در غرفهٔ مربا تعداد <strong>بازدیدکننده‌ها</strong> مهم است و اینکه <strong>میز مزه‌کردن</strong> گذاشته شده یا نه هم مهم است. رگرسیون چندگانه هر دو را در یک خط می‌گذارد و می‌گوید هر کدام <em>به‌تنهایی</em> چه چیزی اضافه می‌کند.</p>',
+  ),
+  analogy(
+    '<p>Picture two Saturdays with <strong>exactly 150 visitors</strong> each. One had the tasting table, the other did not. Whatever difference in jars you see between them cannot come from the crowd, because the crowd was the same. That is what "controlling for visitors" means: compare like with like, then the gap that is left belongs to the tasting table.</p>',
+    '<p>تخيّل يومي سبت في كل منهما <strong>150 زائرًا بالضبط</strong>. في أحدهما كانت طاولة التذوق، وفي الآخر لا. أي فرق تراه في البرطمانات بينهما لا يمكن أن يأتي من الزحام، لأن الزحام نفسه. هذا معنى "مع التحكم في الزوار": قارن المتشابه بالمتشابه، فالفرق الباقي يعود إلى طاولة التذوق.</p>',
+    '<p>دو شنبه را تصور کن که هر کدام <strong>دقیقاً ۱۵۰ بازدیدکننده</strong> داشتند. یکی میز مزه‌کردن داشت و دیگری نه. هر تفاوتی در شیشه‌ها میان آن دو ببینی نمی‌تواند از شلوغی باشد، چون شلوغی یکسان بود. «با کنترل بازدیدکننده» یعنی همین: هم‌جنس را با هم‌جنس مقایسه کن، فاصلهٔ باقی‌مانده مال میز مزه‌کردن است.</p>',
+  ),
+  box(
+    'keypoint',
+    t('Words in this section, in plain language', 'كلمات هذا القسم بلغة بسيطة', 'واژه‌های این بخش به زبان ساده'),
+    '<ul><li><strong>β₀ ("beta zero")</strong>: the starting number of the line, where it begins before any X is added.</li><li><strong>β₁, β₂ ("beta one", "beta two")</strong>: how much each X adds. One β per X.</li><li><strong>Controlling for</strong> (or "holding fixed"): comparing rows that are the same on the other Xs, like the two 150-visitor Saturdays.</li><li><strong>p-value of a β</strong>: answers "could this X really be doing nothing?". Small (below 0.05) means probably real; big means it could easily be luck. Week 7 explains it fully.</li><li><strong>Adjusted R²</strong>: R² minus a small fee for every extra X. R² always goes up when you add a column, even a useless one; adjusted R² only goes up if the column earns its fee.</li></ul>',
+    '<ul><li><strong>β₀ ("بيتا صفر")</strong>: رقم بداية الخط، حيث يبدأ قبل إضافة أي X.</li><li><strong>β₁ وβ₂ ("بيتا واحد" و"بيتا اثنان")</strong>: مقدار ما يضيفه كل X. لكل X قيمة β.</li><li><strong>مع التحكم في</strong> (أو "مع التثبيت"): مقارنة صفوف متماثلة في متغيرات X الأخرى، مثل يومي السبت بـ150 زائرًا.</li><li><strong>قيمة p لـ β</strong>: تجيب عن "هل يمكن أن يكون هذا X لا يفعل شيئًا فعلًا؟". الصغيرة (أقل من 0.05) تعني حقيقيًا على الأرجح؛ والكبيرة تعني أنه قد يكون حظًا بسهولة. يشرحها الأسبوع 7 بالكامل.</li><li><strong>R² المعدّل</strong>: ‏R² ناقص رسم صغير على كل X إضافي. يرتفع R² دائمًا حين تضيف عمودًا، حتى لو كان عديم الفائدة؛ أما R² المعدّل فلا يرتفع إلا إذا استحق العمود رسمه.</li></ul>',
+    '<ul><li><strong>β₀ («بتا صفر»)</strong>: عدد شروع خط، جایی که پیش از افزودن هر X شروع می‌شود.</li><li><strong>β₁، β₂ («بتا یک»، «بتا دو»)</strong>: اینکه هر X چقدر اضافه می‌کند. برای هر X یک β.</li><li><strong>با کنترل</strong> (یا «ثابت نگه داشتن»): مقایسهٔ سطرهایی که در Xهای دیگر یکسان‌اند، مثل آن دو شنبهٔ ۱۵۰ نفری.</li><li><strong>مقدار p یک β</strong>: جواب می‌دهد «آیا ممکن است این X واقعاً هیچ کاری نکند؟». کوچک (زیر ۰٫۰۵) یعنی احتمالاً واقعی؛ بزرگ یعنی به‌راحتی می‌تواند شانس باشد. هفتهٔ ۷ کامل توضیحش می‌دهد.</li><li><strong>R² تعدیل‌شده</strong>: R² منهای هزینه‌ای کوچک برای هر X اضافه. R² با افزودن هر ستونی، حتی بی‌فایده، همیشه بالا می‌رود؛ R² تعدیل‌شده فقط وقتی بالا می‌رود که ستون هزینه‌اش را دربیاورد.</li></ul>',
+  ),
+]
+
+export const multipleExampleA: Block[] = [
+  html(
+    '<h3>Example A: visitors and the tasting table (an X that helps)</h3><p>The 20 Saturdays from <a href="/data/jam-tasting.csv" download>jam-tasting.csv</a>. Tasting is turned into a number: 1 for yes, 0 for no. The line Excel finds:</p>',
+    '<h3>المثال أ: الزوار وطاولة التذوق (X يفيد)</h3><p>أيام السبت العشرون من <a href="/data/jam-tasting.csv" download>jam-tasting.csv</a>. يُحوَّل التذوق إلى رقم: 1 لنعم و0 للا. الخط الذي يجده Excel:</p>',
+    '<h3>مثال الف: بازدیدکننده‌ها و میز مزه‌کردن (یک X که کمک می‌کند)</h3><p>۲۰ شنبهٔ <a href="/data/jam-tasting.csv" download>jam-tasting.csv</a>. مزه‌کردن به عدد تبدیل می‌شود: ۱ برای بله، ۰ برای نه. خطی که Excel پیدا می‌کند:</p>',
+  ),
+  {
+    type: 'formula',
+    eq: 'jars = −26.26 + 0.58 × visitors + 6.24 × tasting',
+    note: t('β₀ = −26.26, β₁ = 0.58, β₂ = 6.24', 'β₀ = ‎−26.26، β₁ = 0.58، β₂ = 6.24', 'β₀ = ‎−26.26، β₁ = 0.58، β₂ = 6.24'),
+  },
+  {
+    type: 'table',
+    headers: [t('Number', 'الرقم', 'عدد'), t('Read it as…', 'اقرأه هكذا…', 'این‌طور بخوانش…')],
+    rows: [
+      [t('β₀ = −26.26', 'β₀ = ‎−26.26', 'β₀ = ‎−26.26'), t('Just the starting number. A Saturday with 0 visitors does not exist, so do not read it literally.', 'مجرد رقم البداية. لا يوجد سبت بلا زوار، فلا تقرأه حرفيًا.', 'فقط عدد شروع. شنبه‌ای با ۰ بازدیدکننده وجود ندارد، پس تحت‌اللفظی نخوانش.')],
+      [t('β₁ = 0.58 (visitors)', 'β₁ = 0.58 (الزوار)', 'β₁ = 0.58 (بازدیدکننده‌ها)'), t('Each extra visitor goes with about 0.58 more jars, with the tasting table the same. So 10 more visitors ≈ 6 more jars.', 'كل زائر إضافي يقابله نحو 0.58 برطمان أكثر، مع بقاء التذوق كما هو. أي 10 زوار أكثر ≈ 6 برطمانات أكثر.', 'هر بازدیدکنندهٔ بیشتر، با یکسان ماندن مزه‌کردن، با حدود ۰٫۵۸ شیشهٔ بیشتر همراه است. پس ۱۰ نفر بیشتر ≈ ۶ شیشهٔ بیشتر.')],
+      [t('β₂ = 6.24 (tasting)', 'β₂ = 6.24 (التذوق)', 'β₂ = 6.24 (مزه‌کردن)'), t('A tasting Saturday sells about 6 more jars than a normal Saturday with the same number of visitors. Its p-value is 0.023, below 0.05, so probably real.', 'سبت التذوق يبيع نحو 6 برطمانات أكثر من سبت عادي بعدد الزوار نفسه. قيمة p له 0.023، أقل من 0.05، فهو حقيقي على الأرجح.', 'شنبهٔ مزه‌کردن حدود ۶ شیشه بیشتر از یک شنبهٔ عادی با همان تعداد بازدیدکننده می‌فروشد. مقدار p آن ۰٫۰۲۳ است، زیر ۰٫۰۵، پس احتمالاً واقعی.')],
+      [t('R² 0.60 → 0.71', 'R² ‏0.60 ← 0.71', 'R² ‏۰٫۶۰ ← ۰٫۷۱'), t('Visitors alone explain 60% of the ups and downs; with tasting added, 71%. Adjusted R² also rises (0.58 → 0.67), so tasting earns its place.', 'يفسّر الزوار وحدهم 60% من الصعود والهبوط؛ ومع إضافة التذوق 71%. ويرتفع R² المعدّل أيضًا (0.58 ← 0.67)، فالتذوق يستحق مكانه.', 'بازدیدکننده‌ها به‌تنهایی ۶۰٪ از بالا و پایین شدن را توضیح می‌دهند؛ با افزودن مزه‌کردن ۷۱٪. R² تعدیل‌شده هم بالا می‌رود (۰٫۵۸ ← ۰٫۶۷)، پس مزه‌کردن جایش را کسب کرده.')],
+    ],
+  },
+  html(
+    '<p><strong>Predict by hand:</strong> a Saturday with 150 visitors <em>and</em> the tasting table: −26.26 + 0.58 × 150 + 6.24 × 1 = <strong>about 67 jars</strong>. Without the table: −26.26 + 0.58 × 150 + 6.24 × 0 = <strong>about 61 jars</strong>. The 6-jar gap is the tasting table.</p>',
+    '<p><strong>تنبأ بيدك:</strong> سبت بـ150 زائرًا <em>مع</em> طاولة التذوق: ‎−26.26 + 0.58 × 150 + 6.24 × 1 = <strong>نحو 67 برطمانًا</strong>. وبدون الطاولة: ‎−26.26 + 0.58 × 150 + 6.24 × 0 = <strong>نحو 61 برطمانًا</strong>. وفجوة البرطمانات الستة هي طاولة التذوق.</p>',
+    '<p><strong>دستی پیش‌بینی کن:</strong> شنبه‌ای با ۱۵۰ بازدیدکننده <em>و</em> میز مزه‌کردن: ‎−26.26 + 0.58 × 150 + 6.24 × 1 = <strong>حدود ۶۷ شیشه</strong>. بدون میز: ‎−26.26 + 0.58 × 150 + 6.24 × 0 = <strong>حدود ۶۱ شیشه</strong>. فاصلهٔ ۶ شیشه‌ای همان میز مزه‌کردن است.</p>',
+  ),
+  {
+    type: 'tabs',
+    tabs: [
+      {
+        label: t('Excel', 'Excel', 'Excel'),
+        blocks: [
+          html(
+            '<ol><li>Open the CSV. Insert a new column right after <code>visitors</code>, call it <code>tasting_01</code>, and fill it with <code>=IF(B2="yes",1,0)</code>.</li><li><strong>Data ▸ Data Analysis ▸ Regression.</strong> Input Y Range: the <code>jars</code> column. Input X Range: <code>visitors</code> and <code>tasting_01</code> together (the X columns must sit next to each other). Tick Labels.</li><li>Read the Coefficients column (−26.26, 0.58, 6.24), the P-value of <code>tasting_01</code> (0.023) and R Square (0.71).</li></ol>',
+            '<ol><li>افتح ملف CSV. أدرج عمودًا جديدًا مباشرة بعد <code>visitors</code> وسمّه <code>tasting_01</code> واملأه بـ <code>=IF(B2="yes",1,0)</code>.</li><li><strong>Data ▸ Data Analysis ▸ Regression.</strong> ‏Input Y Range: عمود <code>jars</code>. ‏Input X Range: <code>visitors</code> و<code>tasting_01</code> معًا (يجب أن تتجاور أعمدة X). فعّل Labels.</li><li>اقرأ عمود Coefficients ‏(‎−26.26 و0.58 و6.24)، وقيمة P-value لـ <code>tasting_01</code> ‏(0.023) وR Square ‏(0.71).</li></ol>',
+            '<ol><li>CSV را باز کن. درست بعد از <code>visitors</code> یک ستون تازه با نام <code>tasting_01</code> درج کن و با <code>=IF(B2="yes",1,0)</code> پرش کن.</li><li><strong>Data ▸ Data Analysis ▸ Regression.</strong> ‏Input Y Range: ستون <code>jars</code>. ‏Input X Range: <code>visitors</code> و <code>tasting_01</code> با هم (ستون‌های X باید کنار هم باشند). Labels را تیک بزن.</li><li>ستون Coefficients (‎−26.26، 0.58، 6.24)، P-value ستون <code>tasting_01</code> (۰٫۰۲۳) و R Square (۰٫۷۱) را بخوان.</li></ol>',
+          ),
+        ],
+      },
+      { label: t('Python (Colab)', 'Python ‏(Colab)', 'Python ‏(Colab)'), blocks: [{ type: 'code', code: tastingCode }] },
+    ],
+  },
+  html(
+    '<h3>Example B: market days (an X that does not help)</h3><p>Back to the 12 months. The owner wonders whether months with 5 market Saturdays sell more, so we add <code>market_days</code> next to temperature:</p>',
+    '<h3>المثال ب: أيام السوق (X لا يفيد)</h3><p>نعود إلى الأشهر الاثني عشر. يتساءل المالك هل تبيع الأشهر التي فيها 5 أيام سبت للسوق أكثر، فنضيف <code>market_days</code> بجانب الحرارة:</p>',
+    '<h3>مثال ب: روزهای بازار (یک X که کمک نمی‌کند)</h3><p>برمی‌گردیم به ۱۲ ماه. صاحب غرفه کنجکاو است که آیا ماه‌هایی با ۵ شنبهٔ بازار بیشتر می‌فروشند، پس <code>market_days</code> را کنار دما اضافه می‌کنیم:</p>',
+  ),
+]
+
+export const multipleExampleBText: Block[] = [
+  html(
+    '<p><strong>Read it simply:</strong> with temperature the same, one extra market day goes with only 0.09 more jars, almost nothing, and its p-value (0.987) says it could easily be luck. R² did not move (0.950), and adjusted R² <em>fell</em> (0.945 → 0.939): market days did not earn their fee. Keep the simpler line with temperature only.</p>',
+    '<p><strong>اقرأه ببساطة:</strong> مع بقاء الحرارة كما هي، يقابل يوم سوق إضافي 0.09 برطمان فقط، أي تقريبًا لا شيء، وقيمة p له (0.987) تقول إنه قد يكون حظًا بسهولة. لم يتحرك R² ‏(0.950)، و<em>انخفض</em> R² المعدّل (0.945 ← 0.939): لم تستحق أيام السوق رسمها. احتفظ بالخط الأبسط بالحرارة وحدها.</p>',
+    '<p><strong>ساده بخوانش:</strong> با یکسان ماندن دما، یک روز بازار بیشتر فقط با ۰٫۰۹ شیشهٔ بیشتر همراه است، تقریباً هیچ، و مقدار p آن (۰٫۹۸۷) می‌گوید به‌راحتی می‌تواند شانس باشد. R² تکان نخورد (۰٫۹۵۰) و R² تعدیل‌شده <em>پایین آمد</em> (۰٫۹۴۵ ← ۰٫۹۳۹): روزهای بازار هزینه‌شان را درنیاوردند. خط ساده‌تر با فقط دما را نگه دار.</p>',
+  ),
+]
+
+export const multipleEnd: Block[] = [
+  recap(
+    t('Multiple regression = one line with several Xs; each β is what that X adds on its own.', 'الانحدار المتعدد = خط واحد بعدة X؛ وكل β هو ما يضيفه ذلك X وحده.', 'رگرسیون چندگانه = یک خط با چند X؛ هر β چیزی است که آن X به‌تنهایی اضافه می‌کند.'),
+    t('"Controlling for" = comparing like with like (same visitors, same temperature).', '"مع التحكم في" = مقارنة المتشابه بالمتشابه (الزوار نفسهم، الحرارة نفسها).', '«با کنترل» = مقایسهٔ هم‌جنس با هم‌جنس (همان بازدیدکننده‌ها، همان دما).'),
+    t('Keep a new X only if its p-value is small and adjusted R² goes up.', 'أبقِ X الجديد فقط إن كانت قيمة p له صغيرة وارتفع R² المعدّل.', 'X تازه را فقط اگر مقدار p آن کوچک است و R² تعدیل‌شده بالا رفت نگه دار.'),
+  ),
+]
+
+export const practiceJam: Week['sections'][number] = {
+  id: 'practice-jam',
+  navLabel: t('Practice: visitors and jars', 'تدريب: الزوار والبرطمانات', 'تمرین: بازدیدکننده و شیشه'),
+  sectionLabel: t('Section 08', 'القسم ٠٨', 'بخش ۰۸'),
+  timeEst: t('8 min', '٨ دقائق', '۸ دقیقه'),
+  headingHtml: t(
+    '<h2>Practice: predict jars from visitors</h2><p class="standfirst">Your turn, with the same three steps as the lesson\'s assignment: fit the line, read it in three sentences, make a prediction. The data is the 20 Saturdays you just used.</p>',
+    '<h2>تدريب: تنبأ بالبرطمانات من عدد الزوار</h2><p class="standfirst">دورك، بالخطوات الثلاث نفسها في واجب الدرس: لائم الخط، واقرأه في ثلاث جمل، وأجرِ تنبؤًا. البيانات هي أيام السبت العشرون التي استخدمتها للتو.</p>',
+    '<h2>تمرین: شیشه‌ها را از روی بازدیدکننده‌ها پیش‌بینی کن</h2><p class="standfirst">نوبت توست، با همان سه گام تکلیف درس: خط را برازش کن، در سه جمله بخوانش و یک پیش‌بینی بکن. داده همان ۲۰ شنبه‌ای است که الان به کار بردی.</p>',
+  ),
+  blocks: [
+    analogy(
+      '<p>A busier street fills the shop. The regression tells you the "exchange rate" between the crowd and the sales: how many extra jars each extra visitor brings, on average.</p>',
+      '<p>الشارع الأكثر ازدحامًا يملأ المتجر. ويخبرك الانحدار بـ"سعر الصرف" بين الزحام والمبيعات: كم برطمانًا إضافيًا يجلبه كل زائر إضافي في المتوسط.</p>',
+      '<p>خیابان شلوغ‌تر مغازه را پر می‌کند. رگرسیون «نرخ تبدیل» میان شلوغی و فروش را می‌گوید: هر بازدیدکنندهٔ بیشتر به‌طور میانگین چند شیشهٔ بیشتر می‌آورد.</p>',
+    ),
+    html(
+      '<p><strong>Your three steps:</strong> 1. fit jars (Y) against visitors (X); 2. read R², the slope and the intercept; 3. predict a Saturday with 150 visitors. Try it before you look at the answer below.</p>',
+      '<p><strong>خطواتك الثلاث:</strong> 1. لائم البرطمانات (Y) مقابل الزوار (X)؛ 2. اقرأ R² والميل والمقطع؛ 3. تنبأ بسبت فيه 150 زائرًا. جرّبه قبل أن تنظر إلى الإجابة أدناه.</p>',
+      '<p><strong>سه گام تو:</strong> ۱. شیشه (Y) را در برابر بازدیدکننده (X) برازش کن؛ ۲. R²، شیب و عرض از مبدأ را بخوان؛ ۳. شنبه‌ای با ۱۵۰ بازدیدکننده را پیش‌بینی کن. پیش از نگاه به پاسخ زیر امتحانش کن.</p>',
+    ),
+    {
+      type: 'tabs',
+      tabs: [
+        {
+          label: t('Excel', 'Excel', 'Excel'),
+          blocks: [
+            {
+              type: 'code',
+              code: `Columns of jam-tasting.csv: A date, B tasting, C visitors, D buyers, E jars
+=SLOPE(E2:E21, C2:C21)                    → 0.656   (jars per extra visitor)
+=INTERCEPT(E2:E21, C2:C21)                → -33.66  (the starting number)
+=RSQ(E2:E21, C2:C21)                      → 0.60    (R squared)
+=FORECAST.LINEAR(150, E2:E21, C2:C21)     → 64.7    (jars at 150 visitors)`,
+            },
+          ],
+        },
+        { label: t('Python (Colab)', 'Python ‏(Colab)', 'Python ‏(Colab)'), blocks: [{ type: 'code', code: practiceCode }] },
+      ],
+    },
+    box(
+      'example',
+      t('The answer, in three sentences', 'الإجابة في ثلاث جمل', 'پاسخ در سه جمله'),
+      '<ul><li><strong>R² = 0.60:</strong> visitors explain about 60% of the ups and downs in jars. The rest comes from other things, such as the tasting table (Section 7 added it and R² rose to 0.71).</li><li><strong>Slope = 0.656:</strong> each extra visitor goes with about 0.66 more jars, so <strong>10 more visitors ≈ 6.6 more jars</strong> (roughly 2 jars for every 3 visitors).</li><li><strong>Intercept = −33.66:</strong> a Saturday with 0 visitors would sell −34 jars, which is nonsense: no Saturday had fewer than 120 visitors, so it is only the starting number of the line.</li></ul><p><strong>Prediction:</strong> −33.66 + 0.656 × 150 = <strong>about 65 jars</strong> for a 150-visitor Saturday. That is inside the data (120 to 159 visitors), so it is safe to use.</p>',
+      '<ul><li><strong>R² = 0.60:</strong> يفسّر الزوار نحو 60% من صعود البرطمانات وهبوطها. والباقي يأتي من أشياء أخرى، مثل طاولة التذوق (أضافها القسم 7 فارتفع R² إلى 0.71).</li><li><strong>الميل = 0.656:</strong> كل زائر إضافي يقابله نحو 0.66 برطمان أكثر، أي <strong>10 زوار أكثر ≈ 6.6 برطمانات أكثر</strong> (تقريبًا برطمانان لكل 3 زوار).</li><li><strong>المقطع = ‎−33.66:</strong> سبت بلا زوار سيبيع ‎−34 برطمانًا، وهذا بلا معنى: لم يكن في أي سبت أقل من 120 زائرًا، فهو مجرد رقم بداية الخط.</li></ul><p><strong>التنبؤ:</strong> ‎−33.66 + 0.656 × 150 = <strong>نحو 65 برطمانًا</strong> لسبت فيه 150 زائرًا. وهذا داخل البيانات (من 120 إلى 159 زائرًا)، فهو آمن للاستخدام.</p>',
+      '<ul><li><strong>R² = ۰٫۶۰:</strong> بازدیدکننده‌ها حدود ۶۰٪ از بالا و پایین شدن شیشه‌ها را توضیح می‌دهند. بقیه از چیزهای دیگر می‌آید، مثل میز مزه‌کردن (بخش ۷ آن را اضافه کرد و R² به ۰٫۷۱ رسید).</li><li><strong>شیب = ۰٫۶۵۶:</strong> هر بازدیدکنندهٔ بیشتر با حدود ۰٫۶۶ شیشهٔ بیشتر همراه است، پس <strong>۱۰ بازدیدکنندهٔ بیشتر ≈ ۶٫۶ شیشهٔ بیشتر</strong> (تقریباً ۲ شیشه برای هر ۳ نفر).</li><li><strong>عرض از مبدأ = ‎−۳۳٫۶۶:</strong> شنبه‌ای با ۰ بازدیدکننده ‎−۳۴ شیشه می‌فروخت که بی‌معناست: هیچ شنبه‌ای کمتر از ۱۲۰ بازدیدکننده نداشت، پس فقط عدد شروع خط است.</li></ul><p><strong>پیش‌بینی:</strong> ‎−33.66 + 0.656 × 150 = <strong>حدود ۶۵ شیشه</strong> برای شنبه‌ای با ۱۵۰ بازدیدکننده. این داخل داده است (۱۲۰ تا ۱۵۹ بازدیدکننده)، پس استفاده‌اش امن است.</p>',
+    ),
+    recap(
+      t('Same routine every time: fit, read three sentences, predict.', 'الروتين نفسه كل مرة: لائم، واقرأ ثلاث جمل، وتنبأ.', 'هر بار همان روال: برازش، سه جمله خواندن، پیش‌بینی.'),
+      t('Say the slope in a size you can feel: 10 more visitors ≈ 6.6 more jars.', 'قل الميل بحجم تحسّه: 10 زوار أكثر ≈ 6.6 برطمانات أكثر.', 'شیب را در اندازه‌ای بگو که حس کنی: ۱۰ بازدیدکنندهٔ بیشتر ≈ ۶٫۶ شیشهٔ بیشتر.'),
+      t('Only predict inside the range of your data.', 'لا تتنبأ إلا داخل مدى بياناتك.', 'فقط داخل بازهٔ داده‌ات پیش‌بینی کن.'),
+    ),
+    { type: 'exercise', questionId: 'w06-q020' },
+  ],
+}
+
+export const simplerQuestions: Question[] = [
+  {
+    id: 'w06-q017',
+    weekId: 'week-06',
+    topic: 'multiple-regression',
+    answer: 0,
+    prompt: q(
+      'In jars = −26.26 + 0.58 × visitors + 6.24 × tasting, what does 6.24 mean?',
+      'في jars = −26.26 + 0.58 × visitors + 6.24 × tasting، ماذا يعني 6.24؟',
+      'در jars = −26.26 + 0.58 × visitors + 6.24 × tasting، عدد ۶٫۲۴ یعنی چه؟',
+    ),
+    options: [
+      q('A tasting Saturday sells about 6 more jars than a normal Saturday with the same number of visitors', 'سبت التذوق يبيع نحو 6 برطمانات أكثر من سبت عادي بعدد الزوار نفسه', 'شنبهٔ مزه‌کردن حدود ۶ شیشه بیشتر از شنبهٔ عادی با همان تعداد بازدیدکننده می‌فروشد'),
+      q('Tasting Saturdays have 6.24 more visitors', 'أيام التذوق فيها 6.24 زائرًا أكثر', 'شنبه‌های مزه‌کردن ۶٫۲۴ بازدیدکنندهٔ بیشتر دارند'),
+      q('Every visitor buys 6.24 jars', 'كل زائر يشتري 6.24 برطمانًا', 'هر بازدیدکننده ۶٫۲۴ شیشه می‌خرد'),
+    ],
+  },
+  {
+    id: 'w06-q018',
+    weekId: 'week-06',
+    topic: 'multiple-regression',
+    answer: 1,
+    prompt: q(
+      'Using jars = −26.26 + 0.58 × visitors + 6.24 × tasting, about how many jars for a tasting Saturday (tasting = 1) with 150 visitors?',
+      'باستخدام jars = −26.26 + 0.58 × visitors + 6.24 × tasting، كم برطمانًا تقريبًا لسبت تذوق (tasting = 1) فيه 150 زائرًا؟',
+      'با jars = −26.26 + 0.58 × visitors + 6.24 × tasting، برای شنبهٔ مزه‌کردن (tasting = 1) با ۱۵۰ بازدیدکننده تقریباً چند شیشه؟',
+    ),
+    options: [
+      q('About 61', 'نحو 61', 'حدود ۶۱'),
+      q('About 67', 'نحو 67', 'حدود ۶۷'),
+      q('About 87', 'نحو 87', 'حدود ۸۷'),
+    ],
+  },
+  {
+    id: 'w06-q019',
+    weekId: 'week-06',
+    topic: 'multiple-regression',
+    answer: 1,
+    prompt: q('What does "controlling for visitors" mean?', 'ماذا تعني "مع التحكم في الزوار"؟', '«با کنترل بازدیدکننده‌ها» یعنی چه؟'),
+    options: [
+      q('Removing the visitors column from the data', 'حذف عمود الزوار من البيانات', 'حذف ستون بازدیدکننده‌ها از داده'),
+      q('Comparing Saturdays that had the same number of visitors', 'مقارنة أيام سبت فيها العدد نفسه من الزوار', 'مقایسهٔ شنبه‌هایی که تعداد بازدیدکنندهٔ یکسانی داشتند'),
+      q('Making visitors the only X in the model', 'جعل الزوار X الوحيد في النموذج', 'بازدیدکننده‌ها را تنها X مدل کردن'),
+    ],
+  },
+  {
+    id: 'w06-q020',
+    weekId: 'week-06',
+    topic: 'practice-jam',
+    answer: 0,
+    prompt: q(
+      'The practice line is jars ≈ −33.66 + 0.66 × visitors. What happens with 10 more visitors?',
+      'خط التدريب هو jars ≈ −33.66 + 0.66 × visitors. ماذا يحدث مع 10 زوار أكثر؟',
+      'خط تمرین jars ≈ −33.66 + 0.66 × visitors است. با ۱۰ بازدیدکنندهٔ بیشتر چه می‌شود؟',
+    ),
+    options: [
+      q('About 6.6 more jars', 'نحو 6.6 برطمانات أكثر', 'حدود ۶٫۶ شیشهٔ بیشتر'),
+      q('About 0.66 more jars', 'نحو 0.66 برطمان أكثر', 'حدود ۰٫۶۶ شیشهٔ بیشتر'),
+      q('About 34 fewer jars', 'نحو 34 برطمانًا أقل', 'حدود ۳۴ شیشهٔ کمتر'),
+    ],
+  },
 ]
