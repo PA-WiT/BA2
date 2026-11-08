@@ -3,9 +3,9 @@
 // one everyday analogy, one tiny example with real numbers, an "In one minute" recap and a quick check.
 // The deck's own images were extracted from the PDF (public/figures/week-07/deck-NN-*.jpg). Not reused on purpose:
 // slide 9's significance-level curve (294 px wide, too blurry; redrawn as diagram-01.svg), slide 13 (a frame of a
-// YouTube video with a subscribe badge; its numbers are rebuilt and the video is linked) and slides 14/21 (pictures
+// YouTube video with a subscribe badge; its example was later replaced by a jam one, see below) and slides 14/21 (pictures
 // of text, written out as text).
-// Added beyond the deck: the jam stand examples, the coin example, the courtroom table of mistakes, and the short
+// Added beyond the deck: the jam stand examples, the courtroom table of mistakes, and the short
 // "Two groups" section, because every final-project case card compares two groups (two averages or two rates).
 // Deck slips corrected quietly, not copied:
 //  - Slide 18 calls 1 - α = 0.95 a "p_value"; it is the area to the left of z-critical.
@@ -14,14 +14,18 @@
 //  - Slide 12 says the population "mean and variance are known"; what the z-test needs is the population σ.
 // Every number was computed by script (scipy, statsmodels) and the Excel formulas were recalculated in LibreOffice.
 // Python cells live in week07Code.ts and public/notebooks/week-07-hypothesis-testing.ipynb.
+// Later revision (simpler): sections 5-7 live in week07Simple.ts and use only the jam stand (the jam taster, "56 jars a
+// Saturday" on jam-tasting.csv, the new recipe's spending) with plain-language boxes for the symbols. The deck's video
+// example (7.5 lb), the coin and the coaching institute exercise were dropped, with their figures (deck-02, deck-03,
+// deck-06); q008, q010 and q011 were retired and q013-q016 added.
 // ar/fa are draft translations awaiting native review, like the earlier weeks. Code and formulas stay English.
 import type { Block, Localized, Question, Week } from '../types'
 import { week07Homework } from './homework/week-07'
 import { py, xl } from './week07Code'
+import * as simple from './week07Simple'
 
 const notebookUrl =
   'https://colab.research.google.com/github/PA-WiT/BA2/blob/main/public/notebooks/week-07-hypothesis-testing.ipynb'
-const videoUrl = 'https://www.youtube.com/watch?v=QfiJ3kQxx2o'
 
 const t = (en: string, ar: string, fa: string): Localized => ({ en, ar, fa })
 const q = t
@@ -151,30 +155,14 @@ const questions: Question[] = [
     topic: 'p-value',
     answer: 0,
     prompt: q(
-      'A test gives p = 0.03 and you chose α = 0.05. What do you decide?',
-      'يعطي اختبار p = 0.03 وقد اخترت α = 0.05. ماذا تقرر؟',
-      'یک آزمون p = ۰٫۰۳ می‌دهد و α = ۰٫۰۵ را انتخاب کرده‌ای. چه تصمیمی می‌گیری؟',
+      'A jam test gives p = 0.03, and your line is α = 0.05. What do you decide?',
+      'يعطي اختبار للمربى p = 0.03، وخطك هو α = 0.05. ماذا تقرر؟',
+      'یک آزمون مربا p = ۰٫۰۳ می‌دهد و خط تو α = ۰٫۰۵ است. چه تصمیمی می‌گیری؟',
     ),
     options: [
-      q('Reject H₀: the result would be surprising if nothing were going on', 'ارفض H₀: النتيجة ستكون مفاجئة لو لم يكن هناك شيء', 'H₀ را رد کن: اگر هیچ اتفاقی نمی‌افتاد، این نتیجه غافلگیرکننده بود'),
-      q('Accept H₀ as proven', 'اقبل H₀ كأمر مثبت', 'H₀ را ثابت‌شده بپذیر'),
+      q('Reject H₀: 0.03 is below 0.05, too rare to be just luck', 'ارفض H₀: ‏0.03 أقل من 0.05، أندر من أن يكون مجرد حظ', 'H₀ را رد کن: ۰٫۰۳ کمتر از ۰٫۰۵ است، نادرتر از آنکه فقط شانس باشد'),
+      q('H₀ is now proven true', 'أصبحت H₀ مثبتة', 'حالا H₀ ثابت شده است'),
       q('Nothing: 0.03 is almost zero, so the test failed', 'لا شيء: 0.03 تقريبًا صفر، فالاختبار فشل', 'هیچ: ۰٫۰۳ تقریباً صفر است، پس آزمون شکست خورد'),
-    ],
-  },
-  {
-    id: 'w07-q008',
-    weekId: 'week-07',
-    topic: 'p-value',
-    answer: 1,
-    prompt: q(
-      'A coin shows 9 heads in 10 flips, and p = 0.0107. What does that p-value say?',
-      'تُظهر عملة 9 صور في 10 رميات، وقيمة p = 0.0107. ماذا تقول قيمة p هذه؟',
-      'یک سکه در ۱۰ پرتاب ۹ بار شیر می‌آید و p = ۰٫۰۱۰۷. این مقدار p چه می‌گوید؟',
-    ),
-    options: [
-      q('The coin is fair with a probability of 1.07%', 'العملة عادلة باحتمال 1.07%', 'سکه با احتمال ۱٫۰۷٪ سالم است'),
-      q('If the coin were fair, 9 or more heads would happen only about 1 time in 100', 'لو كانت العملة عادلة لظهرت 9 صور أو أكثر نحو مرة واحدة من كل 100 فقط', 'اگر سکه سالم بود، ۹ شیر یا بیشتر فقط حدود ۱ بار در ۱۰۰ بار رخ می‌داد'),
-      q('The coin lands heads 1.07% of the time', 'تسقط العملة على الصورة 1.07% من المرات', 'سکه ۱٫۰۷٪ مواقع شیر می‌آید'),
     ],
   },
   {
@@ -183,46 +171,14 @@ const questions: Question[] = [
     topic: 'z-test',
     answer: 0,
     prompt: q(
-      'In z = (x̄ − μ) / (σ / √n), what does the bottom part (σ / √n) measure?',
-      'في z = (x̄ − μ) / (σ / √n)، ماذا يقيس الجزء السفلي (σ / √n)؟',
-      'در z = (x̄ − μ) / (σ / √n)، بخش پایین (σ / √n) چه چیزی را اندازه می‌گیرد؟',
+      'In the jars example, the bottom of the z formula is σ / √n = 10 / √20 = 2.24 jars. What is it?',
+      'في مثال البرطمانات، أسفل معادلة z هو σ / √n = 10 / √20 = 2.24 برطمان. ما هو؟',
+      'در مثال شیشه‌ها، پایین فرمول z برابر σ / √n = 10 / √20 = ۲٫۲۴ شیشه است. این چیست؟',
     ),
     options: [
-      q('How much a sample average usually wobbles: the noise', 'مقدار تذبذب متوسط العيّنة عادةً: الضجيج', 'اینکه میانگین نمونه معمولاً چقدر نوسان دارد: نویز'),
-      q('The difference we found: the signal', 'الفرق الذي وجدناه: الإشارة', 'تفاوتی که پیدا کردیم: سیگنال'),
+      q('How much an average of 20 Saturdays usually wobbles by luck (the noise)', 'كم يتذبذب متوسط 20 سبتًا عادةً بفعل الحظ (الضجيج)', 'اینکه میانگین ۲۰ شنبه معمولاً چقدر از روی شانس نوسان دارد (نویز)'),
+      q('The gap we found, 60.15 − 56 (the signal)', 'الفرق الذي وجدناه، 60.15 − 56 (الإشارة)', 'فاصله‌ای که پیدا کردیم، 60.15 − 56 (سیگنال)'),
       q('The p-value', 'قيمة p', 'مقدار p'),
-    ],
-  },
-  {
-    id: 'w07-q010',
-    weekId: 'week-07',
-    topic: 'your-turn',
-    answer: 1,
-    prompt: q(
-      'In the coaching institute exercise, z = 3.6 and z-critical = 1.645. What is the decision?',
-      'في تمرين المعهد التعليمي، z = 3.6 وz الحرجة = 1.645. ما القرار؟',
-      'در تمرین آموزشگاه، z = ۳٫۶ و z بحرانی = ۱٫۶۴۵. تصمیم چیست؟',
-    ),
-    options: [
-      q('Fail to reject H₀', 'عدم رفض H₀', 'H₀ رد نمی‌شود'),
-      q('Reject H₀: there is enough evidence that the mean score is above 82', 'ارفض H₀: توجد أدلة كافية على أن متوسط الدرجات أعلى من 82', 'H₀ رد می‌شود: شواهد کافی هست که میانگین نمره بالای ۸۲ است'),
-      q('Switch to a two-tailed test', 'انتقل إلى اختبار بذيلين', 'به آزمون دو دنباله برو'),
-    ],
-  },
-  {
-    id: 'w07-q011',
-    weekId: 'week-07',
-    topic: 'two-groups',
-    answer: 1,
-    prompt: q(
-      'A case card asks: "Is churn higher on month-to-month contracts than on two-year contracts?" Which test fits?',
-      'تسأل بطاقة حالة: "هل التسرّب أعلى في العقود الشهرية منه في عقود السنتين؟" أي اختبار يناسب؟',
-      'یک کارت مورد می‌پرسد: «آیا ریزش در قراردادهای ماه‌به‌ماه بیشتر از قراردادهای دوساله است؟» کدام آزمون مناسب است؟',
-    ),
-    options: [
-      q('Two averages (T.TEST)', 'متوسطان (T.TEST)', 'دو میانگین (T.TEST)'),
-      q('Two rates: churn is a yes/no, so we compare two percentages', 'معدّلان: التسرّب نعم/لا، فنقارن نسبتين مئويتين', 'دو نرخ: ریزش بله/نه است، پس دو درصد را مقایسه می‌کنیم'),
-      q('A one-sample z-test', 'اختبار z لعيّنة واحدة', 'آزمون z تک‌نمونه‌ای'),
     ],
   },
   {
@@ -231,13 +187,13 @@ const questions: Question[] = [
     topic: 'common-mistakes',
     answer: 1,
     prompt: q(
-      'With only the 8 Saturdays of April and May, the tasting test gives p = 0.23. What is the honest conclusion?',
-      'مع أيام السبت الثمانية في أبريل ومايو فقط، يعطي اختبار التذوق p = 0.23. ما الاستنتاج الصادق؟',
-      'فقط با ۸ شنبهٔ آوریل و مه، آزمون مزه‌کردن p = ۰٫۲۳ می‌دهد. نتیجه‌گیری صادقانه چیست؟',
+      'With only 8 Saturdays (April and May), the tasting test gives p = 0.23. What should the owner say?',
+      'مع 8 أيام سبت فقط (أبريل ومايو)، يعطي اختبار التذوق p = 0.23. ماذا يجب أن يقول المالك؟',
+      'فقط با ۸ شنبه (آوریل و مه)، آزمون مزه‌کردن p = ۰٫۲۳ می‌دهد. صاحب غرفه چه باید بگوید؟',
     ),
     options: [
       q('Tasting does not work', 'التذوق لا يجدي', 'مزه‌کردن جواب نمی‌دهد'),
-      q('There is not enough evidence yet; collect more Saturdays', 'لا توجد أدلة كافية بعد؛ اجمع أيام سبت أكثر', 'هنوز شواهد کافی نیست؛ شنبه‌های بیشتری جمع کن'),
+      q('Not enough evidence yet: 0.23 is above 0.05, so collect more Saturdays', 'لا أدلة كافية بعد: ‏0.23 أعلى من 0.05، فاجمع أيام سبت أكثر', 'هنوز شواهد کافی نیست: ۰٫۲۳ بالای ۰٫۰۵ است، پس شنبه‌های بیشتری جمع کن'),
       q('Tasting works; the p-value is just unlucky', 'التذوق يجدي؛ وقيمة p سيئة الحظ فقط', 'مزه‌کردن جواب می‌دهد؛ مقدار p فقط بدشانس است'),
     ],
   },
@@ -445,9 +401,9 @@ const basics: Sections = [
         ),
       ),
       html(
-        '<p><strong>Which α?</strong> 5% (0.05) is the usual choice. Use 1% (0.01) when a false alarm is costly (for example, recalling a whole batch of jars). Use 10% (0.10) for a first, exploratory look; the lesson\'s p-value example in Section 5 uses 0.10.</p>',
-        '<p><strong>أي α؟</strong> 5% (0.05) هو الاختيار المعتاد. استخدم 1% (0.01) حين يكون الإنذار الكاذب مكلفًا (مثلًا سحب دفعة كاملة من البرطمانات). واستخدم 10% (0.10) لنظرة أولى استكشافية؛ ومثال قيمة p في الدرس (القسم 5) يستخدم 0.10.</p>',
-        '<p><strong>کدام α؟</strong> ۵٪ (۰٫۰۵) انتخاب معمول است. وقتی هشدار اشتباه پرهزینه است (مثلاً جمع کردن یک بچ کامل شیشه) ۱٪ (۰٫۰۱) را به کار ببر. برای نگاه اول و اکتشافی ۱۰٪ (۰٫۱۰)؛ مثال مقدار p درس در بخش ۵ از ۰٫۱۰ استفاده می‌کند.</p>',
+        '<p><strong>Which α?</strong> 5% (0.05) is the usual choice. Use 1% (0.01) when a false alarm is costly (for example, recalling a whole batch of jars). Use 10% (0.10) for a first, exploratory look.</p>',
+        '<p><strong>أي α؟</strong> 5% (0.05) هو الاختيار المعتاد. استخدم 1% (0.01) حين يكون الإنذار الكاذب مكلفًا (مثلًا سحب دفعة كاملة من البرطمانات). واستخدم 10% (0.10) لنظرة أولى استكشافية.</p>',
+        '<p><strong>کدام α؟</strong> ۵٪ (۰٫۰۵) انتخاب معمول است. وقتی هشدار اشتباه پرهزینه است (مثلاً جمع کردن یک بچ کامل شیشه) ۱٪ (۰٫۰۱) را به کار ببر. برای نگاه اول و اکتشافی ۱۰٪ (۰٫۱۰) را به کار ببر.</p>',
       ),
       figure(
         4,
@@ -473,195 +429,16 @@ const basics: Sections = [
 
 // ---------- Sections 5-8 ----------
 const testing: Sections = [
-  {
-    id: 'p-value',
-    navLabel: t('The p-value', 'قيمة p', 'مقدار p'),
-    sectionLabel: t('Section 05', 'القسم ٠٥', 'بخش ۰۵'),
-    timeEst: t('8 min', '٨ دقائق', '۸ دقیقه'),
-    headingHtml: t(
-      '<h2>The p-value: how surprised should I be?</h2><p class="standfirst">The p-value is the probability, <em>if H₀ were true</em>, of getting a result as extreme as yours or more extreme. Small p means "this would be very surprising if nothing were going on".</p>',
-      '<h2>قيمة p: كم يجب أن أتفاجأ؟</h2><p class="standfirst">قيمة p هي احتمال الحصول، <em>لو كانت H₀ صحيحة</em>، على نتيجة متطرفة مثل نتيجتك أو أكثر. وp الصغيرة تعني "هذا سيكون مفاجئًا جدًا لو لم يكن هناك شيء".</p>',
-      '<h2>مقدار p: چقدر باید غافلگیر شوم؟</h2><p class="standfirst">مقدار p احتمال گرفتن نتیجه‌ای به همان اندازهٔ نتیجهٔ تو یا شدیدتر است، <em>اگر H₀ درست بود</em>. p کوچک یعنی «اگر هیچ اتفاقی نمی‌افتاد، این خیلی غافلگیرکننده بود».</p>',
-    ),
-    blocks: [
-      box(
-        'example',
-        t('A simple example: a coin', 'مثال بسيط: عملة', 'یک مثال ساده: سکه'),
-        '<p>A friend says their coin is fair (H₀). You flip it 10 times and get <strong>9 heads</strong>. If the coin really were fair, 9 or 10 heads would happen in 11 of the 1,024 possible outcomes: <strong>p = 0.0107</strong>, about 1 time in 100. That is surprising enough to doubt the coin (it is below 5%). With 6 heads you would not blink: that happens all the time with a fair coin.</p>',
-        '<p>يقول صديق إن عملته عادلة (H₀). ترميها 10 مرات فتحصل على <strong>9 صور</strong>. لو كانت العملة عادلة فعلًا لحدثت 9 أو 10 صور في 11 من النتائج الممكنة البالغة 1,024: <strong>p = 0.0107</strong>، أي نحو مرة واحدة من كل 100. هذا مفاجئ بما يكفي للشك في العملة (أقل من 5%). ومع 6 صور لن تلتفت: هذا يحدث دائمًا مع عملة عادلة.</p>',
-        '<p>دوستی می‌گوید سکه‌اش سالم است (H₀). آن را ۱۰ بار پرتاب می‌کنی و <strong>۹ شیر</strong> می‌آید. اگر سکه واقعاً سالم بود، ۹ یا ۱۰ شیر در ۱۱ حالت از ۱٬۰۲۴ حالت ممکن رخ می‌داد: <strong>p = ۰٫۰۱۰۷</strong>، حدود ۱ بار در ۱۰۰. این آن‌قدر غافلگیرکننده است که به سکه شک کنی (زیر ۵٪ است). با ۶ شیر اصلاً تعجب نمی‌کردی: با سکهٔ سالم همیشه پیش می‌آید.</p>',
-      ),
-      tools([code('=1 - BINOM.DIST(8, 10, 0.5, TRUE)    → 0.0107  (chance of 9 or more heads in 10 fair flips)')], [code(py.coin)]),
-      figure(
-        5,
-        t('The p-value as an area under the curve (left-tailed, α = 0.10)', 'قيمة p كمساحة تحت المنحنى (ذيل أيسر، α = 0.10)', 'مقدار p به‌شکل مساحت زیر منحنی (دنبالهٔ چپ، α = ۰٫۱۰)'),
-        '/figures/week-07/deck-02-pvalue.jpg',
-        'Bell curve from the original lesson for a left-tailed test. The critical line is at z = -1.28 for alpha = 0.10. The observed z = -1.46 is further left, and the orange tail beyond it is labelled p-value = .072. A callout says p-value < alpha, so reject H0.',
-        fromDeck(
-          'The result was z = −1.46, further out than the line at −1.28. The orange area beyond it is the p-value, 0.072. It is smaller than α = 0.10, so H₀ is rejected.',
-          'كانت النتيجة z = ‎−1.46، أبعد من الخط عند ‎−1.28. والمساحة البرتقالية بعدها هي قيمة p، أي 0.072. وهي أصغر من α = 0.10، فتُرفض H₀.',
-          'نتیجه z = ‎−۱٫۴۶ بود، دورتر از خط ‎−۱٫۲۸. ناحیهٔ نارنجی پس از آن مقدار p است، ۰٫۰۷۲. این از α = ۰٫۱۰ کوچک‌تر است، پس H₀ رد می‌شود.',
-        ),
-      ),
-      box(
-        'keypoint',
-        t('The rule', 'القاعدة', 'قاعده'),
-        '<p><strong>p &lt; α → reject H₀</strong> (the result is significant).<br/><strong>p ≥ α → fail to reject H₀</strong> (not enough evidence).</p><p>What p is <em>not</em>: it is not the chance that H₀ is true, and it does not tell you how big or important the effect is. A tiny effect can have a tiny p if the sample is huge.</p>',
-        '<p><strong>p &lt; α ← ارفض H₀</strong> (النتيجة دالة).<br/><strong>p ≥ α ← لا ترفض H₀</strong> (لا أدلة كافية).</p><p>ما <em>ليست</em> عليه p: ليست احتمال أن تكون H₀ صحيحة، ولا تخبرك بحجم الأثر أو أهميته. فقد يكون لأثر ضئيل قيمة p ضئيلة إذا كانت العيّنة ضخمة.</p>',
-        '<p><strong>p &lt; α ← H₀ را رد کن</strong> (نتیجه معنادار است).<br/><strong>p ≥ α ← H₀ رد نمی‌شود</strong> (شواهد کافی نیست).</p><p>آنچه p <em>نیست</em>: احتمال درستی H₀ نیست و نمی‌گوید اثر چقدر بزرگ یا مهم است. اثری کوچک اگر نمونه بسیار بزرگ باشد می‌تواند p بسیار کوچکی داشته باشد.</p>',
-      ),
-      recap(
-        t('p-value = how surprising your result would be if H₀ were true.', 'قيمة p = مدى غرابة نتيجتك لو كانت H₀ صحيحة.', 'مقدار p = اینکه نتیجه‌ات، اگر H₀ درست بود، چقدر غافلگیرکننده می‌بود.'),
-        t('p below α: reject H₀. Otherwise: not enough evidence.', 'p أقل من α: ارفض H₀. وإلا: لا أدلة كافية.', 'p کمتر از α: H₀ را رد کن. وگرنه: شواهد کافی نیست.'),
-        t('A small p says "rare", not "big" or "important".', 'p الصغيرة تقول "نادر"، لا "كبير" أو "مهم".', 'p کوچک می‌گوید «نادر»، نه «بزرگ» یا «مهم».'),
-      ),
-      exercise('w07-q007'),
-      exercise('w07-q008'),
-    ],
-  },
-  {
-    id: 'z-test',
-    navLabel: t('The one-sample z-test', 'اختبار z لعيّنة واحدة', 'آزمون z تک‌نمونه‌ای'),
-    sectionLabel: t('Section 06', 'القسم ٠٦', 'بخش ۰۶'),
-    timeEst: t('10 min', '١٠ دقائق', '۱۰ دقیقه'),
-    headingHtml: t(
-      '<h2>The one-sample z-test: signal divided by noise</h2><p class="standfirst">The lesson\'s test compares the average of one sample with a claimed value. It turns "how far off is my sample?" into one number, z, and then into a p-value.</p>',
-      '<h2>اختبار z لعيّنة واحدة: الإشارة مقسومة على الضجيج</h2><p class="standfirst">يقارن اختبار الدرس متوسط عيّنة واحدة بقيمة مُدّعاة. ويحوّل سؤال "كم تبتعد عيّنتي؟" إلى رقم واحد، z، ثم إلى قيمة p.</p>',
-      '<h2>آزمون z تک‌نمونه‌ای: سیگنال تقسیم بر نویز</h2><p class="standfirst">آزمون درس میانگین یک نمونه را با یک مقدار ادعاشده مقایسه می‌کند. پرسش «نمونه‌ام چقدر دور است؟» را به یک عدد، z، و بعد به مقدار p تبدیل می‌کند.</p>',
-    ),
-    blocks: [
-      html(
-        '<p><strong>When to use it:</strong> one population and one sample from it; you know the population\'s standard deviation σ (for example from a machine\'s specification); and the sample is large enough (about 30 or more) or the data is roughly bell-shaped.</p>',
-        '<p><strong>متى تستخدمه:</strong> مجتمع واحد وعيّنة واحدة منه؛ وتعرف الانحراف المعياري للمجتمع σ (مثلًا من مواصفات آلة)؛ والعيّنة كبيرة بما يكفي (نحو 30 أو أكثر) أو البيانات على شكل جرس تقريبًا.</p>',
-        '<p><strong>کی به کار می‌رود:</strong> یک جامعه و یک نمونه از آن؛ انحراف معیار جامعه σ را می‌دانی (مثلاً از مشخصات یک دستگاه)؛ و نمونه به اندازهٔ کافی بزرگ است (حدود ۳۰ یا بیشتر) یا داده تقریباً زنگوله‌ای است.</p>',
-      ),
-      figure(
-        6,
-        t('The z-test formula', 'معادلة اختبار z', 'فرمول آزمون z'),
-        '/figures/week-07/deck-04-z-formula.jpg',
-        'Graphic from the original lesson: Z Test equals x-bar minus mu, divided by sigma over the square root of n, with a calculator icon and a small rising bar chart.',
-        fromDeck(
-          'Top: x̄ − μ, how far the sample average is from the claim (the signal). Bottom: σ / √n, how much a sample average usually wobbles (the noise).',
-          'في الأعلى: x̄ − μ، أي بُعد متوسط العيّنة عن الادعاء (الإشارة). وفي الأسفل: σ / √n، أي مقدار تذبذب متوسط العيّنة عادةً (الضجيج).',
-          'بالا: x̄ − μ، اینکه میانگین نمونه چقدر از ادعا دور است (سیگنال). پایین: σ / √n، اینکه میانگین نمونه معمولاً چقدر نوسان دارد (نویز).',
-        ),
-      ),
-      analogy(
-        '<p>Trying to hear a friend in a busy café: what matters is how loud they speak <em>compared with</em> the noise of the room. z is exactly that ratio. A bigger sample (larger n) is like a quieter room: the same small difference becomes easier to hear.</p>',
-        '<p>تحاول سماع صديق في مقهى مزدحم: المهم هو ارتفاع صوته <em>مقارنةً</em> بضجيج المكان. وz هو هذه النسبة تمامًا. والعيّنة الأكبر (n أكبر) مثل مكان أهدأ: يصبح الفرق الصغير نفسه أسهل سماعًا.</p>',
-        '<p>در یک کافهٔ شلوغ می‌خواهی صدای دوستت را بشنوی: مهم این است که بلندی صدایش <em>در مقایسه با</em> سروصدای سالن چقدر است. z دقیقاً همین نسبت است. نمونهٔ بزرگ‌تر (n بزرگ‌تر) مثل سالنی ساکت‌تر است: همان تفاوت کوچک راحت‌تر شنیده می‌شود.</p>',
-      ),
-      html(
-        `<h3>The lesson's example, step by step</h3><p>A claim says the average weight is at most 7.5 lb; we suspect it is more. We know σ = 2.1 lb, and a sample of 35 has an average of 8.2 lb. α = 0.05. (The lesson's <a href="${videoUrl}" target="_blank" rel="noopener">video</a> walks through it.)</p><ol><li><strong>Hypotheses:</strong> H₀: μ ≤ 7.5, Hₐ: μ &gt; 7.5 (right-tailed).</li><li><strong>z:</strong> (8.2 − 7.5) / (2.1 / √35) = 0.7 / 0.355 = <strong>1.97</strong>.</li><li><strong>p-value:</strong> the z table gives 0.9756 to the left of 1.97, so p = 1 − 0.9756 = <strong>0.0244</strong>.</li><li><strong>Decision:</strong> 0.0244 &lt; 0.05, so reject H₀: there is enough evidence that the average is above 7.5 lb.</li></ol>`,
-        `<h3>مثال الدرس خطوة بخطوة</h3><p>يقول ادعاء إن متوسط الوزن 7.5 رطل على الأكثر؛ ونشك أنه أكثر. نعرف σ = 2.1 رطل، ومتوسط عيّنة من 35 هو 8.2 رطل. α = 0.05. (<a href="${videoUrl}" target="_blank" rel="noopener">فيديو</a> الدرس يشرحه.)</p><ol><li><strong>الفرضيتان:</strong> H₀: μ ≤ 7.5، وHₐ: μ &gt; 7.5 (ذيل أيمن).</li><li><strong>z:</strong> (8.2 − 7.5) / (2.1 / √35) = 0.7 / 0.355 = <strong>1.97</strong>.</li><li><strong>قيمة p:</strong> يعطي جدول z القيمة 0.9756 يسار 1.97، فـ p = 1 − 0.9756 = <strong>0.0244</strong>.</li><li><strong>القرار:</strong> 0.0244 &lt; 0.05، فارفض H₀: توجد أدلة كافية على أن المتوسط أعلى من 7.5 رطل.</li></ol>`,
-        `<h3>مثال درس، گام‌به‌گام</h3><p>ادعایی می‌گوید میانگین وزن حداکثر ۷٫۵ پوند است؛ ما گمان می‌کنیم بیشتر است. σ = ۲٫۱ پوند را می‌دانیم و میانگین یک نمونهٔ ۳۵تایی ۸٫۲ پوند است. α = ۰٫۰۵. (<a href="${videoUrl}" target="_blank" rel="noopener">ویدیوی</a> درس آن را توضیح می‌دهد.)</p><ol><li><strong>فرض‌ها:</strong> H₀: μ ≤ 7.5، Hₐ: μ &gt; 7.5 (دنبالهٔ راست).</li><li><strong>z:</strong> (8.2 − 7.5) / (2.1 / √35) = 0.7 / 0.355 = <strong>۱٫۹۷</strong>.</li><li><strong>مقدار p:</strong> جدول z سمت چپ ۱٫۹۷ را ۰٫۹۷۵۶ می‌دهد، پس p = 1 − 0.9756 = <strong>۰٫۰۲۴۴</strong>.</li><li><strong>تصمیم:</strong> ۰٫۰۲۴۴ &lt; ۰٫۰۵، پس H₀ را رد کن: شواهد کافی هست که میانگین بالای ۷٫۵ پوند است.</li></ol>`,
-      ),
-      figure(
-        7,
-        t('Reading the z table', 'قراءة جدول z', 'خواندن جدول z'),
-        '/figures/week-07/deck-03-ztable.jpg',
-        'A portion of the standard normal z table from the original lesson. The row 1.9 and the column 0.07 are circled, and so is the value where they meet, 0.9756.',
-        fromDeck(
-          'Go down to 1.9 and across to 0.07: 0.9756 is the area to the left of z = 1.97. For a right-tailed test the p-value is the rest, 1 − 0.9756. (For a two-tailed test you would double it.)',
-          'انزل إلى 1.9 واتجه إلى 0.07: القيمة 0.9756 هي المساحة يسار z = 1.97. وفي اختبار الذيل الأيمن تكون قيمة p هي الباقي، 1 − 0.9756. (وفي اختبار الذيلين تضاعفها.)',
-          'تا ۱٫۹ پایین برو و تا ۰٫۰۷ جلو برو: ۰٫۹۷۵۶ مساحت سمت چپ z = ۱٫۹۷ است. در آزمون دنبالهٔ راست مقدار p باقی‌مانده است، 1 − 0.9756. (در آزمون دو دنباله دوبرابرش می‌کنی.)',
-        ),
-      ),
-      tools(
-        [
-          code(xl.tables),
-          html(
-            '<p>Excel replaces the paper table. <code>NORM.S.DIST(z, TRUE)</code> gives the area to the left of z; <code>NORM.S.INV(area)</code> goes the other way and gives the critical z.</p>',
-            '<p>يحل Excel محل الجدول الورقي. تعطي <code>NORM.S.DIST(z, TRUE)</code> المساحة يسار z؛ وتعمل <code>NORM.S.INV(area)</code> في الاتجاه المعاكس فتعطي قيمة z الحرجة.</p>',
-            '<p>Excel جای جدول کاغذی را می‌گیرد. <code>NORM.S.DIST(z, TRUE)</code> مساحت سمت چپ z را می‌دهد؛ <code>NORM.S.INV(area)</code> برعکس کار می‌کند و z بحرانی را می‌دهد.</p>',
-          ),
-        ],
-        [code(py.videoZ)],
-      ),
-      recap(
-        t('z = how far the sample is from the claim ÷ the usual wobble.', 'z = بُعد العيّنة عن الادعاء ÷ التذبذب المعتاد.', 'z = فاصلهٔ نمونه از ادعا ÷ نوسان معمول.'),
-        t('Turn z into a p-value with the table or with NORM.S.DIST.', 'حوّل z إلى قيمة p بالجدول أو بـ NORM.S.DIST.', 'z را با جدول یا NORM.S.DIST به مقدار p تبدیل کن.'),
-        t('Use it when σ is known and the sample is large or bell-shaped.', 'استخدمه حين تكون σ معروفة والعيّنة كبيرة أو على شكل جرس.', 'وقتی σ معلوم است و نمونه بزرگ یا زنگوله‌ای است به کارش ببر.'),
-      ),
-      exercise('w07-q009'),
-    ],
-  },
-  {
-    id: 'your-turn',
-    navLabel: t('Your turn', 'دورك', 'نوبت تو'),
-    sectionLabel: t('Section 07', 'القسم ٠٧', 'بخش ۰۷'),
-    timeEst: t('8 min', '٨ دقائق', '۸ دقیقه'),
-    headingHtml: t(
-      '<h2>Your turn: the coaching institute\'s claim</h2><p class="standfirst">The lesson\'s exercise. Try it on paper first, then compare with the steps below.</p>',
-      '<h2>دورك: ادعاء المعهد التعليمي</h2><p class="standfirst">تمرين الدرس. جرّبه على الورق أولًا، ثم قارن بالخطوات أدناه.</p>',
-      '<h2>نوبت تو: ادعای آموزشگاه</h2><p class="standfirst">تمرین درس. اول روی کاغذ امتحانش کن، بعد با گام‌های زیر مقایسه کن.</p>',
-    ),
-    blocks: [
-      html(
-        '<p><strong>The problem:</strong> a coaching institute claims that its students\' mean score is <em>greater than</em> 82 marks, with a standard deviation of 20. A sample of 81 students has a mean score of 90. At the 95% confidence level (α = 0.05), is there enough evidence to support the claim?</p>',
-        '<p><strong>المسألة:</strong> يدّعي معهد تعليمي أن متوسط درجات طلابه <em>أكبر من</em> 82 درجة، بانحراف معياري 20. متوسط درجات عيّنة من 81 طالبًا هو 90. عند مستوى ثقة 95% (α = 0.05)، هل توجد أدلة كافية لدعم الادعاء؟</p>',
-        '<p><strong>مسئله:</strong> آموزشگاهی ادعا می‌کند میانگین نمرهٔ شاگردانش <em>بیشتر از</em> ۸۲ است، با انحراف معیار ۲۰. میانگین نمرهٔ نمونه‌ای از ۸۱ شاگرد ۹۰ است. در سطح اطمینان ۹۵٪ (α = ۰٫۰۵)، آیا شواهد کافی برای پشتیبانی از ادعا هست؟</p>',
-      ),
-      box(
-        'example',
-        t('The steps', 'الخطوات', 'گام‌ها'),
-        '<ol><li><strong>Hypotheses:</strong> H₀: μ ≤ 82, Hₐ: μ &gt; 82. The claim says "greater than", so the test is right-tailed.</li><li><strong>Significance level:</strong> α = 0.05.</li><li><strong>Critical value:</strong> we need the z that leaves 0.95 of the area to its left (1 − α). In the z table 0.95 sits between 0.9495 (1.64) and 0.9505 (1.65), so <strong>z-critical = 1.645</strong>.</li><li><strong>Test statistic:</strong> z = (90 − 82) / (20 / √81) = 8 / 2.22 = <strong>3.6</strong>.</li><li><strong>Decision:</strong> 3.6 &gt; 1.645, so z is in the rejection region: reject H₀. The p-value tells the same story: 1 − 0.99984 ≈ <strong>0.0002</strong>, far below 0.05.</li></ol><p><strong>In plain words:</strong> there is enough evidence that the institute\'s students score above 82 on average.</p>',
-        '<ol><li><strong>الفرضيتان:</strong> H₀: μ ≤ 82، وHₐ: μ &gt; 82. يقول الادعاء "أكبر من"، فالاختبار بذيل أيمن.</li><li><strong>مستوى الدلالة:</strong> α = 0.05.</li><li><strong>القيمة الحرجة:</strong> نحتاج z التي تترك 0.95 من المساحة يسارها (1 − α). في جدول z تقع 0.95 بين 0.9495 (1.64) و0.9505 (1.65)، فـ <strong>z الحرجة = 1.645</strong>.</li><li><strong>إحصاءة الاختبار:</strong> z = (90 − 82) / (20 / √81) = 8 / 2.22 = <strong>3.6</strong>.</li><li><strong>القرار:</strong> 3.6 &gt; 1.645، فـ z في منطقة الرفض: ارفض H₀. وقيمة p تحكي القصة نفسها: 1 − 0.99984 ≈ <strong>0.0002</strong>، أقل بكثير من 0.05.</li></ol><p><strong>بكلمات بسيطة:</strong> توجد أدلة كافية على أن متوسط درجات طلاب المعهد أعلى من 82.</p>',
-        '<ol><li><strong>فرض‌ها:</strong> H₀: μ ≤ 82، Hₐ: μ &gt; 82. ادعا می‌گوید «بیشتر از»، پس آزمون دنبالهٔ راست است.</li><li><strong>سطح معناداری:</strong> α = ۰٫۰۵.</li><li><strong>مقدار بحرانی:</strong> zای لازم داریم که ۰٫۹۵ مساحت را سمت چپش بگذارد (1 − α). در جدول z، ۰٫۹۵ بین ۰٫۹۴۹۵ (۱٫۶۴) و ۰٫۹۵۰۵ (۱٫۶۵) است، پس <strong>z بحرانی = ۱٫۶۴۵</strong>.</li><li><strong>آمارهٔ آزمون:</strong> z = (90 − 82) / (20 / √81) = 8 / 2.22 = <strong>۳٫۶</strong>.</li><li><strong>تصمیم:</strong> ۳٫۶ &gt; ۱٫۶۴۵، پس z در ناحیهٔ رد است: H₀ را رد کن. مقدار p هم همین را می‌گوید: 1 − 0.99984 ≈ <strong>۰٫۰۰۰۲</strong>، خیلی کمتر از ۰٫۰۵.</li></ol><p><strong>به زبان ساده:</strong> شواهد کافی هست که میانگین نمرهٔ شاگردان آموزشگاه بالای ۸۲ است.</p>',
-      ),
-      figure(
-        8,
-        t('Finding z-critical = 1.645 in the table', 'إيجاد z الحرجة = 1.645 في الجدول', 'پیدا کردن z بحرانی = ۱٫۶۴۵ در جدول'),
-        '/figures/week-07/deck-05-ztable-1645.jpg',
-        'The z table from the original lesson with row 1.6 and column 0.04 outlined in red, meeting at 0.9495, next to 0.9505 in the 0.05 column.',
-        fromDeck(
-          '0.9495 (z = 1.64) and 0.9505 (z = 1.65) sit either side of 0.95, so z-critical is halfway: 1.645. In Excel: =NORM.S.INV(0.95).',
-          'تقع 0.9495 (z = 1.64) و0.9505 (z = 1.65) على جانبي 0.95، فتكون z الحرجة في المنتصف: 1.645. وفي Excel: ‏=NORM.S.INV(0.95).',
-          '۰٫۹۴۹۵ (z = ۱٫۶۴) و ۰٫۹۵۰۵ (z = ۱٫۶۵) دو طرف ۰٫۹۵ هستند، پس z بحرانی وسط است: ۱٫۶۴۵. در Excel: ‏=NORM.S.INV(0.95).',
-        ),
-      ),
-      figure(
-        9,
-        t('The test statistic lands in the rejection region', 'إحصاءة الاختبار تقع في منطقة الرفض', 'آمارهٔ آزمون در ناحیهٔ رد می‌افتد'),
-        '/figures/week-07/deck-06-z-calc.jpg',
-        'From the original lesson: z = (x-bar minus mu) over (sigma over root n) = (90 - 82) / (20 / root 81) = 8 / 2.2 = 3.6, above a green bell curve whose small red right tail starts at 1.645, with an arrow pointing to 3.6 inside the red tail.',
-        fromDeck(
-          'The red tail starts at 1.645; our z = 3.6 is far inside it. (The slide rounds 20 / √81 to 2.2; it is 2.22, and 8 / 2.22 = 3.6.)',
-          'يبدأ الذيل الأحمر عند 1.645؛ وz = 3.6 تقع في عمقه. (تقرّب الشريحة 20 / √81 إلى 2.2؛ وهي 2.22، و8 / 2.22 = 3.6.)',
-          'دنبالهٔ قرمز از ۱٫۶۴۵ شروع می‌شود؛ z = ۳٫۶ ما خیلی داخل آن است. (اسلاید 20 / √81 را ۲٫۲ گرد کرده؛ ۲٫۲۲ است و 8 / 2.22 = 3.6.)',
-        ),
-      ),
-      tools(
-        [
-          code(`=NORM.S.INV(0.95)                 → 1.645  (z-critical, right-tailed, alpha = 0.05)
-=(90 - 82) / (20 / SQRT(81))       → 3.6    (z)
-=1 - NORM.S.DIST(3.6, TRUE)        → 0.00016 (p-value)`),
-        ],
-        [code(py.yourTurn)],
-      ),
-      box(
-        'keypoint',
-        t('Two ways to decide, one answer', 'طريقتان للقرار وإجابة واحدة', 'دو راه تصمیم، یک جواب'),
-        '<p>Compare <strong>z with z-critical</strong> (3.6 &gt; 1.645), or compare <strong>p with α</strong> (0.0002 &lt; 0.05). Both always agree. Note that 0.95 here is an <em>area</em>, the part of the curve to the left of z-critical. The slide calls it "p_value", but it is not a p-value.</p>',
-        '<p>قارن <strong>z بـ z الحرجة</strong> (3.6 &gt; 1.645)، أو قارن <strong>p بـ α</strong> (0.0002 &lt; 0.05). الطريقتان تتفقان دائمًا. ولاحظ أن 0.95 هنا <em>مساحة</em>، أي جزء المنحنى يسار z الحرجة. تسمّيها الشريحة "p_value"، لكنها ليست قيمة p.</p>',
-        '<p><strong>z را با z بحرانی</strong> مقایسه کن (۳٫۶ &gt; ۱٫۶۴۵)، یا <strong>p را با α</strong> (۰٫۰۰۰۲ &lt; ۰٫۰۵). هر دو همیشه یک جواب می‌دهند. توجه کن که ۰٫۹۵ اینجا یک <em>مساحت</em> است، بخشی از منحنی که سمت چپ z بحرانی است. اسلاید آن را «p_value» می‌نامد، اما مقدار p نیست.</p>',
-      ),
-      recap(
-        t('Five steps: hypotheses, α, critical value, z, decision.', 'خمس خطوات: الفرضيتان، α، القيمة الحرجة، z، القرار.', 'پنج گام: فرض‌ها، α، مقدار بحرانی، z، تصمیم.'),
-        t('Finish with one plain sentence a manager can read.', 'اختم بجملة بسيطة يستطيع المدير قراءتها.', 'با یک جملهٔ ساده که مدیر بتواند بخواند تمام کن.'),
-      ),
-      exercise('w07-q010'),
-    ],
-  },
+  ...simple.sections,
   {
     id: 'two-groups',
     navLabel: t('Two groups', 'مجموعتان', 'دو گروه'),
     sectionLabel: t('Section 08', 'القسم ٠٨', 'بخش ۰۸'),
     timeEst: t('10 min', '١٠ دقائق', '۱۰ دقیقه'),
     headingHtml: t(
-      '<h2>Two groups: the test you will use in your project</h2><p class="standfirst">The lesson\'s z-test compares one sample with a known value. Most business questions compare two groups: tasting days against normal days, smokers against non-smokers. It is the same five steps, and Excel does the maths.</p>',
-      '<h2>مجموعتان: الاختبار الذي ستستخدمه في مشروعك</h2><p class="standfirst">يقارن اختبار z في الدرس عيّنة واحدة بقيمة معروفة. ومعظم أسئلة العمل تقارن مجموعتين: أيام التذوق مقابل الأيام العادية، والمدخنون مقابل غير المدخنين. إنها الخطوات الخمس نفسها، وExcel يتولى الحساب.</p>',
-      '<h2>دو گروه: آزمونی که در پروژه‌ات به کار می‌بری</h2><p class="standfirst">آزمون z درس یک نمونه را با یک مقدار معلوم مقایسه می‌کند. بیشتر پرسش‌های کسب‌وکار دو گروه را مقایسه می‌کنند: روزهای مزه‌کردن در برابر روزهای عادی، سیگاری‌ها در برابر غیرسیگاری‌ها. همان پنج گام است و Excel حساب را انجام می‌دهد.</p>',
+      '<h2>Two groups: the test you will use in your project</h2><p class="standfirst">The z-test compared one average with a claimed number (56 jars). Your project compares two groups instead, like tasting Saturdays against normal Saturdays. Same steps, and Excel does the maths.</p>',
+      '<h2>مجموعتان: الاختبار الذي ستستخدمه في مشروعك</h2><p class="standfirst">قارن اختبار z متوسطًا واحدًا برقم مُدّعى (56 برطمانًا). أما مشروعك فيقارن مجموعتين، مثل أيام السبت مع التذوق مقابل أيام السبت العادية. الخطوات نفسها، وExcel يتولى الحساب.</p>',
+      '<h2>دو گروه: آزمونی که در پروژه‌ات به کار می‌بری</h2><p class="standfirst">آزمون z یک میانگین را با یک عدد ادعاشده (۵۶ شیشه) مقایسه کرد. پروژهٔ تو به‌جایش دو گروه را مقایسه می‌کند، مثل شنبه‌های با مزه‌کردن در برابر شنبه‌های عادی. همان گام‌ها، و Excel حساب را انجام می‌دهد.</p>',
     ),
     blocks: [
       analogy(
@@ -699,7 +476,7 @@ const testing: Sections = [
         t('A number per row → two averages (T.TEST). Yes/no per row → two rates.', 'رقم لكل صف ← متوسطان (T.TEST). نعم/لا لكل صف ← معدّلان.', 'یک عدد در هر سطر ← دو میانگین (T.TEST). بله/نه در هر سطر ← دو نرخ.'),
         t('Compare like with like: alternate the groups so weather and season are shared.', 'قارن المتشابه بالمتشابه: بدّل بين المجموعتين ليتقاسما الطقس والموسم.', 'هم‌جنس را با هم‌جنس مقایسه کن: گروه‌ها را یکی در میان کن تا هوا و فصل مشترک باشد.'),
       ),
-      exercise('w07-q011'),
+      exercise('w07-q016'),
     ],
   },
 ]
@@ -769,6 +546,11 @@ My question: do tasting Saturdays sell MORE jars than normal Saturdays?
         '<p>يَعِد المورّد ببرطمانات من <strong>340 غرامًا</strong>، ولآلة التعبئة لديه تشتّت معروف <strong>σ = 6 غرامات</strong>. يزن المالك <strong>36 برطمانًا</strong> فيحصل على متوسط <strong>338 غرامًا</strong>. هل هذا مجرد تفاوت طبيعي، أم أن المورّد يعبّئ ناقصًا؟</p><ol><li><strong>الفرضيتان:</strong> H₀: μ ≥ 340 غرامًا (الوعد قائم). Hₐ: μ &lt; 340 غرامًا (تعبئة ناقصة). يقول السؤال "ناقصة"، فالاختبار بذيل أيسر.</li><li><strong>α = 0.05</strong>، اختيرت قبل الوزن.</li><li><strong>z</strong> = (338 − 340) / (6 / √36) = ‎−2 / 1 = <strong>‎−2.00</strong>.</li><li><strong>قيمة p</strong> = المساحة يسار ‎−2.00 = <strong>0.023</strong>.</li><li><strong>القرار:</strong> 0.023 &lt; 0.05، فارفض H₀.</li></ol>',
         '<p>تأمین‌کننده شیشه‌های <strong>۳۴۰ گرمی</strong> قول می‌دهد و دستگاه پرکنش پراکندگی معلوم <strong>σ = ۶ گرم</strong> دارد. صاحب غرفه <strong>۳۶ شیشه</strong> را وزن می‌کند و میانگین <strong>۳۳۸ گرم</strong> می‌گیرد. این فقط نوسان عادی است یا تأمین‌کننده کم پر می‌کند؟</p><ol><li><strong>فرض‌ها:</strong> H₀: μ ≥ 340 گرم (قول درست است). Hₐ: μ &lt; 340 گرم (کم‌پر). پرسش می‌گوید «کم»، پس آزمون دنبالهٔ چپ است.</li><li><strong>α = ۰٫۰۵</strong>، پیش از وزن کردن انتخاب شده.</li><li><strong>z</strong> = (338 − 340) / (6 / √36) = ‎−2 / 1 = <strong>‎−۲٫۰۰</strong>.</li><li><strong>مقدار p</strong> = مساحت سمت چپ ‎−۲٫۰۰ = <strong>۰٫۰۲۳</strong>.</li><li><strong>تصمیم:</strong> ۰٫۰۲۳ &lt; ۰٫۰۵، پس H₀ را رد کن.</li></ol>',
       ),
+      analogy(
+        '<p>One light jar is just luck: the machine wobbles a little. But when 36 jars are light <em>on average</em>, the wobbles should have cancelled out. A low average of many jars is a pattern, not luck. That is why the wobble of an average, σ / √n = 6 / √36 = 1 g, is much smaller than the wobble of one jar (6 g).</p>',
+        '<p>برطمان واحد خفيف مجرد حظ: الآلة تتذبذب قليلًا. لكن حين تكون 36 برطمانًا خفيفة <em>في المتوسط</em>، كان يجب أن تلغي التذبذبات بعضها. فمتوسط منخفض لبرطمانات كثيرة نمط وليس حظًا. لهذا يكون تذبذب المتوسط، σ / √n = 6 / √36 = 1 غرام، أصغر بكثير من تذبذب برطمان واحد (6 غرامات).</p>',
+        '<p>یک شیشهٔ سبک فقط شانس است: دستگاه کمی نوسان دارد. اما وقتی ۳۶ شیشه <em>به‌طور میانگین</em> سبک‌اند، نوسان‌ها باید همدیگر را خنثی می‌کردند. میانگین پایینِ شیشه‌های زیاد یک الگوست، نه شانس. برای همین نوسان میانگین، σ / √n = 6 / √36 = ۱ گرم، خیلی کوچک‌تر از نوسان یک شیشه (۶ گرم) است.</p>',
+      ),
       tools([code(xl.jam)], [code(py.jam)]),
       box(
         'example',
@@ -806,6 +588,11 @@ My question: do tasting Saturdays sell MORE jars than normal Saturdays?
           [t('Comparing groups that differ in other ways', 'مقارنة مجموعات تختلف في أشياء أخرى', 'مقایسهٔ گروه‌هایی که در چیزهای دیگری هم فرق دارند'), t('Tasting only in summer would mix the tasting effect with the season', 'التذوق في الصيف فقط سيخلط أثر التذوق بأثر الموسم', 'مزه‌کردن فقط در تابستان اثر مزه‌کردن را با فصل قاطی می‌کند'), t('Alternate the groups, as the stand did', 'بدّل بين المجموعتين كما فعل الكشك', 'گروه‌ها را یکی در میان کن، همان‌طور که غرفه کرد')],
         ],
       },
+      recap(
+        t('p above 0.05 means "not enough evidence yet", never "no effect".', 'p أعلى من 0.05 تعني "لا أدلة كافية بعد"، وليس "لا أثر" أبدًا.', 'p بالای ۰٫۰۵ یعنی «هنوز شواهد کافی نیست»، هرگز «اثری نیست».'),
+        t('Write H₀, Hₐ, the tail and α before you look at the data.', 'اكتب H₀ وHₐ والذيل وα قبل أن تنظر إلى البيانات.', 'پیش از نگاه به داده H₀، Hₐ، دنباله و α را بنویس.'),
+        t('Always say the size too: 9.5 more jars, 2 g lighter.', 'قل الحجم أيضًا دائمًا: 9.5 برطمانات أكثر، وأخف بغرامين.', 'همیشه اندازه را هم بگو: ۹٫۵ شیشه بیشتر، ۲ گرم سبک‌تر.'),
+      ),
       exercise('w07-q012'),
     ],
   },
@@ -846,6 +633,6 @@ export const weekSeven: Week = {
     ),
     timeEstimate: t('≈ 90 min · reading + Excel and Python practice', '≈ ٩٠ دقيقة · قراءة وتدريب Excel وPython', '≈ ۹۰ دقیقه · مطالعه و تمرین Excel و Python'),
   },
-  questions,
+  questions: [...questions, ...simple.questions],
   sections: [...basics, ...testing, ...closing],
 }
