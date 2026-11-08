@@ -7,6 +7,7 @@
 //  - Every number here was computed by least squares before writing (simple: jars = -6.57 + 4.09 × temp,
 //    R² 0.950; with market_days, adjusted R² falls to 0.939). The figures are drawn from those numbers.
 //  - Hypothesis tests come in Week 7, so p-values are read only as "below 0.05 or not" here.
+// Sections 7+ were later simplified to jam stand examples only (see week06Extra.ts).
 // Revised to use the original deck's figures (public/figures/week-06/deck-NN-*.png, cropped from the PDF), its
 // Direct Marketing and diamond examples, and plain-words explanations, analogies and recaps; those extra blocks and
 // the deck mistakes corrected on purpose are documented in week06Extra.ts.
@@ -204,30 +205,14 @@ const questions: Question[] = [
     topic: 'multiple-regression',
     answer: 1,
     prompt: t(
-      'Adding market_days leaves R Square at 0.950, but adjusted R Square falls from 0.945 to 0.939. What does that tell you?',
-      'إضافة market_days تبقي R Square عند 0.950، لكن R Square المعدّل ينخفض من 0.945 إلى 0.939. ماذا يخبرك ذلك؟',
-      'افزودن market_days مقدار R Square را روی ۰٫۹۵۰ نگه می‌دارد، اما R Square تعدیل‌شده از ۰٫۹۴۵ به ۰٫۹۳۹ می‌رسد. این چه می‌گوید؟',
+      'We add market_days next to temperature. R² stays at 0.950, but adjusted R² drops from 0.945 to 0.939. What should we do?',
+      'نضيف market_days بجانب الحرارة. يبقى R² عند 0.950، لكن R² المعدّل ينخفض من 0.945 إلى 0.939. ماذا نفعل؟',
+      'market_days را کنار دما اضافه می‌کنیم. R² روی ۰٫۹۵۰ می‌ماند، اما R² تعدیل‌شده از ۰٫۹۴۵ به ۰٫۹۳۹ پایین می‌آید. چه کنیم؟',
     ),
     options: [
-      t('The two-variable model is better because it has more variables', 'النموذج ذو المتغيرين أفضل لأن فيه متغيرات أكثر', 'مدل دومتغیره بهتر است چون متغیر بیشتری دارد'),
-      t('market_days adds nothing once temperature is known; keep the simple model', 'لا يضيف market_days شيئًا بعد معرفة الحرارة؛ احتفظ بالنموذج البسيط', 'وقتی دما معلوم است market_days چیزی اضافه نمی‌کند؛ مدل ساده را نگه دار'),
-      t('Temperature is no longer significant', 'لم تعد الحرارة دالّة', 'دما دیگر معنادار نیست'),
-    ],
-  },
-  {
-    id: 'w06-q008',
-    weekId: 'week-06',
-    topic: 'multiple-regression',
-    answer: 0,
-    prompt: t(
-      'In the deck\'s direct-marketing model, Children has a coefficient of -198.69. How do you read it?',
-      'في نموذج التسويق المباشر في العرض، معامل Children هو ‎-198.69. كيف تقرأه؟',
-      'در مدل بازاریابی مستقیم اسلایدها، ضریب Children برابر ‎-198.69 است. چطور می‌خوانی‌اش؟',
-    ),
-    options: [
-      t('With salary and catalogs held fixed, each extra child goes with $198.69 less spending', 'مع تثبيت الراتب والكتالوجات، يقابل كل طفل إضافي إنفاقًا أقل بـ 198.69 دولارًا', 'با ثابت ماندن حقوق و کاتالوگ‌ها، هر بچهٔ اضافه با ۱۹۸٫۶۹ دلار خرج کمتر همراه است'),
-      t('Customers with children spend $198.69 in total', 'العملاء الذين لديهم أطفال ينفقون 198.69 دولارًا إجمالًا', 'مشتریان بچه‌دار در مجموع ۱۹۸٫۶۹ دلار خرج می‌کنند'),
-      t('Having children causes customers to stop buying', 'إنجاب الأطفال يجعل العملاء يتوقفون عن الشراء', 'بچه‌دار شدن باعث می‌شود مشتریان خرید را متوقف کنند'),
+      t('Keep market_days: more columns always make a better model', 'نُبقي market_days: الأعمدة الأكثر تعطي دائمًا نموذجًا أفضل', 'market_days را نگه داریم: ستون بیشتر همیشه مدل بهتری می‌دهد'),
+      t('Drop market_days: it did not earn its place, so keep the simpler line', 'نحذف market_days: لم يستحق مكانه، فنُبقي الخط الأبسط', 'market_days را برداریم: جایش را کسب نکرد، پس خط ساده‌تر را نگه داریم'),
+      t('Drop temperature instead', 'نحذف الحرارة بدلًا منه', 'به‌جایش دما را برداریم'),
     ],
   },
   {
@@ -236,14 +221,14 @@ const questions: Question[] = [
     topic: 'cautions',
     answer: 2,
     prompt: t(
-      'The data covers 4 °C to 27 °C. The model says a 40 °C month would sell about 157 jars. Should the owner order for that?',
-      'تغطي البيانات من 4 °م إلى 27 °م. يقول النموذج إن شهرًا بحرارة 40 °م سيبيع نحو 157 برطمانًا. هل يطلب المالك على هذا الأساس؟',
-      'داده از ۴ تا ۲۷ درجه را پوشش می‌دهد. مدل می‌گوید ماهی با ۴۰ درجه حدود ۱۵۷ شیشه می‌فروشد. مالک بر این اساس سفارش بدهد؟',
+      'The stand\'s data only has months from 4 °C to 27 °C. The line says a 40 °C month would sell 157 jars. Can the owner trust that?',
+      'بيانات الكشك فيها أشهر من 4 °م إلى 27 °م فقط. يقول الخط إن شهرًا بحرارة 40 °م سيبيع 157 برطمانًا. هل يثق المالك بذلك؟',
+      'دادهٔ غرفه فقط ماه‌های ۴ تا ۲۷ درجه را دارد. خط می‌گوید ماهی با ۴۰ درجه ۱۵۷ شیشه می‌فروشد. صاحب غرفه می‌تواند به آن اعتماد کند؟',
     ),
     options: [
-      t('Yes: R² is 0.95, so the prediction is reliable', 'نعم: R² ‏0.95، فالتنبؤ موثوق', 'بله: R² برابر ۰٫۹۵ است، پس پیش‌بینی قابل اعتماد است'),
-      t('Yes, and add 10% to be safe', 'نعم، وأضف 10% احتياطًا', 'بله، و ۱۰٪ هم برای اطمینان اضافه کن'),
-      t('No: 40 °C is outside the data, so the line may not hold there', 'لا: 40 °م خارج نطاق البيانات، فقد لا ينطبق الخط هناك', 'نه: ۴۰ درجه بیرون از داده است، پس ممکن است خط آنجا صدق نکند'),
+      t('Yes: R² is high, so every prediction is safe', 'نعم: R² مرتفع، فكل تنبؤ آمن', 'بله: R² بالاست، پس هر پیش‌بینی امن است'),
+      t('Yes, and order a little extra to be safe', 'نعم، ويطلب قليلًا زيادة احتياطًا', 'بله، و برای اطمینان کمی بیشتر سفارش بدهد'),
+      t('No: 40 °C is outside the data; nobody knows if the line still works there', 'لا: 40 °م خارج البيانات؛ لا أحد يعرف هل ما زال الخط يعمل هناك', 'نه: ۴۰ درجه بیرون از داده است؛ کسی نمی‌داند خط آنجا هم کار می‌کند یا نه'),
     ],
   },
   {
@@ -252,14 +237,14 @@ const questions: Question[] = [
     topic: 'ai-corner',
     answer: 1,
     prompt: t(
-      'An AI assistant says "Temperature causes jam sales: R² = 0.95 proves it." What is wrong with the claim?',
-      'يقول مساعد ذكاء اصطناعي: "الحرارة تسبّب مبيعات المربى: R² = 0.95 يثبت ذلك." ما الخطأ في هذا الادعاء؟',
-      'یک دستیار هوش مصنوعی می‌گوید «دما باعث فروش مربا می‌شود: R² = 0.95 این را ثابت می‌کند.» ایراد این ادعا چیست؟',
+      'An AI says: "Hot weather makes people buy jam. R² = 0.95 proves it." What is wrong?',
+      'يقول ذكاء اصطناعي: "الطقس الحار يجعل الناس يشترون المربى. R² = 0.95 يثبت ذلك." ما الخطأ؟',
+      'یک هوش مصنوعی می‌گوید: «هوای گرم مردم را به خرید مربا وامی‌دارد. R² = 0.95 این را ثابت می‌کند.» ایرادش چیست؟',
     ),
     options: [
-      t('Nothing: a high R² proves causation', 'لا شيء: R² المرتفع يثبت السببية', 'هیچ: R² بالا علیت را ثابت می‌کند'),
-      t('Regression shows the two move together, not why; summer also brings tourists and fruit season', 'الانحدار يُظهر أن المتغيرين يتحركان معًا، لا السبب؛ فالصيف يجلب السياح وموسم الفاكهة أيضًا', 'رگرسیون نشان می‌دهد این دو با هم حرکت می‌کنند، نه چرا؛ تابستان گردشگر و فصل میوه هم می‌آورد'),
-      t('R² should be above 0.99 to prove causation', 'يجب أن يكون R² فوق 0.99 لإثبات السببية', 'R² باید بالای ۰٫۹۹ باشد تا علیت ثابت شود'),
+      t('Nothing: a high R² proves the cause', 'لا شيء: R² المرتفع يثبت السبب', 'هیچ: R² بالا علت را ثابت می‌کند'),
+      t('The line shows heat and sales go together, not why; summer also brings tourists and fresh fruit', 'يُظهر الخط أن الحرارة والمبيعات تسيران معًا، لا السبب؛ فالصيف يجلب السياح والفاكهة الطازجة أيضًا', 'خط نشان می‌دهد گرما و فروش با هم حرکت می‌کنند، نه چرایی‌اش را؛ تابستان توریست و میوهٔ تازه هم می‌آورد'),
+      t('R² must be 1.00 to prove a cause', 'يجب أن يكون R² يساوي 1.00 لإثبات السبب', 'R² باید ۱٫۰۰ باشد تا علت ثابت شود'),
     ],
   },
 ]
@@ -281,7 +266,7 @@ export const weekSix: Week = {
       '≈ ۱۲۰ دقیقه · مطالعه و تمرین Excel، Python و Power BI',
     ),
   },
-  questions: [...questions, ...extra.extraQuestions],
+  questions: [...questions, ...extra.extraQuestions, ...extra.simplerQuestions],
   sections: [
     {
       id: 'welcome',
@@ -527,21 +512,13 @@ export const weekSix: Week = {
       sectionLabel: t('Section 07', 'القسم ٠٧', 'بخش ۰۷'),
       timeEst: t('10 min', '١٠ دقائق', '۱۰ دقیقه'),
       headingHtml: t(
-        '<h2>Multiple linear regression: more than one X</h2><p class="standfirst">Multiple regression estimates how one dependent variable relates to two or more independent variables at once, each one "controlling for" the others.</p>',
-        '<h2>الانحدار الخطي المتعدد: أكثر من X واحد</h2><p class="standfirst">يقدّر الانحدار المتعدد علاقة متغير تابع واحد بمتغيرين مستقلين أو أكثر في الوقت نفسه، كل منها "مع التحكم" في الآخرين.</p>',
-        '<h2>رگرسیون خطی چندگانه: بیش از یک X</h2><p class="standfirst">رگرسیون چندگانه رابطهٔ یک متغیر وابسته را با دو یا چند متغیر مستقل هم‌زمان برآورد می‌کند و هر کدام «با کنترل» بقیه است.</p>',
+        '<h2>Multiple regression: more than one X, in plain words</h2><p class="standfirst">One X rarely tells the whole story. Multiple regression uses two or more Xs at once and tells you what each one adds on its own.</p>',
+        '<h2>الانحدار المتعدد: أكثر من X واحد، بكلمات بسيطة</h2><p class="standfirst">نادرًا ما يروي X واحد القصة كلها. يستخدم الانحدار المتعدد متغيرين أو أكثر من X معًا، ويخبرك بما يضيفه كل منهما وحده.</p>',
+        '<h2>رگرسیون چندگانه: بیش از یک X، به زبان ساده</h2><p class="standfirst">یک X به‌ندرت کل داستان را می‌گوید. رگرسیون چندگانه دو یا چند X را با هم به کار می‌برد و می‌گوید هر کدام به‌تنهایی چه چیزی اضافه می‌کند.</p>',
       ),
       blocks: [
-        ...extra.multipleStart,
-        { type: 'formula', eq: 'y = β₀ + β₁x₁ + β₂x₂ + … + βₙxₙ + ε', note: t('one coefficient per X', 'معامل لكل X', 'یک ضریب برای هر X') },
-        {
-          type: 'html',
-          html: t(
-            '<p>Each βᵢ is the change in y for one more unit of xᵢ <em>with every other X held fixed</em>. The owner wonders whether 5-Saturday months sell more, so we add market_days:</p>',
-            '<p>كل βᵢ هو التغير في y لوحدة إضافية من xᵢ <em>مع تثبيت كل متغيرات X الأخرى</em>. يتساءل المالك هل تبيع الأشهر ذات أيام السبت الخمسة أكثر، فنضيف market_days:</p>',
-            '<p>هر βᵢ تغییر y به ازای یک واحد بیشتر xᵢ است <em>در حالی که همهٔ Xهای دیگر ثابت‌اند</em>. مالک کنجکاو است که آیا ماه‌های ۵ شنبه‌ای بیشتر می‌فروشند، پس market_days را اضافه می‌کنیم:</p>',
-          ),
-        },
+        ...extra.multipleIntro,
+        ...extra.multipleExampleA,
         {
           type: 'table',
           headers: [t('', '', ''), t('Temperature only', 'الحرارة فقط', 'فقط دما'), t('Temperature + market_days', 'الحرارة + market_days', 'دما + market_days')],
@@ -552,21 +529,16 @@ export const weekSix: Week = {
             [t('Adjusted R Square', 'Adjusted R Square', 'Adjusted R Square'), t('0.945', '0.945', '0.945'), t('0.939', '0.939', '0.939')],
           ],
         },
-        {
-          type: 'html',
-          html: t(
-            '<ul><li>Controlling for temperature, an extra market day goes with only 0.09 more jars, and its p-value of 0.987 says that is indistinguishable from zero.</li><li>R Square never goes down when you add an X, even a useless one. <strong>Adjusted R Square</strong> subtracts a penalty for every extra X, so it falls here: the simpler model is better.</li></ul>',
-            '<ul><li>مع التحكم في الحرارة، يقابل يوم السوق الإضافي 0.09 برطمان فقط، وتقول قيمة p البالغة 0.987 إن ذلك لا يختلف عن الصفر.</li><li>لا ينخفض R Square أبدًا حين تضيف X، حتى لو كان عديم الفائدة. ويطرح <strong>R Square المعدّل</strong> عقوبة لكل X إضافي، فينخفض هنا: النموذج الأبسط أفضل.</li></ul>',
-            '<ul><li>با کنترل دما، یک روز بازار اضافه فقط با ۰٫۰۹ شیشهٔ بیشتر همراه است و مقدار p برابر ۰٫۹۸۷ می‌گوید این از صفر قابل تشخیص نیست.</li><li>R Square با افزودن یک X هرگز پایین نمی‌آید، حتی اگر بی‌فایده باشد. <strong>R Square تعدیل‌شده</strong> برای هر X اضافه جریمه کم می‌کند، پس اینجا پایین می‌آید: مدل ساده‌تر بهتر است.</li></ul>',
-          ),
-        },
+        ...extra.multipleExampleBText,
         tools([{ type: 'html', html: excel.multiple }], [py.multiple], [{ type: 'html', html: powerBi.multiple }]),
-        ...extra.multipleDeck,
+        ...extra.multipleEnd,
         { type: 'exercise', questionId: 'w06-q007' },
-        { type: 'exercise', questionId: 'w06-q008' },
+        { type: 'exercise', questionId: 'w06-q017' },
+        { type: 'exercise', questionId: 'w06-q018' },
+        { type: 'exercise', questionId: 'w06-q019' },
       ],
     },
-    extra.practiceDiamonds,
+    extra.practiceJam,
     {
       id: 'cautions',
       navLabel: t('Three cautions', 'ثلاثة تحذيرات', 'سه هشدار'),
@@ -582,9 +554,9 @@ export const weekSix: Week = {
         {
           type: 'html',
           html: t(
-            '<ol><li><strong>Correlation is not causation.</strong> The model shows that jars and temperature move together, not that warmth makes people buy jam. Summer also brings tourists, longer market hours and fresh fruit. A business decision based on "heat causes sales" might be right, but the regression alone doesn\'t prove it.</li><li><strong>Don\'t extrapolate.</strong> The data runs from 4 °C to 27 °C. At 40 °C the line says about 157 jars, but a heatwave might empty the market instead. Predict only inside the range you observed.</li><li><strong>The intercept is often meaningless.</strong> −6.57 jars at 0 °C isn\'t a fact about the stand; it is where the line crosses an axis nobody visited.</li></ol>',
-            '<ol><li><strong>الارتباط ليس سببية.</strong> يُظهر النموذج أن البرطمانات والحرارة تتحركان معًا، لا أن الدفء يجعل الناس يشترون المربى. فالصيف يجلب أيضًا السياح وساعات سوق أطول وفاكهة طازجة. قد يكون قرار عمل مبني على "الحرارة تسبّب المبيعات" صحيحًا، لكن الانحدار وحده لا يثبته.</li><li><strong>لا تستقرئ خارج البيانات.</strong> تمتد البيانات من 4 °م إلى 27 °م. عند 40 °م يقول الخط نحو 157 برطمانًا، لكن موجة حر قد تُفرغ السوق بدلًا من ذلك. تنبأ فقط داخل المدى الذي رصدته.</li><li><strong>المقطع بلا معنى غالبًا.</strong> ‎−6.57 برطمانًا عند 0 °م ليست حقيقة عن الكشك؛ إنها حيث يقطع الخط محورًا لم يزره أحد.</li></ol>',
-            '<ol><li><strong>همبستگی علیت نیست.</strong> مدل نشان می‌دهد شیشه‌ها و دما با هم حرکت می‌کنند، نه اینکه گرما مردم را به خرید مربا وامی‌دارد. تابستان گردشگر، ساعت‌های طولانی‌تر بازار و میوهٔ تازه هم می‌آورد. تصمیمی کسب‌وکاری بر پایهٔ «گرما باعث فروش است» شاید درست باشد، اما رگرسیون به‌تنهایی ثابتش نمی‌کند.</li><li><strong>برون‌یابی نکن.</strong> داده از ۴ تا ۲۷ درجه است. در ۴۰ درجه خط حدود ۱۵۷ شیشه می‌گوید، اما شاید موج گرما بازار را خالی کند. فقط درون بازه‌ای که دیده‌ای پیش‌بینی کن.</li><li><strong>عرض از مبدأ اغلب بی‌معناست.</strong> ‎−6.57 شیشه در ۰ درجه واقعیتی دربارهٔ غرفه نیست؛ جایی است که خط محوری را قطع می‌کند که هیچ‌کس به آن نرسیده.</li></ol>',
+            '<ol><li><strong>Going together is not the same as causing.</strong> Jars and temperature rise together, but that does not prove warm weather makes people buy jam: summer also brings tourists, longer market hours and fresh fruit. Say "goes with", not "causes".</li><li><strong>Do not predict outside your data.</strong> The months run from 4 °C to 27 °C. At 40 °C the line says about 157 jars, but a heatwave might empty the market instead. Only predict inside the range you have seen.</li><li><strong>The starting number (β₀) often means nothing.</strong> −6.57 jars at 0 °C is not a fact about the stand: no month was that cold, and nobody sells fewer than zero jars. It is just where the line starts.</li></ol>',
+            '<ol><li><strong>السير معًا ليس هو التسبّب.</strong> ترتفع البرطمانات والحرارة معًا، لكن هذا لا يثبت أن الطقس الدافئ يجعل الناس يشترون المربى: فالصيف يجلب أيضًا السياح وساعات سوق أطول وفاكهة طازجة. قل "يقابله"، لا "يسبّب".</li><li><strong>لا تتنبأ خارج بياناتك.</strong> تمتد الأشهر من 4 °م إلى 27 °م. عند 40 °م يقول الخط نحو 157 برطمانًا، لكن موجة حر قد تُفرغ السوق بدلًا من ذلك. لا تتنبأ إلا داخل المدى الذي رأيته.</li><li><strong>رقم البداية (β₀) كثيرًا ما يكون بلا معنى.</strong> ‎−6.57 برطمان عند 0 °م ليس حقيقة عن الكشك: لم يكن أي شهر بهذه البرودة، ولا أحد يبيع أقل من صفر برطمان. إنه فقط المكان الذي يبدأ منه الخط.</li></ol>',
+            '<ol><li><strong>با هم حرکت کردن یعنی علت بودن نیست.</strong> شیشه‌ها و دما با هم بالا می‌روند، اما این ثابت نمی‌کند هوای گرم مردم را به خرید مربا وامی‌دارد: تابستان توریست، ساعت‌های بازار طولانی‌تر و میوهٔ تازه هم می‌آورد. بگو «همراه است»، نه «باعث می‌شود».</li><li><strong>بیرون از داده‌ات پیش‌بینی نکن.</strong> ماه‌ها از ۴ تا ۲۷ درجه‌اند. در ۴۰ درجه خط حدود ۱۵۷ شیشه می‌گوید، اما ممکن است یک موج گرما بازار را خالی کند. فقط داخل بازه‌ای که دیده‌ای پیش‌بینی کن.</li><li><strong>عدد شروع (β₀) اغلب معنایی ندارد.</strong> ‎−۶٫۵۷ شیشه در ۰ درجه واقعیتی دربارهٔ غرفه نیست: هیچ ماهی آن‌قدر سرد نبود و هیچ‌کس کمتر از صفر شیشه نمی‌فروشد. فقط جایی است که خط شروع می‌شود.</li></ol>',
           ),
         },
         ...extra.cautionsEnd,
