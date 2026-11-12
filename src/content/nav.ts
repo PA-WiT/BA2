@@ -77,6 +77,12 @@ export const navGroups: NavGroup[] = [
         href: '/week/week-07',
         subtitle: { en: 'Hypothesis Testing', ar: 'اختبار الفرضيات', fa: 'آزمون فرض' },
       },
+      {
+        id: 'week-08',
+        title: { en: 'Week 8', ar: 'الأسبوع 8', fa: 'هفته ۸' },
+        href: '/week/week-08',
+        subtitle: { en: 'Application, Errors & Communicating', ar: 'التطبيق والأخطاء وإيصال النتائج', fa: 'کاربرد، خطا و انتقال یافته‌ها' },
+      },
     ],
   },
   {

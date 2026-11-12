@@ -1,0 +1,25 @@
+<svg viewBox="0 0 460 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A confusion matrix for a spam filter tested on 100 emails. Rows are the truth, columns are what the filter said. Spam caught as spam: 45 true positives. Spam missed: 20 false negatives. Good mail wrongly flagged: 5 false positives. Good mail let through: 30 true negatives. Below: accuracy 75 percent, precision 90 percent, recall 69 percent.">
+<text x="300" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="#1C2B3A">What the filter said</text>
+<text x="230" y="44" text-anchor="middle" font-size="11" font-weight="700" fill="#55606E">"Spam"</text>
+<text x="370" y="44" text-anchor="middle" font-size="11" font-weight="700" fill="#55606E">"Not spam"</text>
+<text x="22" y="140" text-anchor="middle" font-size="12" font-weight="700" fill="#1C2B3A" transform="rotate(-90 22 140)">The truth</text>
+<text x="100" y="100" text-anchor="end" font-size="11" font-weight="700" fill="#55606E">Really spam</text>
+<text x="100" y="184" text-anchor="end" font-size="11" font-weight="700" fill="#55606E">Really good mail</text>
+<rect x="160" y="54" width="140" height="80" fill="#D7EFE3" stroke="#1C2B3A"/>
+<rect x="300" y="54" width="140" height="80" fill="#F6D7D3" stroke="#1C2B3A"/>
+<rect x="160" y="134" width="140" height="80" fill="#F6D7D3" stroke="#1C2B3A"/>
+<rect x="300" y="134" width="140" height="80" fill="#D7EFE3" stroke="#1C2B3A"/>
+<text x="230" y="88" text-anchor="middle" font-size="22" font-weight="700" fill="#1F6B45">45</text>
+<text x="230" y="108" text-anchor="middle" font-size="10" fill="#1F6B45">caught (true positive)</text>
+<text x="370" y="88" text-anchor="middle" font-size="22" font-weight="700" fill="#A8322A">20</text>
+<text x="370" y="108" text-anchor="middle" font-size="10" fill="#A8322A">missed (false negative)</text>
+<text x="370" y="122" text-anchor="middle" font-size="9.5" fill="#A8322A">Type II error</text>
+<text x="230" y="168" text-anchor="middle" font-size="22" font-weight="700" fill="#A8322A">5</text>
+<text x="230" y="188" text-anchor="middle" font-size="10" fill="#A8322A">false alarm (false positive)</text>
+<text x="230" y="202" text-anchor="middle" font-size="9.5" fill="#A8322A">Type I error</text>
+<text x="370" y="168" text-anchor="middle" font-size="22" font-weight="700" fill="#1F6B45">30</text>
+<text x="370" y="188" text-anchor="middle" font-size="10" fill="#1F6B45">let through (true negative)</text>
+<text x="20" y="240" font-size="11" fill="#1C2B3A"><tspan font-weight="700">Accuracy</tspan> = (45 + 30) / 100 = 75%: how often it was right overall</text>
+<text x="20" y="260" font-size="11" fill="#1C2B3A"><tspan font-weight="700">Precision</tspan> = 45 / (45 + 5) = 90%: when it says "spam", how often it is spam</text>
+<text x="20" y="280" font-size="11" fill="#1C2B3A"><tspan font-weight="700">Recall</tspan> = 45 / (45 + 20) = 69%: of all the spam, how much it caught</text>
+</svg>

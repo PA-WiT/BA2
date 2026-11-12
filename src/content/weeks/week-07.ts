@@ -612,9 +612,9 @@ My question: do tasting Saturdays sell MORE jars than normal Saturdays?
     navLabel: t('Before Week 8', 'قبل الأسبوع 8', 'پیش از هفته ۸'),
     sectionLabel: t('Section 13', 'القسم ١٣', 'بخش ۱۳'),
     headingHtml: t(
-      '<h2>Before Week 8</h2><p>You can now say whether a difference in your data is real or just luck. Week 8 puts all the pieces together into one story: the question, the clean data, the charts, the regression and the test. Bring your project document with Weeks 4–7 in it.</p>',
-      '<h2>قبل الأسبوع 8</h2><p>تستطيع الآن أن تقول هل الفرق في بياناتك حقيقي أم مجرد حظ. يجمع الأسبوع 8 القطع كلها في قصة واحدة: السؤال والبيانات النظيفة والرسوم والانحدار والاختبار. أحضر مستند مشروعك وفيه الأسابيع 4–7.</p>',
-      '<h2>پیش از هفته ۸</h2><p>حالا می‌توانی بگویی تفاوتی در داده‌ات واقعی است یا فقط شانس. هفتهٔ ۸ همهٔ تکه‌ها را در یک داستان کنار هم می‌گذارد: پرسش، دادهٔ تمیز، نمودارها، رگرسیون و آزمون. سند پروژه‌ات را با هفته‌های ۴ تا ۷ بیاور.</p>',
+      '<h2>Before Week 8</h2><p>You can now say whether a difference in your data is real or just luck. Week 8 puts all the pieces together into one story (the question, the clean data, the charts, the regression and the test), checks how wrong it could be, and turns it into a short report and slides. Bring your project document with Weeks 4–7 in it.</p>',
+      '<h2>قبل الأسبوع 8</h2><p>تستطيع الآن أن تقول هل الفرق في بياناتك حقيقي أم مجرد حظ. يجمع الأسبوع 8 القطع كلها في قصة واحدة (السؤال والبيانات النظيفة والرسوم والانحدار والاختبار)، ويفحص كم قد تكون خاطئة، ويحوّلها إلى تقرير قصير وشرائح. أحضر مستند مشروعك وفيه الأسابيع 4–7.</p>',
+      '<h2>پیش از هفته ۸</h2><p>حالا می‌توانی بگویی تفاوتی در داده‌ات واقعی است یا فقط شانس. هفتهٔ ۸ همهٔ تکه‌ها را در یک داستان کنار هم می‌گذارد (پرسش، دادهٔ تمیز، نمودارها، رگرسیون و آزمون)، بررسی می‌کند چقدر ممکن است اشتباه باشد و آن را به یک گزارش کوتاه و چند اسلاید تبدیل می‌کند. سند پروژه‌ات را با هفته‌های ۴ تا ۷ بیاور.</p>',
     ),
     blocks: [],
   },
