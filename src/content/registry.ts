@@ -14,6 +14,7 @@ const weekLoaders: Record<string, () => Promise<Week>> = {
   'week-07': () => import('./weeks/week-07').then((m) => m.weekSeven),
   'week-08': () => import('./weeks/week-08').then((m) => m.weekEight),
   'final-project': () => import('./weeks/final-project').then((m) => m.finalProject),
+  'final-project-guidelines': () => import('./weeks/final-project-guidelines').then((m) => m.finalProjectGuidelines),
 }
 
 export const hasWeek = (id: string) => id in weekLoaders

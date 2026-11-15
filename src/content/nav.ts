@@ -94,6 +94,12 @@ export const navGroups: NavGroup[] = [
         href: '/week/final-project',
         subtitle: { en: 'One case study, built week by week', ar: 'دراسة حالة واحدة تُبنى أسبوعًا بعد أسبوع', fa: 'یک مطالعهٔ موردی، هفته‌به‌هفته' },
       },
+      {
+        id: 'final-project-guidelines',
+        title: { en: 'Project Guidelines', ar: 'إرشادات المشروع', fa: 'راهنمای پروژه' },
+        href: '/week/final-project-guidelines',
+        subtitle: { en: 'What to hand in, and how it is graded', ar: 'ماذا تسلّم، وكيف يُقيَّم', fa: 'چه تحویل بدهی و چطور نمره می‌گیرد' },
+      },
     ],
   },
 ]
