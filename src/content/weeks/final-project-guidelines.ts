@@ -1,94 +1,16 @@
 // The Women in Tech program's official "Final Project Guidelines" (5 pages, by the WIT Program Manager), saved as
-// public/originals/final-project-guidelines.pdf and linked for download. This page explains them in plain words for a
-// BA2 (business analytics) project: the guidelines are written for every course in the program, so the "for your BA2
-// project" column and the technical-requirements reading are our interpretation, labelled as such on the page.
-// Everything else (word counts, slide list, timeline, weights, video lengths, naming formats, FAQ answers) is copied
-// from the PDF. The proposal example's length (92 words) was counted by script.
-// ar/fa are draft translations awaiting native review. File-name formats stay English.
-import type { Block, Localized, Question, Week } from '../types'
+// public/originals/final-project-guidelines.pdf. This page renders the guidelines as written: same headings, same
+// order, same wording (only two typos fixed: "Competitve" and "better then"), with nothing added apart from a link
+// to download the PDF. ar/fa are straight translations of the same text, awaiting native review. File-name formats,
+// examples and the URL stay as in the PDF.
+import type { Block, Localized, Week } from '../types'
 
 const t = (en: string, ar: string, fa: string): Localized => ({ en, ar, fa })
 const W = t
 const html = (en: string, ar: string, fa: string): Block => ({ type: 'html', html: t(en, ar, fa) })
-const code = (c: string): Block => ({ type: 'code', code: c })
-const box = (variant: 'analogy' | 'mistake' | 'keypoint' | 'example', label: Localized, en: string, ar: string, fa: string): Block => ({
-  type: 'box',
-  variant,
-  label,
-  html: t(en, ar, fa),
-})
-const analogy = (en: string, ar: string, fa: string): Block => box('analogy', t('Analogy', 'تشبيه', 'تشبیه'), en, ar, fa)
-const recap = (...items: Localized[]): Block => ({ type: 'takeaways', label: t('In one minute', 'في دقيقة واحدة', 'در یک دقیقه'), items })
-const exercise = (id: string): Block => ({ type: 'exercise', questionId: id })
 const pdf = '/originals/final-project-guidelines.pdf'
-const pastProjects = 'https://www.paper-airplanes.org/student-projects'
-
-const questions: Question[] = [
-  {
-    id: 'fpg-q001',
-    weekId: 'final-project-guidelines',
-    topic: 'grading',
-    answer: 1,
-    prompt: t(
-      'How much of the grade is presentation and documentation?',
-      'كم من الدرجة للعرض والتوثيق؟',
-      'چه بخشی از نمره برای ارائه و مستندسازی است؟',
-    ),
-    options: [
-      t('20%', '20%', '۲۰٪'),
-      t('40%, as much as the technical work', '40%، بقدر العمل التقني', '۴۰٪، به اندازهٔ کار فنی'),
-      t('Nothing: only the analysis counts', 'لا شيء: التحليل وحده يُحتسب', 'هیچ: فقط تحلیل حساب می‌شود'),
-    ],
-  },
-  {
-    id: 'fpg-q002',
-    weekId: 'final-project-guidelines',
-    topic: 'submitting',
-    answer: 0,
-    prompt: t(
-      'You work in a pair. How long can your video be?',
-      'تعمل ضمن فريق من شخصين. كم يمكن أن يكون طول الفيديو؟',
-      'در یک گروه دونفره کار می‌کنی. ویدیوی شما حداکثر چقدر می‌تواند باشد؟',
-    ),
-    options: [
-      t('Up to 7 minutes (a solo project: 3–5 minutes)', 'حتى 7 دقائق (المشروع الفردي: 3–5 دقائق)', 'تا ۷ دقیقه (پروژهٔ فردی: ۳ تا ۵ دقیقه)'),
-      t('Exactly 1 minute', 'دقيقة واحدة بالضبط', 'دقیقاً ۱ دقیقه'),
-      t('As long as you like', 'بالطول الذي تريده', 'هر قدر که بخواهی'),
-    ],
-  },
-  {
-    id: 'fpg-q003',
-    weekId: 'final-project-guidelines',
-    topic: 'naming',
-    answer: 2,
-    prompt: t(
-      'Which file name follows the rules for your slides?',
-      'أي اسم ملف يتبع القواعد لشرائحك؟',
-      'کدام نام فایل برای اسلایدهایت طبق قاعده است؟',
-    ),
-    options: [
-      t('my final slides v3.pptx', 'my final slides v3.pptx', 'my final slides v3.pptx'),
-      t('Business Analytics 2-Lara Khoury-ppt', 'Business Analytics 2-Lara Khoury-ppt', 'Business Analytics 2-Lara Khoury-ppt'),
-      t('ppt-F26-Business Analytics 2-Lara Khoury', 'ppt-F26-Business Analytics 2-Lara Khoury', 'ppt-F26-Business Analytics 2-Lara Khoury'),
-    ],
-  },
-  {
-    id: 'fpg-q004',
-    weekId: 'final-project-guidelines',
-    topic: 'rules',
-    answer: 1,
-    prompt: t(
-      'What do the guidelines say about AI?',
-      'ماذا تقول الإرشادات عن الذكاء الاصطناعي؟',
-      'راهنما دربارهٔ هوش مصنوعی چه می‌گوید؟',
-    ),
-    options: [
-      t('Let AI write the code and the README to save time', 'دع الذكاء الاصطناعي يكتب الكود وملف README لتوفير الوقت', 'بگذار هوش مصنوعی کد و README را بنویسد تا وقت صرفه‌جویی شود'),
-      t('Use it to understand and to get unstuck; AI-written code or documents are rejected', 'استخدمه للفهم وللخروج من التعثر؛ يُرفض الكود أو الوثائق المكتوبة بالذكاء الاصطناعي', 'از آن برای فهمیدن و گیر نکردن استفاده کن؛ کد یا سندی که هوش مصنوعی نوشته رد می‌شود'),
-      t('AI is fine as long as the result looks professional', 'الذكاء الاصطناعي مقبول ما دامت النتيجة تبدو احترافية', 'هوش مصنوعی اشکالی ندارد، به شرطی که نتیجه حرفه‌ای به نظر برسد'),
-    ],
-  },
-]
+const url = 'https://www.paper-airplanes.org/student-projects'
+const link = `<a href="${url}" target="_blank" rel="noopener">${url}</a>`
 
 export const finalProjectGuidelines: Week = {
   id: 'final-project-guidelines',
@@ -97,333 +19,170 @@ export const finalProjectGuidelines: Week = {
   cover: {
     kicker: t('Business Analytics 2 · Final Project', 'تحليلات الأعمال 2 · المشروع النهائي', 'تحلیل کسب‌وکار ۲ · پروژهٔ نهایی'),
     titleHtml: t(
-      '<h1>Project Guidelines:<em>What to Hand In, and How It Is Graded</em></h1><p class="lede">The Women in Tech program\'s official rules for every final project, explained in plain words for your business analytics project: the proposal, the README, the slides, the video, the deadline, the grading and the file names.</p>',
-      '<h1>إرشادات المشروع:<em>ماذا تسلّم، وكيف يُقيَّم</em></h1><p class="lede">القواعد الرسمية لبرنامج Women in Tech لكل مشروع نهائي، مشروحة بكلمات بسيطة لمشروع تحليلات الأعمال: المقترح، وملف README، والشرائح، والفيديو، والموعد النهائي، والتقييم، وأسماء الملفات.</p>',
-      '<h1>راهنمای پروژه:<em>چه تحویل بدهی و چطور نمره می‌گیرد</em></h1><p class="lede">قانون‌های رسمی برنامهٔ Women in Tech برای هر پروژهٔ نهایی، به زبان ساده برای پروژهٔ تحلیل کسب‌وکار تو: پیشنهاد، README، اسلایدها، ویدیو، مهلت، نمره‌دهی و نام فایل‌ها.</p>',
+      '<h1>Women in Tech Program:<em>Final Project Guidelines</em></h1>',
+      '<h1>برنامج Women in Tech:<em>إرشادات المشروع النهائي</em></h1>',
+      '<h1>برنامهٔ Women in Tech:<em>راهنمای پروژهٔ نهایی</em></h1>',
     ),
-    timeEstimate: t('≈ 15 min to read', '≈ ١٥ دقيقة للقراءة', '≈ ۱۵ دقیقه خواندن'),
+    timeEstimate: t('≈ 10 min to read', '≈ ١٠ دقائق للقراءة', '≈ ۱۰ دقیقه خواندن'),
   },
-  questions,
+  questions: [],
   sections: [
-    // ---------- 1. Overview ----------
+    // ---------- Introduction ----------
     {
-      id: 'overview',
-      navLabel: W('Overview', 'نظرة عامة', 'مرور کلی'),
+      id: 'introduction',
+      navLabel: W('Introduction', 'مقدمة', 'مقدمه'),
       sectionLabel: W('Section 01', 'القسم ٠١', 'بخش ۰۱'),
-      timeEst: W('2 min', '٢ دقيقتان', '۲ دقیقه'),
-      headingHtml: t(
-        '<h2>Overview: four things to hand in</h2><p class="standfirst">These are the program\'s rules for every final project, in every course. This page explains what they mean for your BA2 project.</p>',
-        '<h2>نظرة عامة: أربعة أشياء تسلّمها</h2><p class="standfirst">هذه قواعد البرنامج لكل مشروع نهائي في كل مقرر. وتشرح هذه الصفحة ما تعنيه لمشروعك في BA2.</p>',
-        '<h2>مرور کلی: چهار چیز برای تحویل</h2><p class="standfirst">این‌ها قانون‌های برنامه برای هر پروژهٔ نهایی در هر درس‌اند. این صفحه توضیح می‌دهد برای پروژهٔ BA2 تو چه معنایی دارند.</p>',
-      ),
+      headingHtml: t('<h2>Introduction</h2>', '<h2>مقدمة</h2>', '<h2>مقدمه</h2>'),
       blocks: [
         html(
-          `<p><a href="${pdf}" download><strong>Download the official guidelines (PDF)</strong></a>. If anything on this page and the PDF ever disagree, the PDF wins.</p><ol><li><strong>A project proposal</strong>: 80–100 words.</li><li><strong>A README</strong>: the project's user manual.</li><li><strong>A slide presentation</strong>: about 15 slides.</li><li><strong>A video</strong> of you presenting: 3–5 minutes.</li></ol><p>Want to see the level that is expected? Look at <a href="${pastProjects}" target="_blank" rel="noopener">past students' projects</a>.</p>`,
-          `<p><a href="${pdf}" download><strong>نزّل الإرشادات الرسمية (PDF)</strong></a>. وإن اختلفت هذه الصفحة عن ملف PDF يومًا، فالحكم لملف PDF.</p><ol><li><strong>مقترح المشروع</strong>: 80–100 كلمة.</li><li><strong>ملف README</strong>: دليل استخدام المشروع.</li><li><strong>عرض شرائح</strong>: نحو 15 شريحة.</li><li><strong>فيديو</strong> تعرض فيه مشروعك: 3–5 دقائق.</li></ol><p>تريد أن ترى المستوى المتوقع؟ انظر إلى <a href="${pastProjects}" target="_blank" rel="noopener">مشاريع الطلاب السابقين</a>.</p>`,
-          `<p><a href="${pdf}" download><strong>راهنمای رسمی را دانلود کن (PDF)</strong></a>. اگر روزی این صفحه با PDF فرق داشت، PDF ملاک است.</p><ol><li><strong>پیشنهاد پروژه</strong>: ۸۰ تا ۱۰۰ واژه.</li><li><strong>یک README</strong>: دفترچهٔ راهنمای پروژه.</li><li><strong>یک ارائهٔ اسلایدی</strong>: حدود ۱۵ اسلاید.</li><li><strong>یک ویدیو</strong> از ارائهٔ خودت: ۳ تا ۵ دقیقه.</li></ol><p>می‌خواهی سطح مورد انتظار را ببینی؟ به <a href="${pastProjects}" target="_blank" rel="noopener">پروژه‌های دانشجویان قبلی</a> نگاه کن.</p>`,
-        ),
-        analogy(
-          '<p>It is like opening a restaurant for one night: you write the <strong>menu</strong> (the proposal), keep the <strong>recipe book</strong> (the README), <strong>serve the meal</strong> to guests (the slides) and <strong>film it</strong> for people who could not come (the video).</p>',
-          '<p>الأمر مثل افتتاح مطعم لليلة واحدة: تكتب <strong>قائمة الطعام</strong> (المقترح)، وتحتفظ <strong>بكتاب الوصفات</strong> (README)، و<strong>تقدّم الوجبة</strong> للضيوف (الشرائح)، و<strong>تصوّرها</strong> لمن لم يستطع الحضور (الفيديو).</p>',
-          '<p>مثل باز کردن یک رستوران برای یک شب است: <strong>منو</strong> را می‌نویسی (پیشنهاد)، <strong>دفتر دستور پخت</strong> را نگه می‌داری (README)، <strong>غذا را سرو می‌کنی</strong> (اسلایدها) و برای کسانی که نیامدند <strong>فیلمش را می‌گیری</strong> (ویدیو).</p>',
-        ),
-        box(
-          'keypoint',
-          W('Needed for your certificate', 'شرط للحصول على شهادتك', 'لازم برای گواهی‌نامه‌ات'),
-          '<p>Finishing and submitting the final project is <strong>required</strong> to receive your Women in Tech certificate. Students who do not complete it cannot get the certificate.</p>',
-          '<p>إنهاء المشروع النهائي وتسليمه <strong>إلزامي</strong> للحصول على شهادة Women in Tech. ومن لا يُكمله لا يحصل على الشهادة.</p>',
-          '<p>تمام کردن و تحویل پروژهٔ نهایی برای گرفتن گواهی‌نامهٔ Women in Tech <strong>الزامی</strong> است. کسی که آن را کامل نکند گواهی‌نامه نمی‌گیرد.</p>',
+          `<p><a href="${pdf}" download><strong>Download the guidelines (PDF)</strong></a></p><p>This document serves as a comprehensive guide for preparing your final project in the Women in Tech program. A well-structured final project demonstrates your technical skills, problem-solving abilities, and creativity. These guidelines will help you develop a professional and impressive project that showcases your growth throughout the program.</p>`,
+          `<p><a href="${pdf}" download><strong>نزّل الإرشادات (PDF)</strong></a></p><p>هذه الوثيقة دليل شامل لإعداد مشروعك النهائي في برنامج Women in Tech. المشروع النهائي جيد البنية يُظهر مهاراتك التقنية وقدرتك على حل المشكلات وإبداعك. ستساعدك هذه الإرشادات على تطوير مشروع احترافي ومثير للإعجاب يُبرز تطورك طوال البرنامج.</p>`,
+          `<p><a href="${pdf}" download><strong>راهنما را دانلود کن (PDF)</strong></a></p><p>این سند راهنمایی جامع برای آماده کردن پروژهٔ نهایی‌ات در برنامهٔ Women in Tech است. یک پروژهٔ نهایی خوش‌ساختار مهارت‌های فنی، توانایی حل مسئله و خلاقیت تو را نشان می‌دهد. این راهنما کمکت می‌کند پروژه‌ای حرفه‌ای و چشمگیر بسازی که رشد تو را در طول برنامه نشان دهد.</p>`,
         ),
       ],
     },
-    // ---------- 2. Proposal ----------
+    // ---------- Previous Projects Reference ----------
     {
-      id: 'proposal',
-      navLabel: W('The proposal', 'المقترح', 'پیشنهاد'),
+      id: 'previous-projects',
+      navLabel: W('Previous Projects Reference', 'مرجع المشاريع السابقة', 'مرجع پروژه‌های قبلی'),
       sectionLabel: W('Section 02', 'القسم ٠٢', 'بخش ۰۲'),
-      timeEst: W('2 min', '٢ دقيقتان', '۲ دقیقه'),
-      headingHtml: t(
-        '<h2>The proposal: your project in 80–100 words</h2><p class="standfirst">A short description that answers four questions: what problem, for whom, how, and with which tools.</p>',
-        '<h2>المقترح: مشروعك في 80–100 كلمة</h2><p class="standfirst">وصف قصير يجيب عن أربعة أسئلة: أي مشكلة، ولمن، وكيف، وبأي أدوات.</p>',
-        '<h2>پیشنهاد: پروژه‌ات در ۸۰ تا ۱۰۰ واژه</h2><p class="standfirst">یک توضیح کوتاه که به چهار سؤال جواب می‌دهد: چه مسئله‌ای، برای چه کسی، چطور، و با چه ابزاری.</p>',
-      ),
+      headingHtml: t('<h2>Previous Projects Reference</h2>', '<h2>مرجع المشاريع السابقة</h2>', '<h2>مرجع پروژه‌های قبلی</h2>'),
       blocks: [
         html(
-          '<ul><li><strong>The problem</strong> your project addresses</li><li><strong>The target audience</strong>: who will use the result</li><li><strong>What you will do</strong>, in one or two sentences</li><li><strong>The technologies</strong> you plan to use</li></ul>',
-          '<ul><li><strong>المشكلة</strong> التي يعالجها مشروعك</li><li><strong>الجمهور المستهدف</strong>: من سيستخدم النتيجة</li><li><strong>ما ستفعله</strong>، في جملة أو جملتين</li><li><strong>التقنيات</strong> التي تخطط لاستخدامها</li></ul>',
-          '<ul><li><strong>مسئله‌ای</strong> که پروژه‌ات حل می‌کند</li><li><strong>مخاطب هدف</strong>: چه کسی از نتیجه استفاده می‌کند</li><li><strong>کاری که می‌کنی</strong>، در یک یا دو جمله</li><li><strong>فناوری‌هایی</strong> که می‌خواهی به کار ببری</li></ul>',
-        ),
-        box(
-          'example',
-          W('A jam stand proposal (92 words)', 'مقترح كشك المربى (92 كلمة)', 'پیشنهاد غرفهٔ مربا (۹۲ واژه)'),
-          '<p><em>Every Saturday a small jam stand at a city market has to decide whether to put out a free tasting table, which costs jam and the owner\'s time. This project asks one question: does tasting really sell more jars? The target audience is the stand owner and other small market sellers. Using 20 Saturdays of sales records, I clean the data in Excel, chart sales with and without tasting, fit a regression of jars on visitors and tasting, and test the difference with a t-test. Technologies: Excel, Python (pandas, statsmodels) and PowerPoint.</em></p>',
-          '<p><em>كل سبت، على كشك مربى صغير في سوق المدينة أن يقرر هل يضع طاولة تذوق مجانية تكلّف مربى ووقت المالك. يطرح هذا المشروع سؤالًا واحدًا: هل يبيع التذوق برطمانات أكثر فعلًا؟ الجمهور المستهدف هو مالك الكشك وباعة الأسواق الصغار الآخرون. باستخدام سجلات مبيعات 20 سبتًا، أنظّف البيانات في Excel، وأرسم المبيعات مع التذوق ودونه، وأطبّق انحدارًا للبرطمانات على الزوار والتذوق، وأختبر الفرق باختبار t. التقنيات: Excel وPython ‏(pandas وstatsmodels) وPowerPoint.</em></p><p>(النص الإنجليزي 92 كلمة؛ اكتب مقترحك باللغة التي يطلبها مرشدك.)</p>',
-          '<p><em>هر شنبه یک غرفهٔ کوچک مربا در بازار شهر باید تصمیم بگیرد که میز مزه‌کردن رایگان بگذارد یا نه؛ میزی که مربا و وقت صاحب غرفه را می‌گیرد. این پروژه یک سؤال می‌پرسد: آیا مزه‌کردن واقعاً شیشهٔ بیشتری می‌فروشد؟ مخاطب هدف صاحب غرفه و دیگر فروشنده‌های کوچک بازار است. با سوابق فروش ۲۰ شنبه، داده را در Excel تمیز می‌کنم، فروش با و بدون مزه‌کردن را نمودار می‌کنم، رگرسیون شیشه بر بازدیدکننده و مزه‌کردن را برازش می‌کنم و تفاوت را با آزمون t می‌سنجم. فناوری‌ها: Excel، Python ‏(pandas، statsmodels) و PowerPoint.</em></p><p>(متن انگلیسی ۹۲ واژه است؛ پیشنهادت را به زبانی بنویس که منتورت می‌خواهد.)</p>',
-        ),
-        recap(
-          W('80–100 words: problem, audience, what you will do, tools.', '80–100 كلمة: المشكلة، الجمهور، ما ستفعله، الأدوات.', '۸۰ تا ۱۰۰ واژه: مسئله، مخاطب، کاری که می‌کنی، ابزارها.'),
+          `<p>For inspiration and understanding of the expected standard, please review past projects created by previous participants at: ${link}</p>`,
+          `<p>للإلهام ولفهم المستوى المتوقع، يرجى مراجعة المشاريع السابقة التي أنشأها المشاركون السابقون على: ${link}</p>`,
+          `<p>برای الهام گرفتن و فهمیدن سطح مورد انتظار، لطفاً پروژه‌های قبلی شرکت‌کنندگان پیشین را اینجا ببین: ${link}</p>`,
         ),
       ],
     },
-    // ---------- 3. README ----------
+    // ---------- Project Requirements ----------
     {
-      id: 'readme',
-      navLabel: W('The README', 'ملف README', 'README'),
+      id: 'requirements',
+      navLabel: W('Project Requirements', 'متطلبات المشروع', 'الزامات پروژه'),
       sectionLabel: W('Section 03', 'القسم ٠٣', 'بخش ۰۳'),
-      timeEst: W('2 min', '٢ دقيقتان', '۲ دقیقه'),
-      headingHtml: t(
-        '<h2>The README: your project\'s user manual</h2><p class="standfirst">A short document that tells a stranger what the project is and how to use it.</p>',
-        '<h2>ملف README: دليل استخدام مشروعك</h2><p class="standfirst">وثيقة قصيرة تخبر شخصًا غريبًا ما هو المشروع وكيف يستخدمه.</p>',
-        '<h2>README: دفترچهٔ راهنمای پروژه‌ات</h2><p class="standfirst">یک سند کوتاه که به یک غریبه می‌گوید پروژه چیست و چطور از آن استفاده کند.</p>',
-      ),
-      blocks: [
-        {
-          type: 'table',
-          headers: [W('The guidelines ask for', 'تطلب الإرشادات', 'راهنما می‌خواهد'), W('In a BA2 project', 'في مشروع BA2', 'در یک پروژهٔ BA2')],
-          rows: [
-            [W('Project title and description', 'عنوان المشروع ووصفه', 'عنوان و توضیح پروژه'), W('Your title and the proposal', 'عنوانك والمقترح', 'عنوانت و پیشنهاد')],
-            [W('Installation instructions', 'تعليمات التثبيت', 'دستور نصب'), W('Which files to open, and which tools are needed (Excel, or Python and its packages)', 'أي الملفات تُفتح، وما الأدوات اللازمة (Excel، أو Python وحزمه)', 'کدام فایل‌ها را باز کنند و چه ابزاری لازم است (Excel، یا Python و بسته‌هایش)')],
-            [W('Usage instructions', 'تعليمات الاستخدام', 'دستور استفاده'), W('In which order to open or run them to repeat your analysis', 'بأي ترتيب تُفتح أو تُشغّل لتكرار تحليلك', 'به چه ترتیبی باز یا اجرایشان کنند تا تحلیلت تکرار شود')],
-            [W('Technologies used', 'التقنيات المستخدمة', 'فناوری‌های به‌کاررفته'), W('Excel, Python, Power BI…', 'Excel وPython وPower BI…', 'Excel، Python، Power BI…')],
-            [W('Project structure', 'هيكل المشروع', 'ساختار پروژه'), W('The folders: data, visualizations, code, slides', 'المجلدات: البيانات، والرسوم، والكود، والشرائح', 'پوشه‌ها: داده، نمودارها، کد، اسلایدها')],
-            [W('Future improvements', 'تحسينات مستقبلية', 'بهبودهای آینده'), W('What you would add with more time or data (your "limits" from Week 8)', 'ما ستضيفه بوقت أو بيانات أكثر ("الحدود" من الأسبوع 8)', 'آنچه با وقت یا دادهٔ بیشتر اضافه می‌کردی («محدودیت‌ها» از هفتهٔ ۸)')],
-          ],
-        },
-        box(
-          'keypoint',
-          W('Is it required?', 'هل هو إلزامي؟', 'الزامی است؟'),
-          '<p>The guidelines <em>recommend</em> a README at the advanced level and make it optional at the basic level. In this course your README is part of the project you have built since Week 4 (see the <a href="/week/final-project">Final Project page</a>), so you already have most of it.</p>',
-          '<p>توصي الإرشادات <em>بملف README</em> في المستوى المتقدم وتجعله اختياريًا في المستوى الأساسي. وفي هذا المقرر يُعد ملف README جزءًا من المشروع الذي تبنيه منذ الأسبوع 4 (انظر <a href="/week/final-project">صفحة المشروع النهائي</a>)، فلديك معظمه بالفعل.</p>',
-          '<p>راهنما README را در سطح پیشرفته <em>توصیه</em> می‌کند و در سطح پایه اختیاری می‌داند. در این درس README بخشی از پروژه‌ای است که از هفتهٔ ۴ ساخته‌ای (<a href="/week/final-project">صفحهٔ پروژهٔ نهایی</a> را ببین)، پس بیشترش را از قبل داری.</p>',
-        ),
-      ],
-    },
-    // ---------- 4. Presentation ----------
-    {
-      id: 'presentation',
-      navLabel: W('The slides', 'الشرائح', 'اسلایدها'),
-      sectionLabel: W('Section 04', 'القسم ٠٤', 'بخش ۰۴'),
-      timeEst: W('3 min', '٣ دقائق', '۳ دقیقه'),
-      headingHtml: t(
-        '<h2>The slides: the official order, slide by slide</h2><p class="standfirst">The guidelines list the slides for a professional PowerPoint deck. The right-hand column is our suggestion for what goes on each slide in a business analytics project.</p>',
-        '<h2>الشرائح: الترتيب الرسمي، شريحة بشريحة</h2><p class="standfirst">تذكر الإرشادات الشرائح المطلوبة لعرض PowerPoint احترافي. والعمود الأيمن اقتراحنا لما يوضع في كل شريحة في مشروع تحليلات الأعمال.</p>',
-        '<h2>اسلایدها: ترتیب رسمی، اسلاید به اسلاید</h2><p class="standfirst">راهنما اسلایدهای یک ارائهٔ حرفه‌ای PowerPoint را فهرست می‌کند. ستون سمت راست پیشنهاد ماست برای اینکه در یک پروژهٔ تحلیل کسب‌وکار روی هر اسلاید چه بیاید.</p>',
-      ),
-      blocks: [
-        {
-          type: 'table',
-          headers: [W('Slide', 'الشريحة', 'اسلاید'), W('The guidelines ask for', 'تطلب الإرشادات', 'راهنما می‌خواهد'), W('In a BA2 project (our suggestion)', 'في مشروع BA2 (اقتراحنا)', 'در یک پروژهٔ BA2 (پیشنهاد ما)')],
-          rows: [
-            [W('1–2', '1–2', '۱–۲'), W('Cover: project logo (if any), title, your full name, tutor\'s name, mentor\'s name, "Women in Tech Program" name and logo (Paper Airplanes)', 'الغلاف: شعار المشروع (إن وُجد)، والعنوان، واسمك الكامل، واسم المدرّس، واسم المرشد، واسم "Women in Tech Program" وشعاره (Paper Airplanes)', 'جلد: لوگوی پروژه (اگر هست)، عنوان، نام کاملت، نام مدرس، نام منتور، نام و لوگوی «Women in Tech Program» (Paper Airplanes)'), W('Both partners\' names if you work in a pair', 'اسما الشريكين إن كنتما فريقًا', 'نام هر دو نفر اگر دونفره کار می‌کنید')],
-            [W('3', '3', '۳'), W('Objectives and goals', 'الأهداف والغايات', 'هدف‌ها'), W('Your goals and expected outcomes (Week 4)', 'أهدافك والنتائج المتوقعة (الأسبوع 4)', 'هدف‌ها و نتایج مورد انتظارت (هفتهٔ ۴)')],
-            [W('4', '4', '۴'), W('Problem, proposed solution, target audience', 'المشكلة، والحل المقترح، والجمهور المستهدف', 'مسئله، راه‌حل پیشنهادی، مخاطب هدف'), W('Your business question and who will use the answer', 'سؤال العمل لديك ومن سيستخدم الإجابة', 'پرسش کسب‌وکارت و کسی که از جواب استفاده می‌کند')],
-            [W('5', '5', '۵'), W('Competitive advantage: how it is better than the alternatives', 'الميزة التنافسية: كيف يتفوق على البدائل', 'مزیت رقابتی: چرا از جایگزین‌ها بهتر است'), W('Why your analysis beats guessing, and your tools section', 'لماذا يتفوق تحليلك على التخمين، وقسم الأدوات', 'چرا تحلیلت از حدس زدن بهتر است، و بخش ابزارها')],
-            [W('6–7', '6–7', '۶–۷'), W('Methodology and technologies', 'المنهجية والتقنيات', 'روش‌شناسی و فناوری‌ها'), W('Data source, cleaning steps, regression and test', 'مصدر البيانات، وخطوات التنظيف، والانحدار، والاختبار', 'منبع داده، گام‌های پاک‌سازی، رگرسیون و آزمون')],
-            [W('8–10', '8–10', '۸–۱۰'), W('Key features, with screenshots', 'الميزات الأساسية، مع لقطات شاشة', 'ویژگی‌های کلیدی، با تصویر صفحه'), W('Your best charts and findings, each with a takeaway title', 'أفضل رسومك ونتائجك، لكل منها عنوان يقول الخلاصة', 'بهترین نمودارها و یافته‌هایت، هر کدام با عنوانی که نتیجه را می‌گوید')],
-            [W('11', '11', '۱۱'), W('Challenges and how you overcame them', 'التحديات وكيف تغلبت عليها', 'چالش‌ها و اینکه چطور از پسشان برآمدی'), W('Messy data, a result that was not significant…', 'بيانات فوضوية، نتيجة غير دالة…', 'دادهٔ شلوغ، نتیجه‌ای که معنادار نبود…')],
-            [W('12', '12', '۱۲'), W('Added value and innovation', 'القيمة المضافة والابتكار', 'ارزش افزوده و نوآوری'), W('What the business can now decide that it could not before', 'ما يستطيع العمل أن يقرره الآن ولم يستطع قبل', 'آنچه کسب‌وکار حالا می‌تواند تصمیم بگیرد و قبلاً نمی‌توانست')],
-            [W('13', '13', '۱۳'), W('Live demonstration plan', 'خطة العرض الحي', 'برنامهٔ نمایش زنده'), W('A short walk through your Excel file or notebook', 'جولة قصيرة في ملف Excel أو الدفتر', 'گشتی کوتاه در فایل Excel یا نوت‌بوکت')],
-            [W('14', '14', '۱۴'), W('Future enhancements', 'تحسينات مستقبلية', 'بهبودهای آینده'), W('Limits and next steps (Week 8)', 'الحدود والخطوات التالية (الأسبوع 8)', 'محدودیت‌ها و گام‌های بعدی (هفتهٔ ۸)')],
-            [W('15', '15', '۱۵'), W('Conclusion and acknowledgments', 'الخاتمة والشكر', 'نتیجه‌گیری و قدردانی'), W('Your recommendation in one sentence; thank your mentor and tutor', 'توصيتك في جملة واحدة؛ واشكر مرشدك ومدرّسك', 'توصیه‌ات در یک جمله؛ از منتور و مدرست تشکر کن')],
-            [W('Last', 'الأخيرة', 'آخر'), W('References: all sources, libraries and external resources used', 'المراجع: كل المصادر والمكتبات والموارد الخارجية المستخدمة', 'منابع: همهٔ منبع‌ها، کتابخانه‌ها و منابع بیرونی استفاده‌شده'), W('The dataset\'s link, plus Excel, pandas, statsmodels…', 'رابط مجموعة البيانات، وExcel وpandas وstatsmodels…', 'پیوند مجموعه‌داده، و Excel، pandas، statsmodels…')],
-          ],
-        },
-        analogy(
-          '<p>The slide list is like a recipe card with fixed headings: ingredients, steps, serving. The <em>dish</em> is yours, but the jury knows where to look for each part.</p>',
-          '<p>قائمة الشرائح مثل بطاقة وصفة بعناوين ثابتة: المكونات، والخطوات، والتقديم. <em>الطبق</em> طبقك، لكن لجنة التحكيم تعرف أين تبحث عن كل جزء.</p>',
-          '<p>فهرست اسلایدها مثل کارت دستور پختی با عنوان‌های ثابت است: مواد، مراحل، سرو. <em>غذا</em> مال توست، اما داورها می‌دانند هر بخش را کجا پیدا کنند.</p>',
-        ),
-      ],
-    },
-    // ---------- 5. Technical requirements ----------
-    {
-      id: 'technical',
-      navLabel: W('Technical requirements', 'المتطلبات التقنية', 'الزامات فنی'),
-      sectionLabel: W('Section 05', 'القسم ٠٥', 'بخش ۰۵'),
-      timeEst: W('2 min', '٢ دقيقتان', '۲ دقیقه'),
-      headingHtml: t(
-        '<h2>Technical requirements, read for an analytics project</h2><p class="standfirst">The same list applies to every course, including web and app projects, so some lines fit an analysis less directly. The right-hand column is our reading; if you are unsure, ask your mentor.</p>',
-        '<h2>المتطلبات التقنية، مقروءة لمشروع تحليلات</h2><p class="standfirst">القائمة نفسها تنطبق على كل المقررات، ومنها مشاريع الويب والتطبيقات، لذا بعض البنود أقل انطباقًا على التحليل. والعمود الأيمن قراءتنا؛ وإن لم تكن متأكدًا فاسأل مرشدك.</p>',
-        '<h2>الزامات فنی، از نگاه یک پروژهٔ تحلیلی</h2><p class="standfirst">همین فهرست برای همهٔ درس‌ها، از جمله پروژه‌های وب و اپلیکیشن، است، پس بعضی بندها کمتر مستقیم به تحلیل می‌خورند. ستون سمت راست برداشت ماست؛ اگر مطمئن نیستی از منتورت بپرس.</p>',
-      ),
-      blocks: [
-        {
-          type: 'table',
-          headers: [W('The guidelines say', 'تقول الإرشادات', 'راهنما می‌گوید'), W('For a BA2 project (our reading)', 'لمشروع BA2 (قراءتنا)', 'برای پروژهٔ BA2 (برداشت ما)')],
-          rows: [
-            [W('At least 3 core features that show your skills', '3 ميزات أساسية على الأقل تُظهر مهاراتك', 'دست‌کم ۳ ویژگی اصلی که مهارتت را نشان دهد'), W('Clean data, clear charts, and a regression or test, each explained', 'بيانات نظيفة، ورسوم واضحة، وانحدار أو اختبار، كل منها مشروح', 'دادهٔ تمیز، نمودارهای روشن، و یک رگرسیون یا آزمون، هر کدام با توضیح')],
-            [W('Responsive design (mobile-friendly)', 'تصميم متجاوب (مناسب للجوال)', 'طراحی واکنش‌گرا (مناسب موبایل)'), W('If you build a dashboard, check it on a phone; otherwise, readable charts and slides', 'إن بنيت لوحة معلومات فافحصها على الهاتف؛ وإلا فرسوم وشرائح مقروءة', 'اگر داشبورد می‌سازی، روی گوشی امتحانش کن؛ وگرنه نمودار و اسلاید خوانا')],
-            [W('Clean architecture', 'بنية نظيفة', 'معماری تمیز'), W('Tidy folders, clear file names, one tab or notebook per step', 'مجلدات مرتبة، وأسماء ملفات واضحة، وورقة أو دفتر لكل خطوة', 'پوشه‌های مرتب، نام فایل روشن، یک برگه یا نوت‌بوک برای هر گام')],
-            [W('Appropriate error handling', 'معالجة مناسبة للأخطاء', 'مدیریت مناسب خطا'), W('Handle blanks and odd values, keep a change log, and state your limits', 'عالج الفراغات والقيم الغريبة، واحتفظ بسجل تغييرات، واذكر حدودك', 'خانه‌های خالی و مقدارهای عجیب را درست کن، گزارش تغییرات نگه دار و محدودیت‌هایت را بگو')],
-            [W('Deploy your project (if applicable)', 'انشر مشروعك (إن أمكن)', 'پروژه‌ات را منتشر کن (اگر ممکن است)'), W('Optional: a shared link to your dashboard or notebook', 'اختياري: رابط مشترك للوحة المعلومات أو الدفتر', 'اختیاری: پیوند اشتراکی به داشبورد یا نوت‌بوک')],
-            [W('Extra libraries or resources are allowed if relevant', 'يُسمح بمكتبات أو موارد إضافية إن كانت ذات صلة', 'کتابخانه یا منبع اضافه، اگر مرتبط باشد، مجاز است'), W('For example seaborn for charts, or Power BI; list them in your references', 'مثلًا seaborn للرسوم، أو Power BI؛ واذكرها في المراجع', 'مثلاً seaborn برای نمودار یا Power BI؛ در منابع نامشان را بیاور')],
-          ],
-        },
-      ],
-    },
-    // ---------- 6. Timeline and grading ----------
-    {
-      id: 'grading',
-      navLabel: W('Deadline and grading', 'الموعد والتقييم', 'مهلت و نمره‌دهی'),
-      sectionLabel: W('Section 06', 'القسم ٠٦', 'بخش ۰۶'),
-      timeEst: W('2 min', '٢ دقيقتان', '۲ دقیقه'),
-      headingHtml: t(
-        '<h2>Deadline and grading</h2><p class="standfirst">When it is due, and how the 100 points are shared out.</p>',
-        '<h2>الموعد النهائي والتقييم</h2><p class="standfirst">متى يُسلَّم، وكيف تتوزع النقاط المئة.</p>',
-        '<h2>مهلت و نمره‌دهی</h2><p class="standfirst">کی باید تحویل شود، و ۱۰۰ نمره چطور تقسیم می‌شود.</p>',
-      ),
-      blocks: [
-        box(
-          'keypoint',
-          W('Two dates', 'تاريخان', 'دو تاریخ'),
-          '<ul><li><strong>Final submission:</strong> end of <strong>Week 12 of the semester</strong>.</li><li><strong>Demo Day:</strong> <strong>Week 13 of the semester</strong>.</li></ul><p>These are weeks of the program\'s semester, not the week numbers of this course\'s pages. Your mentor will confirm the exact dates.</p>',
-          '<ul><li><strong>التسليم النهائي:</strong> نهاية <strong>الأسبوع 12 من الفصل</strong>.</li><li><strong>يوم العرض (Demo Day):</strong> <strong>الأسبوع 13 من الفصل</strong>.</li></ul><p>هذه أسابيع الفصل الدراسي للبرنامج، لا أرقام أسابيع صفحات هذا المقرر. وسيؤكد مرشدك التواريخ بالضبط.</p>',
-          '<ul><li><strong>تحویل نهایی:</strong> پایان <strong>هفتهٔ ۱۲ ترم</strong>.</li><li><strong>روز نمایش (Demo Day):</strong> <strong>هفتهٔ ۱۳ ترم</strong>.</li></ul><p>این‌ها هفته‌های ترم برنامه‌اند، نه شمارهٔ هفته‌های صفحه‌های این درس. منتورت تاریخ دقیق را تأیید می‌کند.</p>',
-        ),
-        {
-          type: 'table',
-          headers: [W('Part', 'الجزء', 'بخش'), W('Weight', 'الوزن', 'وزن'), W('What it covers', 'ماذا يشمل', 'شامل چه چیزی است')],
-          rows: [
-            [W('Technical implementation', 'التنفيذ التقني', 'اجرای فنی'), W('<strong>40%</strong>', '<strong>40%</strong>', '<strong>۴۰٪</strong>'), W('Quality and organisation of your work, the right tools, complete features, performance', 'جودة عملك وتنظيمه، والأدوات المناسبة، واكتمال الميزات، والأداء', 'کیفیت و نظم کارت، ابزار مناسب، کامل بودن ویژگی‌ها، کارایی')],
-            [W('Design and user experience', 'التصميم وتجربة المستخدم', 'طراحی و تجربهٔ کاربر'), W('<strong>20%</strong>', '<strong>20%</strong>', '<strong>۲۰٪</strong>'), W('How it looks, how easy it is to follow, accessibility', 'كيف يبدو، وسهولة متابعته، وإمكانية الوصول', 'ظاهرش، راحتی دنبال کردنش، دسترس‌پذیری')],
-            [W('Presentation and documentation', 'العرض والتوثيق', 'ارائه و مستندسازی'), W('<strong>40%</strong>', '<strong>40%</strong>', '<strong>۴۰٪</strong>'), W('Quality of the presentation, clarity of explanation, complete documentation', 'جودة العرض، ووضوح الشرح، واكتمال التوثيق', 'کیفیت ارائه، روشنی توضیح، کامل بودن مستندات')],
-          ],
-        },
-        analogy(
-          '<p>Think of a jam contest. The judges taste the jam (technical, 40%), look at the jar and label (design, 20%), and listen to how you explain your recipe (presentation and documentation, 40%). A great jam explained badly loses almost half its points.</p>',
-          '<p>تخيّل مسابقة مربى. يتذوق الحكّام المربى (التقني، 40%)، وينظرون إلى البرطمان والملصق (التصميم، 20%)، ويستمعون إلى شرحك لوصفتك (العرض والتوثيق، 40%). مربى رائع مشروح بشكل سيئ يخسر نحو نصف نقاطه.</p>',
-          '<p>یک مسابقهٔ مربا را تصور کن. داورها مربا را می‌چشند (فنی، ۴۰٪)، به شیشه و برچسب نگاه می‌کنند (طراحی، ۲۰٪) و به توضیحت دربارهٔ دستور پخت گوش می‌دهند (ارائه و مستندسازی، ۴۰٪). مربای عالی که بد توضیح داده شود تقریباً نصف نمره‌اش را از دست می‌دهد.</p>',
-        ),
-        exercise('fpg-q001'),
-      ],
-    },
-    // ---------- 7. Submitting ----------
-    {
-      id: 'submitting',
-      navLabel: W('Submitting and the video', 'التسليم والفيديو', 'تحویل و ویدیو'),
-      sectionLabel: W('Section 07', 'القسم ٠٧', 'بخش ۰۷'),
-      timeEst: W('2 min', '٢ دقيقتان', '۲ دقیقه'),
-      headingHtml: t(
-        '<h2>Submitting, and recording your video</h2><p class="standfirst">Four steps, and the video has its own rules.</p>',
-        '<h2>التسليم، وتسجيل الفيديو</h2><p class="standfirst">أربع خطوات، وللفيديو قواعده الخاصة.</p>',
-        '<h2>تحویل، و ضبط ویدیو</h2><p class="standfirst">چهار گام، و ویدیو قانون‌های خودش را دارد.</p>',
-      ),
+      headingHtml: t('<h2>Project Requirements</h2>', '<h2>متطلبات المشروع</h2>', '<h2>الزامات پروژه</h2>'),
       blocks: [
         html(
-          '<ol><li>Submit your <strong>presentation file</strong>.</li><li>Include your <strong>project description</strong> (the proposal).</li><li>Record a <strong>video presentation</strong> (below).</li><li>Upload everything to the <strong>shared Google Drive folder</strong> the facilitator gives you (you will have edit permission).</li></ol>',
-          '<ol><li>سلّم <strong>ملف العرض</strong>.</li><li>أرفق <strong>وصف المشروع</strong> (المقترح).</li><li>سجّل <strong>فيديو للعرض</strong> (أدناه).</li><li>ارفع كل شيء إلى <strong>مجلد Google Drive المشترك</strong> الذي يعطيك إياه الميسّر (ستكون لديك صلاحية التعديل).</li></ol>',
-          '<ol><li><strong>فایل ارائه</strong> را تحویل بده.</li><li><strong>توضیح پروژه</strong> (پیشنهاد) را ضمیمه کن.</li><li>یک <strong>ویدیوی ارائه</strong> ضبط کن (پایین).</li><li>همه را در <strong>پوشهٔ مشترک Google Drive</strong> که تسهیلگر می‌دهد بارگذاری کن (اجازهٔ ویرایش داری).</li></ol>',
+          '<h3>1. Project Proposal</h3><ul><li>Submit a detailed project description (80-100 words)</li><li>Clearly define the problem your project addresses</li><li>Identify your target audience</li><li>Explain what technologies you plan to use</li></ul>',
+          '<h3>1. مقترح المشروع</h3><ul><li>قدّم وصفًا مفصلًا للمشروع (80-100 كلمة)</li><li>حدّد بوضوح المشكلة التي يعالجها مشروعك</li><li>حدّد جمهورك المستهدف</li><li>اشرح التقنيات التي تخطط لاستخدامها</li></ul>',
+          '<h3>۱. پیشنهاد پروژه</h3><ul><li>یک توضیح مفصل از پروژه تحویل بده (۸۰ تا ۱۰۰ واژه)</li><li>مسئله‌ای را که پروژه‌ات به آن می‌پردازد روشن تعریف کن</li><li>مخاطب هدفت را مشخص کن</li><li>توضیح بده از چه فناوری‌هایی می‌خواهی استفاده کنی</li></ul>',
         ),
-        box(
-          'keypoint',
-          W('The video', 'الفيديو', 'ویدیو'),
-          '<ul><li><strong>Length:</strong> 3–5 minutes for an individual project; at most 7 minutes for a group.</li><li><strong>Show</strong> your screen with the project <em>and</em> yourself presenting; make sure your voice is clear.</li><li><strong>Demonstrate</strong> the key parts: for BA2, your clean data, main chart, regression and test.</li><li><strong>Tools:</strong> a browser extension such as Awesome Screen Recorder, or on Windows 10/11 the built-in recorder (press <strong>Win + G</strong>).</li><li><strong>Important:</strong> your mentor must approve the video <em>before</em> you submit it.</li></ul>',
-          '<ul><li><strong>المدة:</strong> 3–5 دقائق للمشروع الفردي؛ و7 دقائق كحد أقصى للمجموعة.</li><li><strong>اعرض</strong> شاشتك مع المشروع <em>ونفسك</em> وأنت تقدّم؛ وتأكد أن صوتك واضح.</li><li><strong>استعرض</strong> الأجزاء الرئيسية: في BA2، بياناتك النظيفة، والرسم الرئيسي، والانحدار، والاختبار.</li><li><strong>الأدوات:</strong> إضافة متصفح مثل Awesome Screen Recorder، أو في Windows 10/11 المسجّل المدمج (اضغط <strong>Win + G</strong>).</li><li><strong>مهم:</strong> يجب أن يوافق مرشدك على الفيديو <em>قبل</em> أن تسلّمه.</li></ul>',
-          '<ul><li><strong>مدت:</strong> ۳ تا ۵ دقیقه برای پروژهٔ فردی؛ حداکثر ۷ دقیقه برای گروه.</li><li>صفحهٔ نمایش با پروژه <em>و</em> خودت را در حال ارائه <strong>نشان بده</strong>؛ مطمئن شو صدایت واضح است.</li><li>بخش‌های کلیدی را <strong>نمایش بده</strong>: در BA2، دادهٔ تمیز، نمودار اصلی، رگرسیون و آزمون.</li><li><strong>ابزار:</strong> یک افزونهٔ مرورگر مثل Awesome Screen Recorder، یا در Windows 10/11 ضبط‌کنندهٔ داخلی (کلید <strong>Win + G</strong>).</li><li><strong>مهم:</strong> منتورت باید ویدیو را <em>پیش از</em> تحویل تأیید کند.</li></ul>',
+        html(
+          '<h3>2. Documentation</h3><ul><li>Create a README file with:<ul><li>Project title and description</li><li>Installation instructions</li><li>Usage instructions</li><li>Technologies used</li><li>Project structure</li><li>Future improvements</li></ul></li></ul><p><strong><u>Note:</u></strong> Creating a README file is recommended for students at the advanced level but remains optional, not obligatory, while students at the basic level may also create one under the guidance of their mentors if they choose to do so.</p>',
+          '<h3>2. التوثيق</h3><ul><li>أنشئ ملف README يتضمن:<ul><li>عنوان المشروع ووصفه</li><li>تعليمات التثبيت</li><li>تعليمات الاستخدام</li><li>التقنيات المستخدمة</li><li>هيكل المشروع</li><li>التحسينات المستقبلية</li></ul></li></ul><p><strong><u>ملاحظة:</u></strong> يُوصى بإنشاء ملف README لطلاب المستوى المتقدم لكنه يبقى اختياريًا وليس إلزاميًا، بينما يمكن لطلاب المستوى الأساسي أيضًا إنشاء واحد بتوجيه من مرشديهم إن اختاروا ذلك.</p>',
+          '<h3>۲. مستندسازی</h3><ul><li>یک فایل README بساز که شامل این‌ها باشد:<ul><li>عنوان و توضیح پروژه</li><li>دستور نصب</li><li>دستور استفاده</li><li>فناوری‌های به‌کاررفته</li><li>ساختار پروژه</li><li>بهبودهای آینده</li></ul></li></ul><p><strong><u>توجه:</u></strong> ساختن فایل README برای دانشجویان سطح پیشرفته توصیه می‌شود اما اختیاری است و اجباری نیست، و دانشجویان سطح پایه هم اگر بخواهند می‌توانند زیر نظر منتورشان یکی بسازند.</p>',
         ),
-        analogy(
-          '<p>The video is a short cooking show: the camera shows the pan (your screen) and the cook (you), and you talk the viewer through each step without rushing.</p>',
-          '<p>الفيديو برنامج طبخ قصير: تُظهر الكاميرا المقلاة (شاشتك) والطاهي (أنت)، وتشرح للمشاهد كل خطوة دون عجلة.</p>',
-          '<p>ویدیو یک برنامهٔ آشپزی کوتاه است: دوربین تابه (صفحه‌ات) و آشپز (تو) را نشان می‌دهد و تو بی‌عجله هر گام را برای بیننده توضیح می‌دهی.</p>',
+        html(
+          '<h3>3. Presentation Requirements</h3><ul><li>Create a professional PowerPoint presentation with the following slides:<ul><li><strong>Slide 1-2</strong>: Cover slide(s) including:<ul><li>Project logo (if applicable)</li><li>Project title</li><li>Your full name</li><li>Tutor\'s name</li><li>Mentor\'s name</li><li>"Women in Tech Program" name and logo (Paper Airplanes)</li></ul></li><li><strong>Slide 3</strong>: Project objectives and goals</li><li><strong>Slide 4</strong>: Problem statement and proposed solution with target audience</li><li>Slide 5: Competitive Advantage (how are they better than their competitors)</li><li><strong>Slide 6-7</strong>: Methodology and technologies used</li><li><strong>Slide 8-10</strong>: Key features and functionalities (with screenshots)</li><li><strong>Slide 11</strong>: Challenges faced and how you overcame them</li><li><strong>Slide 12</strong>: Added value and innovation aspects</li><li><strong>Slide 13</strong>: Live demonstration plan</li><li><strong>Slide 14</strong>: Future enhancements</li><li><strong>Slide 15</strong>: Conclusion and acknowledgments</li><li><strong>Last Slide</strong>: References - Include all sources, libraries, and external resources used</li></ul></li></ul>',
+          '<h3>3. متطلبات العرض</h3><ul><li>أنشئ عرض PowerPoint احترافيًا بالشرائح التالية:<ul><li><strong>الشريحة 1-2</strong>: شريحة (شرائح) الغلاف وتتضمن:<ul><li>شعار المشروع (إن وُجد)</li><li>عنوان المشروع</li><li>اسمك الكامل</li><li>اسم المدرّس</li><li>اسم المرشد</li><li>اسم "Women in Tech Program" وشعاره (Paper Airplanes)</li></ul></li><li><strong>الشريحة 3</strong>: أهداف المشروع وغاياته</li><li><strong>الشريحة 4</strong>: بيان المشكلة والحل المقترح مع الجمهور المستهدف</li><li>الشريحة 5: الميزة التنافسية (كيف يتفوقون على منافسيهم)</li><li><strong>الشريحة 6-7</strong>: المنهجية والتقنيات المستخدمة</li><li><strong>الشريحة 8-10</strong>: الميزات والوظائف الأساسية (مع لقطات شاشة)</li><li><strong>الشريحة 11</strong>: التحديات التي واجهتها وكيف تغلبت عليها</li><li><strong>الشريحة 12</strong>: القيمة المضافة وجوانب الابتكار</li><li><strong>الشريحة 13</strong>: خطة العرض الحي</li><li><strong>الشريحة 14</strong>: التحسينات المستقبلية</li><li><strong>الشريحة 15</strong>: الخاتمة والشكر</li><li><strong>الشريحة الأخيرة</strong>: المراجع - أدرج كل المصادر والمكتبات والموارد الخارجية المستخدمة</li></ul></li></ul>',
+          '<h3>۳. الزامات ارائه</h3><ul><li>یک ارائهٔ حرفه‌ای PowerPoint با این اسلایدها بساز:<ul><li><strong>اسلاید ۱-۲</strong>: اسلاید(های) جلد شامل:<ul><li>لوگوی پروژه (در صورت وجود)</li><li>عنوان پروژه</li><li>نام کامل تو</li><li>نام مدرس</li><li>نام منتور</li><li>نام و لوگوی «Women in Tech Program» ‏(Paper Airplanes)</li></ul></li><li><strong>اسلاید ۳</strong>: هدف‌ها و مقصودهای پروژه</li><li><strong>اسلاید ۴</strong>: بیان مسئله و راه‌حل پیشنهادی همراه با مخاطب هدف</li><li>اسلاید ۵: مزیت رقابتی (چطور از رقبایشان بهترند)</li><li><strong>اسلاید ۶-۷</strong>: روش‌شناسی و فناوری‌های به‌کاررفته</li><li><strong>اسلاید ۸-۱۰</strong>: ویژگی‌ها و کارکردهای کلیدی (با تصویر صفحه)</li><li><strong>اسلاید ۱۱</strong>: چالش‌هایی که با آن‌ها روبه‌رو شدی و چطور از پسشان برآمدی</li><li><strong>اسلاید ۱۲</strong>: ارزش افزوده و جنبه‌های نوآوری</li><li><strong>اسلاید ۱۳</strong>: برنامهٔ نمایش زنده</li><li><strong>اسلاید ۱۴</strong>: بهبودهای آینده</li><li><strong>اسلاید ۱۵</strong>: نتیجه‌گیری و قدردانی</li><li><strong>اسلاید آخر</strong>: منابع - همهٔ منبع‌ها، کتابخانه‌ها و منابع بیرونی استفاده‌شده را بیاور</li></ul></li></ul>',
         ),
-        exercise('fpg-q002'),
+        html(
+          '<h3>4. Technical Requirements</h3><ul><li>Implement at least 3 core features that demonstrate your technical proficiency</li><li>Ensure responsive design (mobile-friendly)</li><li>Clean Architecture</li><li>Implement appropriate error handling</li><li>Deploy your project (if applicable)</li><li>You may use additional libraries or resources not covered in the course as long as they are relevant to your project</li></ul>',
+          '<h3>4. المتطلبات التقنية</h3><ul><li>نفّذ 3 ميزات أساسية على الأقل تُظهر كفاءتك التقنية</li><li>تأكد من التصميم المتجاوب (المناسب للهاتف المحمول)</li><li>بنية نظيفة</li><li>نفّذ معالجة مناسبة للأخطاء</li><li>انشر مشروعك (إن أمكن)</li><li>يمكنك استخدام مكتبات أو موارد إضافية لم يغطها المقرر ما دامت ذات صلة بمشروعك</li></ul>',
+          '<h3>۴. الزامات فنی</h3><ul><li>دست‌کم ۳ ویژگی اصلی پیاده کن که مهارت فنی‌ات را نشان دهد</li><li>طراحی واکنش‌گرا (مناسب موبایل) را تضمین کن</li><li>معماری تمیز</li><li>مدیریت مناسب خطا را پیاده کن</li><li>پروژه‌ات را منتشر کن (در صورت امکان)</li><li>می‌توانی از کتابخانه‌ها یا منابع اضافه‌ای که در درس نبودند استفاده کنی، به شرطی که به پروژه‌ات مرتبط باشند</li></ul>',
+        ),
       ],
     },
-    // ---------- 8. Naming ----------
+    // ---------- Project Timeline ----------
     {
-      id: 'naming',
-      navLabel: W('Naming your files', 'تسمية ملفاتك', 'نام‌گذاری فایل‌ها'),
-      sectionLabel: W('Section 08', 'القسم ٠٨', 'بخش ۰۸'),
-      timeEst: W('1 min', '١ دقيقة', '۱ دقیقه'),
-      headingHtml: t(
-        '<h2>Naming your files: copy the format exactly</h2><p class="standfirst">The team tracks every submission by its name, so use these formats letter for letter.</p>',
-        '<h2>تسمية ملفاتك: انسخ الصيغة بالضبط</h2><p class="standfirst">يتتبع الفريق كل تسليم باسمه، لذا استخدم هذه الصيغ حرفًا بحرف.</p>',
-        '<h2>نام‌گذاری فایل‌ها: قالب را دقیقاً کپی کن</h2><p class="standfirst">تیم هر تحویل را با نامش پیگیری می‌کند، پس این قالب‌ها را حرف به حرف به کار ببر.</p>',
-      ),
+      id: 'timeline',
+      navLabel: W('Project Timeline', 'الجدول الزمني للمشروع', 'زمان‌بندی پروژه'),
+      sectionLabel: W('Section 04', 'القسم ٠٤', 'بخش ۰۴'),
+      headingHtml: t('<h2>Project Timeline</h2>', '<h2>الجدول الزمني للمشروع</h2>', '<h2>زمان‌بندی پروژه</h2>'),
       blocks: [
-        code(`Video:   video-F26-(course name)-(student name)
-         video-F26-Business Analytics 2-Your Name
-
-Slides:  ppt-F26-(course name)-(student name)
-         ppt-F26-Business Analytics 2-Your Name
-
-(The guidelines' own examples: video-F26-Python 2-Salwa Mohamad,
- ppt-F26-Web Development 1-Lara Khoury)`),
-        box(
-          'mistake',
-          W('Easy to get wrong', 'سهل أن تخطئ فيه', 'آسان است اشتباه شود'),
-          '<p>"final.pptx", "slides v3" or the parts in a different order all break the system. Check the hyphens, the F26 and the full course name before you upload.</p>',
-          '<p>"final.pptx" أو "slides v3" أو الأجزاء بترتيب مختلف كلها تُفسد النظام. افحص الشرطات وF26 والاسم الكامل للمقرر قبل الرفع.</p>',
-          '<p>«final.pptx»، «slides v3» یا جابه‌جا نوشتن بخش‌ها همه سیستم را به هم می‌ریزد. پیش از بارگذاری خط‌تیره‌ها، F26 و نام کامل درس را بررسی کن.</p>',
+        html(
+          '<ul><li>Final submission: Deadline is the end of Week 12 of the semester</li><li>Demo Day: Week 13 of the semester</li></ul>',
+          '<ul><li>التسليم النهائي: الموعد النهائي هو نهاية الأسبوع 12 من الفصل الدراسي</li><li>يوم العرض (Demo Day): الأسبوع 13 من الفصل الدراسي</li></ul>',
+          '<ul><li>تحویل نهایی: مهلت پایان هفتهٔ ۱۲ ترم است</li><li>روز نمایش (Demo Day): هفتهٔ ۱۳ ترم</li></ul>',
         ),
-        exercise('fpg-q003'),
       ],
     },
-    // ---------- 9. Rules and FAQ ----------
+    // ---------- Evaluation Criteria ----------
+    {
+      id: 'evaluation',
+      navLabel: W('Evaluation Criteria', 'معايير التقييم', 'معیارهای ارزیابی'),
+      sectionLabel: W('Section 05', 'القسم ٠٥', 'بخش ۰۵'),
+      headingHtml: t('<h2>Evaluation Criteria</h2>', '<h2>معايير التقييم</h2>', '<h2>معیارهای ارزیابی</h2>'),
+      blocks: [
+        html(
+          '<p>Your project will be evaluated based on:</p><ol><li><strong>Technical Implementation (40%)</strong><ul><li>Code quality and organization</li><li>Appropriate use of technologies</li><li>Functionality and feature completeness</li><li>Performance and optimization</li></ul></li><li><strong>Design and User Experience (20%)</strong><ul><li>Interface design</li><li>User flow and navigation</li><li>Responsiveness and accessibility</li></ul></li><li><strong>Presentation and Documentation (40%)</strong><ul><li>Quality of presentation</li><li>Clarity of explanation</li><li>Completeness of documentation</li></ul></li></ol>',
+          '<p>سيُقيَّم مشروعك على أساس:</p><ol><li><strong>التنفيذ التقني (40%)</strong><ul><li>جودة الكود وتنظيمه</li><li>الاستخدام المناسب للتقنيات</li><li>الوظائف واكتمال الميزات</li><li>الأداء والتحسين</li></ul></li><li><strong>التصميم وتجربة المستخدم (20%)</strong><ul><li>تصميم الواجهة</li><li>تدفق المستخدم والتنقل</li><li>التجاوب وإمكانية الوصول</li></ul></li><li><strong>العرض والتوثيق (40%)</strong><ul><li>جودة العرض</li><li>وضوح الشرح</li><li>اكتمال التوثيق</li></ul></li></ol>',
+          '<p>پروژه‌ات بر این اساس ارزیابی می‌شود:</p><ol><li><strong>اجرای فنی (۴۰٪)</strong><ul><li>کیفیت و نظم کد</li><li>استفادهٔ مناسب از فناوری‌ها</li><li>کارکرد و کامل بودن ویژگی‌ها</li><li>کارایی و بهینه‌سازی</li></ul></li><li><strong>طراحی و تجربهٔ کاربر (۲۰٪)</strong><ul><li>طراحی رابط</li><li>جریان کاربر و پیمایش</li><li>واکنش‌گرایی و دسترس‌پذیری</li></ul></li><li><strong>ارائه و مستندسازی (۴۰٪)</strong><ul><li>کیفیت ارائه</li><li>روشنی توضیح</li><li>کامل بودن مستندات</li></ul></li></ol>',
+        ),
+      ],
+    },
+    // ---------- Submission Process ----------
+    {
+      id: 'submission',
+      navLabel: W('Submission Process', 'عملية التسليم', 'فرایند تحویل'),
+      sectionLabel: W('Section 06', 'القسم ٠٦', 'بخش ۰۶'),
+      headingHtml: t('<h2>Submission Process</h2>', '<h2>عملية التسليم</h2>', '<h2>فرایند تحویل</h2>'),
+      blocks: [
+        html(
+          '<ol><li>Submit your presentation file</li><li>Include your project description document</li><li>Record a video presentation of your project:<ul><li>To record your screen, you can use a browser extension like Awesome Screen Recorder or, if you don\'t prefer third-party applications, for Windows 10/11 users, you can use the built-in screen recorder accessible by pressing WIN + G.</li><li>Record both your screen showing the project and yourself presenting</li><li>Ensure your voice is clearly audible as you explain your project</li><li>Demonstrate the key functionalities of your project</li><li>Video length requirements:<ul><li>Individual projects: 3-5 minutes</li><li>Group projects: Maximum 7 minutes</li></ul></li><li><strong>Important</strong>: Your video must receive final approval from your mentor before submission</li></ul></li><li>Upload all your materials to the shared Google Drive folder that the facilitator will provide. You will have edit permissions to this folder.</li></ol>',
+          '<ol><li>سلّم ملف العرض</li><li>أرفق وثيقة وصف المشروع</li><li>سجّل فيديو تعرض فيه مشروعك:<ul><li>لتسجيل شاشتك، يمكنك استخدام إضافة متصفح مثل Awesome Screen Recorder، أو إن كنت لا تفضّل تطبيقات الطرف الثالث، يمكن لمستخدمي Windows 10/11 استخدام مسجّل الشاشة المدمج بالضغط على WIN + G.</li><li>سجّل شاشتك وهي تعرض المشروع ونفسك وأنت تقدّم</li><li>تأكد أن صوتك مسموع بوضوح وأنت تشرح مشروعك</li><li>استعرض الوظائف الأساسية لمشروعك</li><li>متطلبات مدة الفيديو:<ul><li>المشاريع الفردية: 3-5 دقائق</li><li>المشاريع الجماعية: 7 دقائق كحد أقصى</li></ul></li><li><strong>مهم</strong>: يجب أن يحصل الفيديو على الموافقة النهائية من مرشدك قبل التسليم</li></ul></li><li>ارفع كل موادك إلى مجلد Google Drive المشترك الذي سيوفره الميسّر. ستكون لديك صلاحيات التعديل على هذا المجلد.</li></ol>',
+          '<ol><li>فایل ارائه‌ات را تحویل بده</li><li>سند توضیح پروژه‌ات را ضمیمه کن</li><li>یک ویدیوی ارائه از پروژه‌ات ضبط کن:<ul><li>برای ضبط صفحه می‌توانی از یک افزونهٔ مرورگر مثل Awesome Screen Recorder استفاده کنی، یا اگر برنامه‌های شخص ثالث را ترجیح نمی‌دهی، کاربران Windows 10/11 می‌توانند از ضبط‌کنندهٔ داخلی صفحه با فشردن WIN + G استفاده کنند.</li><li>هم صفحه‌ات را که پروژه را نشان می‌دهد ضبط کن و هم خودت را در حال ارائه</li><li>مطمئن شو صدایت هنگام توضیح پروژه به‌روشنی شنیده می‌شود</li><li>کارکردهای کلیدی پروژه‌ات را نمایش بده</li><li>الزامات مدت ویدیو:<ul><li>پروژه‌های فردی: ۳ تا ۵ دقیقه</li><li>پروژه‌های گروهی: حداکثر ۷ دقیقه</li></ul></li><li><strong>مهم</strong>: ویدیوی تو پیش از تحویل باید تأیید نهایی منتورت را بگیرد</li></ul></li><li>همهٔ مطالبت را در پوشهٔ مشترک Google Drive که تسهیلگر فراهم می‌کند بارگذاری کن. روی این پوشه اجازهٔ ویرایش داری.</li></ol>',
+        ),
+      ],
+    },
+    // ---------- Individual vs. Group Projects ----------
+    {
+      id: 'individual-vs-group',
+      navLabel: W('Individual vs. Group Projects', 'المشاريع الفردية مقابل الجماعية', 'پروژه‌های فردی در برابر گروهی'),
+      sectionLabel: W('Section 07', 'القسم ٠٧', 'بخش ۰۷'),
+      headingHtml: t('<h2>Individual vs. Group Projects</h2>', '<h2>المشاريع الفردية مقابل الجماعية</h2>', '<h2>پروژه‌های فردی در برابر گروهی</h2>'),
+      blocks: [
+        html(
+          '<p>Whether you\'ll complete the final project individually or as part of a group depends on your specific course. Please consult with your mentor and tutor to determine the appropriate approach for your track. Some courses may allow students to work in groups on a single project, while others may require individual projects.</p>',
+          '<p>إنجاز المشروع النهائي بشكل فردي أو ضمن مجموعة يعتمد على مقررك تحديدًا. يرجى استشارة مرشدك ومدرّسك لتحديد النهج المناسب لمسارك. قد تسمح بعض المقررات للطلاب بالعمل في مجموعات على مشروع واحد، بينما قد تتطلب مقررات أخرى مشاريع فردية.</p>',
+          '<p>اینکه پروژهٔ نهایی را فردی انجام دهی یا در یک گروه، به درس خاص تو بستگی دارد. لطفاً با منتور و مدرست مشورت کن تا روش مناسب مسیرت را مشخص کنید. بعضی درس‌ها ممکن است اجازه دهند دانشجویان گروهی روی یک پروژه کار کنند و بعضی دیگر ممکن است پروژهٔ فردی بخواهند.</p>',
+        ),
+      ],
+    },
+    // ---------- Certificate Requirement ----------
+    {
+      id: 'certificate',
+      navLabel: W('Certificate Requirement', 'شرط الشهادة', 'شرط گواهی‌نامه'),
+      sectionLabel: W('Section 08', 'القسم ٠٨', 'بخش ۰۸'),
+      headingHtml: t('<h2>Certificate Requirement</h2>', '<h2>شرط الشهادة</h2>', '<h2>شرط گواهی‌نامه</h2>'),
+      blocks: [
+        html(
+          '<p>Please note that completing and submitting your final project is a mandatory requirement for receiving your certificate from the Women in Tech program. Students who do not complete their final projects will not be eligible to receive certificates.</p>',
+          '<p>يرجى ملاحظة أن إكمال مشروعك النهائي وتسليمه شرط إلزامي للحصول على شهادتك من برنامج Women in Tech. ولن يكون الطلاب الذين لا يُكملون مشاريعهم النهائية مؤهلين للحصول على الشهادات.</p>',
+          '<p>لطفاً توجه کن که کامل کردن و تحویل پروژهٔ نهایی شرطی الزامی برای گرفتن گواهی‌نامه از برنامهٔ Women in Tech است. دانشجویانی که پروژهٔ نهایی‌شان را کامل نکنند واجد شرایط دریافت گواهی‌نامه نخواهند بود.</p>',
+        ),
+      ],
+    },
+    // ---------- FAQ ----------
     {
       id: 'faq',
-      navLabel: W('Rules and FAQ', 'القواعد والأسئلة الشائعة', 'قانون‌ها و پرسش‌های رایج'),
+      navLabel: W('FAQ', 'الأسئلة الشائعة', 'پرسش‌های رایج'),
       sectionLabel: W('Section 09', 'القسم ٠٩', 'بخش ۰۹'),
-      timeEst: W('2 min', '٢ دقيقتان', '۲ دقیقه'),
-      headingHtml: t(
-        '<h2>Rules and frequent questions</h2><p class="standfirst">The answers from the guidelines, in short.</p>',
-        '<h2>القواعد والأسئلة الشائعة</h2><p class="standfirst">إجابات الإرشادات باختصار.</p>',
-        '<h2>قانون‌ها و پرسش‌های رایج</h2><p class="standfirst">جواب‌های راهنما، به‌طور خلاصه.</p>',
-      ),
+      headingHtml: t('<h2>FAQ</h2>', '<h2>الأسئلة الشائعة</h2>', '<h2>پرسش‌های رایج</h2>'),
       blocks: [
-        {
-          type: 'table',
-          headers: [W('Question', 'السؤال', 'پرسش'), W('Answer', 'الإجابة', 'جواب')],
-          rows: [
-            [W('Can I work in a team?', 'هل أستطيع العمل ضمن فريق؟', 'می‌توانم گروهی کار کنم؟'), W('It depends on the course; ask your mentor and tutor. (In BA2 the project is planned for pairs.)', 'يعتمد على المقرر؛ اسأل مرشدك ومدرّسك. (في BA2 المشروع مخطط له لفرق من شخصين.)', 'به درس بستگی دارد؛ از منتور و مدرست بپرس. (در BA2 پروژه برای گروه‌های دونفره طراحی شده.)')],
-            [W('Can I use libraries not covered in the course?', 'هل أستطيع استخدام مكتبات لم يغطها المقرر؟', 'می‌توانم از کتابخانه‌هایی که در درس نبود استفاده کنم؟'), W('Yes, if they are relevant to your project and goals.', 'نعم، إن كانت ذات صلة بمشروعك وأهدافك.', 'بله، اگر به پروژه و هدف‌هایت مرتبط باشند.')],
-            [W('What if I get stuck technically?', 'ماذا لو تعثرت تقنيًا؟', 'اگر از نظر فنی گیر کردم چه؟'), W('Ask your mentor.', 'اسأل مرشدك.', 'از منتورت بپرس.')],
-            [W('What if I miss the deadline?', 'ماذا لو فاتني الموعد النهائي؟', 'اگر مهلت را از دست بدهم چه؟'), W('It may cost you the certificate. If you see a problem coming, tell your mentor straight away.', 'قد يكلّفك الشهادة. وإن توقعت مشكلة فأخبر مرشدك فورًا.', 'ممکن است گواهی‌نامه‌ات را از دست بدهی. اگر مشکلی در راه می‌بینی، فوراً به منتورت بگو.')],
-          ],
-        },
-        box(
-          'mistake',
-          W('AI: to guide you, not to write for you', 'الذكاء الاصطناعي: ليرشدك لا ليكتب عنك', 'هوش مصنوعی: برای راهنمایی، نه برای نوشتن به‌جای تو'),
-          '<p>The guidelines are clear: <strong>AI-generated code and documentation are rejected.</strong> It is better to submit your own work, even imperfect, than AI-written work. Use AI to understand an idea, find an error or check your thinking. This rule applies to your final project even where an earlier page shows an "AI corner" tip.</p>',
-          '<p>الإرشادات واضحة: <strong>يُرفض الكود والتوثيق المكتوبان بالذكاء الاصطناعي.</strong> تسليم عملك أنت، ولو غير كامل، أفضل من عمل كتبه الذكاء الاصطناعي. استخدمه لفهم فكرة، أو إيجاد خطأ، أو مراجعة تفكيرك. وتنطبق هذه القاعدة على مشروعك النهائي حتى حيث تُظهر صفحة سابقة نصيحة "ركن الذكاء الاصطناعي".</p>',
-          '<p>راهنما روشن است: <strong>کد و مستنداتی که هوش مصنوعی تولید کرده رد می‌شود.</strong> تحویل کار خودت، حتی ناقص، بهتر از کاری است که هوش مصنوعی نوشته. از آن برای فهمیدن یک ایده، پیدا کردن یک خطا یا بررسی فکرت استفاده کن. این قانون برای پروژهٔ نهایی‌ات صدق می‌کند، حتی جایی که صفحه‌ای قبلی نکته‌ای در «گوشهٔ هوش مصنوعی» نشان می‌دهد.</p>',
+        html(
+          '<ul><li>Q: Can I work in a team?<ul><li>A: This depends on your specific course. Consult with your mentor and tutor for guidance.</li></ul></li><li>Q: Can I use additional libraries not covered in the course?<ul><li>A: Yes, you may use additional libraries as long as they are relevant to your project and goals.</li></ul></li><li>Q: What if I encounter technical difficulties during development?<ul><li>A: Ask your mentor</li></ul></li><li>Q: How long should my video presentation be?<ul><li>A: Individual projects should be 3-5 minutes. Group projects may be up to 7 minutes maximum.</li></ul></li><li>Q: What happens if I miss the submission deadline?<ul><li>A: Missing the deadline may affect your eligibility to receive a certificate. If you anticipate any issues meeting the deadline, contact your mentor immediately.</li></ul></li><li>Q: Can I use AI to write the code for my assignments?<ul><li>A: No. You are a student now, not in a production environment. It is better to submit your own code (even if it\'s imperfect) than to submit AI-generated code. AI-generated code and documentation are absolutely rejected. Use AI wisely to guide you, not to write for you.</li></ul></li><li>Q: How should I name the folders and files for my course submissions?<ul><li>A: When naming your folders and files for submission, please follow these conventions:<p>For Video Submissions:</p><p>Format: <code>video-F26-(course name)-(student name)</code></p><p>Example: <code>video-F26-Python 2-Salwa Mohamad</code></p><p>For PowerPoint Presentations:</p><p>Format: <code>ppt-F26-(course name)-(student name)</code></p><p>Example: <code>ppt-F26-Web Development 1-Lara Khoury</code></p><p>Please make sure to follow this naming convention exactly, as it helps us organize and track all submissions efficiently.</p></li></ul></li></ul>',
+          '<ul><li>س: هل يمكنني العمل ضمن فريق؟<ul><li>ج: يعتمد ذلك على مقررك تحديدًا. استشر مرشدك ومدرّسك للتوجيه.</li></ul></li><li>س: هل يمكنني استخدام مكتبات إضافية لم يغطها المقرر؟<ul><li>ج: نعم، يمكنك استخدام مكتبات إضافية ما دامت ذات صلة بمشروعك وأهدافك.</li></ul></li><li>س: ماذا لو واجهت صعوبات تقنية أثناء التطوير؟<ul><li>ج: اسأل مرشدك</li></ul></li><li>س: كم يجب أن تكون مدة فيديو العرض؟<ul><li>ج: المشاريع الفردية 3-5 دقائق. والمشاريع الجماعية حتى 7 دقائق كحد أقصى.</li></ul></li><li>س: ماذا يحدث إن فاتني موعد التسليم؟<ul><li>ج: قد يؤثر تفويت الموعد النهائي في أهليتك للحصول على الشهادة. وإن توقعت أي مشكلة في الالتزام بالموعد، فتواصل مع مرشدك فورًا.</li></ul></li><li>س: هل يمكنني استخدام الذكاء الاصطناعي لكتابة الكود لواجباتي؟<ul><li>ج: لا. أنت طالب الآن، ولست في بيئة إنتاج. من الأفضل أن تسلّم كودك أنت (حتى لو كان غير مثالي) على أن تسلّم كودًا مولّدًا بالذكاء الاصطناعي. الكود والتوثيق المولّدان بالذكاء الاصطناعي مرفوضان تمامًا. استخدم الذكاء الاصطناعي بحكمة ليرشدك، لا ليكتب عنك.</li></ul></li><li>س: كيف يجب أن أسمّي المجلدات والملفات لتسليمات المقرر؟<ul><li>ج: عند تسمية مجلداتك وملفاتك للتسليم، يرجى اتباع هذه الاصطلاحات:<p>لتسليمات الفيديو:</p><p>الصيغة: <code>video-F26-(course name)-(student name)</code></p><p>مثال: <code>video-F26-Python 2-Salwa Mohamad</code></p><p>لعروض PowerPoint:</p><p>الصيغة: <code>ppt-F26-(course name)-(student name)</code></p><p>مثال: <code>ppt-F26-Web Development 1-Lara Khoury</code></p><p>يرجى التأكد من اتباع اصطلاح التسمية هذا بدقة، لأنه يساعدنا على تنظيم كل التسليمات وتتبعها بكفاءة.</p></li></ul></li></ul>',
+          '<ul><li>س: می‌توانم گروهی کار کنم؟<ul><li>ج: به درس خاص تو بستگی دارد. برای راهنمایی با منتور و مدرست مشورت کن.</li></ul></li><li>س: می‌توانم از کتابخانه‌های اضافه‌ای که در درس نبودند استفاده کنم؟<ul><li>ج: بله، می‌توانی از کتابخانه‌های اضافه استفاده کنی، به شرطی که به پروژه و هدف‌هایت مرتبط باشند.</li></ul></li><li>س: اگر هنگام توسعه با مشکل فنی روبه‌رو شوم چه؟<ul><li>ج: از منتورت بپرس</li></ul></li><li>س: ویدیوی ارائه‌ام چقدر باید باشد؟<ul><li>ج: پروژه‌های فردی باید ۳ تا ۵ دقیقه باشند. پروژه‌های گروهی می‌توانند حداکثر تا ۷ دقیقه باشند.</li></ul></li><li>س: اگر مهلت تحویل را از دست بدهم چه می‌شود؟<ul><li>ج: از دست دادن مهلت ممکن است بر واجد شرایط بودنت برای گرفتن گواهی‌نامه اثر بگذارد. اگر پیش‌بینی می‌کنی در رسیدن به مهلت مشکلی داشته باشی، فوراً با منتورت تماس بگیر.</li></ul></li><li>س: می‌توانم از هوش مصنوعی برای نوشتن کد تکلیف‌هایم استفاده کنم؟<ul><li>ج: نه. تو الان دانشجویی، نه در محیط تولید. بهتر است کد خودت را (حتی اگر بی‌نقص نباشد) تحویل دهی تا کدی که هوش مصنوعی تولید کرده. کد و مستنداتی که هوش مصنوعی تولید کرده مطلقاً رد می‌شوند. از هوش مصنوعی هوشمندانه برای راهنمایی استفاده کن، نه برای اینکه به‌جای تو بنویسد.</li></ul></li><li>س: پوشه‌ها و فایل‌های تحویل درس را چطور نام‌گذاری کنم؟<ul><li>ج: هنگام نام‌گذاری پوشه‌ها و فایل‌های تحویل، لطفاً این قراردادها را رعایت کن:<p>برای تحویل ویدیو:</p><p>قالب: <code>video-F26-(course name)-(student name)</code></p><p>مثال: <code>video-F26-Python 2-Salwa Mohamad</code></p><p>برای ارائه‌های PowerPoint:</p><p>قالب: <code>ppt-F26-(course name)-(student name)</code></p><p>مثال: <code>ppt-F26-Web Development 1-Lara Khoury</code></p><p>لطفاً مطمئن شو این قرارداد نام‌گذاری را دقیقاً رعایت می‌کنی، چون به ما کمک می‌کند همهٔ تحویل‌ها را به‌خوبی سازمان‌دهی و پیگیری کنیم.</p></li></ul></li></ul>',
         ),
-        exercise('fpg-q004'),
       ],
     },
-    // ---------- 10. Checklist ----------
+    // ---------- Closing ----------
     {
-      id: 'checklist',
-      navLabel: W('Before you submit', 'قبل أن تسلّم', 'پیش از تحویل'),
+      id: 'closing',
+      navLabel: W('Good luck!', 'بالتوفيق!', 'موفق باشی!'),
       sectionLabel: W('Section 10', 'القسم ١٠', 'بخش ۱۰'),
-      timeEst: W('1 min', '١ دقيقة', '۱ دقیقه'),
       headingHtml: t(
-        '<h2>Before you submit: a quick checklist</h2>',
-        '<h2>قبل أن تسلّم: قائمة تحقق سريعة</h2>',
-        '<h2>پیش از تحویل: یک فهرست سریع</h2>',
+        '<p>We are excited to see your creativity and technical skills in action! Remember that this final project is an opportunity to showcase everything you\'ve learned throughout the program and to create something meaningful that you can add to your portfolio.</p>',
+        '<p>نحن متحمسون لرؤية إبداعك ومهاراتك التقنية في العمل! تذكّر أن هذا المشروع النهائي فرصة لعرض كل ما تعلمته طوال البرنامج ولصنع شيء ذي معنى يمكنك إضافته إلى ملف أعمالك.</p>',
+        '<p>مشتاقیم خلاقیت و مهارت‌های فنی‌ات را در عمل ببینیم! یادت باشد این پروژهٔ نهایی فرصتی است برای نشان دادن همهٔ آنچه در طول برنامه یاد گرفته‌ای و ساختن چیزی معنادار که بتوانی به نمونه‌کارهایت اضافه کنی.</p>',
       ),
       blocks: [
-        {
-          type: 'takeaways',
-          label: W('In your Drive folder', 'في مجلد Drive', 'در پوشهٔ Drive تو'),
-          items: [
-            W('The proposal: 80–100 words (problem, audience, plan, tools)', 'المقترح: 80–100 كلمة (المشكلة، الجمهور، الخطة، الأدوات)', 'پیشنهاد: ۸۰ تا ۱۰۰ واژه (مسئله، مخاطب، برنامه، ابزار)'),
-            W('The README, with all six headings', 'ملف README بعناوينه الستة', 'README با هر شش عنوان'),
-            W('The slides in the official order, named ppt-F26-…', 'الشرائح بالترتيب الرسمي، باسم ppt-F26-…', 'اسلایدها با ترتیب رسمی، با نام ppt-F26-…'),
-            W('The video: 3–5 min (group ≤ 7), approved by your mentor, named video-F26-…', 'الفيديو: 3–5 دقائق (المجموعة ≤ 7)، بموافقة مرشدك، باسم video-F26-…', 'ویدیو: ۳ تا ۵ دقیقه (گروه ≤ ۷)، تأییدشده توسط منتور، با نام video-F26-…'),
-            W('Your own work: AI only to guide you', 'عملك أنت: الذكاء الاصطناعي للإرشاد فقط', 'کار خودت: هوش مصنوعی فقط برای راهنمایی'),
-            W('Uploaded before the end of semester Week 12', 'مرفوع قبل نهاية الأسبوع 12 من الفصل', 'بارگذاری‌شده پیش از پایان هفتهٔ ۱۲ ترم'),
-          ],
-        },
-        recap(
-          W('Four deliverables, one Drive folder, exact file names.', 'أربعة مخرجات، ومجلد Drive واحد، وأسماء ملفات دقيقة.', 'چهار خروجی، یک پوشهٔ Drive، نام فایل دقیق.'),
-          W('Grading: 40% technical, 20% design, 40% presentation and documentation.', 'التقييم: 40% تقني، 20% تصميم، 40% عرض وتوثيق.', 'نمره‌دهی: ۴۰٪ فنی، ۲۰٪ طراحی، ۴۰٪ ارائه و مستندسازی.'),
-          W('The project is required for your certificate.', 'المشروع شرط للحصول على شهادتك.', 'پروژه برای گواهی‌نامه‌ات الزامی است.'),
-        ),
         html(
-          `<p>Good luck! <a href="${pdf}" download>Download the guidelines (PDF)</a> · <a href="/week/final-project">Back to the Final Project page</a></p>`,
-          `<p>بالتوفيق! <a href="${pdf}" download>نزّل الإرشادات (PDF)</a> · <a href="/week/final-project">العودة إلى صفحة المشروع النهائي</a></p>`,
-          `<p>موفق باشی! <a href="${pdf}" download>راهنما را دانلود کن (PDF)</a> · <a href="/week/final-project">بازگشت به صفحهٔ پروژهٔ نهایی</a></p>`,
+          '<p>Good luck!</p><p>Sara Hawchar<br/>WIT Program Manager</p>',
+          '<p>بالتوفيق!</p><p>Sara Hawchar<br/>مديرة برنامج WIT</p>',
+          '<p>موفق باشی!</p><p>Sara Hawchar<br/>مدیر برنامهٔ WIT</p>',
         ),
       ],
     },

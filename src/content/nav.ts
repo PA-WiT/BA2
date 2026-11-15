@@ -98,7 +98,7 @@ export const navGroups: NavGroup[] = [
         id: 'final-project-guidelines',
         title: { en: 'Project Guidelines', ar: 'إرشادات المشروع', fa: 'راهنمای پروژه' },
         href: '/week/final-project-guidelines',
-        subtitle: { en: 'What to hand in, and how it is graded', ar: 'ماذا تسلّم، وكيف يُقيَّم', fa: 'چه تحویل بدهی و چطور نمره می‌گیرد' },
+        subtitle: { en: 'Women in Tech Program: Final Project Guidelines', ar: 'برنامج Women in Tech: إرشادات المشروع النهائي', fa: 'برنامهٔ Women in Tech: راهنمای پروژهٔ نهایی' },
       },
     ],
   },
