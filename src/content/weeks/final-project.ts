@@ -324,6 +324,16 @@ export const finalProject: Week = {
       ),
       blocks: [
         {
+          type: 'box',
+          variant: 'keypoint',
+          label: L('The program\'s official rules', 'القواعد الرسمية للبرنامج', 'قانون‌های رسمی برنامه'),
+          html: L(
+            '<p>The Women in Tech program has its own final-project guidelines: the proposal, the slide order, the video (3–5 minutes, approved by your mentor), the deadline, the grading and the file names. Read them on the <a href="/week/final-project-guidelines">Project Guidelines page</a> or <a href="/originals/final-project-guidelines.pdf" download>download the PDF</a>.</p>',
+            '<p>لبرنامج Women in Tech إرشاداته الخاصة للمشروع النهائي: المقترح، وترتيب الشرائح، والفيديو (3–5 دقائق، بموافقة مرشدك)، والموعد النهائي، والتقييم، وأسماء الملفات. اقرأها في <a href="/week/final-project-guidelines">صفحة إرشادات المشروع</a> أو <a href="/originals/final-project-guidelines.pdf" download>نزّل ملف PDF</a>.</p>',
+            '<p>برنامهٔ Women in Tech راهنمای خودش را برای پروژهٔ نهایی دارد: پیشنهاد، ترتیب اسلایدها، ویدیو (۳ تا ۵ دقیقه، با تأیید منتور)، مهلت، نمره‌دهی و نام فایل‌ها. آن را در <a href="/week/final-project-guidelines">صفحهٔ راهنمای پروژه</a> بخوان یا <a href="/originals/final-project-guidelines.pdf" download>PDF را دانلود کن</a>.</p>',
+          ),
+        },
+        {
           type: 'takeaways',
           label: L('Your folder contains', 'يحتوي مجلدكما على', 'پوشهٔ شما شامل این‌هاست'),
           items: [
