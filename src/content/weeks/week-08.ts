@@ -15,11 +15,16 @@
 // Storytelling with Data, and Minto's pyramid principle ("answer first").
 // Every number was computed by script on public/data/jam-tasting.csv (pandas) and the Excel formulas were
 // recalculated in LibreOffice. Python cells live in week08Code.ts and public/notebooks/week-08-errors-and-reporting.ipynb.
+// Later revision (simpler): from Section 7 on, the page uses only jam stand examples. Sections 7-8 live in
+// week08Simple.ts (a made-up mould sniff test replaces the deck's spam filter); sections 9-13 in week08Comm.ts were
+// shortened and the deck's Novo Nordisk, clear-charts, chart-types, presentation and confusion-formula figures were
+// dropped. q009 was retired; q015-q016 added.
 // ar/fa are draft translations awaiting native review, like the earlier weeks. Code and formulas stay English.
 import type { Block, Localized, Question, Week } from '../types'
 import { week08Homework } from './homework/week-08'
 import { py, xl } from './week08Code'
 import * as comm from './week08Comm'
+import * as simple from './week08Simple'
 
 const t = (en: string, ar: string, fa: string): Localized => ({ en, ar, fa })
 const faDigits = (n: number) => String(n).replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[Number(d)])
@@ -166,54 +171,7 @@ const questions: Question[] = [
       opt('They are always equally bad', 'هما سيئان بالقدر نفسه دائمًا', 'همیشه به یک اندازه بدند'),
     ],
   },
-  {
-    id: 'w08-q008',
-    weekId: 'week-08',
-    topic: 'measuring-error',
-    answer: 1,
-    prompt: t(
-      'Single Saturdays vary by about 9.46 jars (SD). The standard error of the average is 2.12 jars. What does 2.12 tell you?',
-      'يتفاوت السبت الواحد بنحو 9.46 برطمان (الانحراف المعياري). والخطأ المعياري للمتوسط 2.12 برطمان. ماذا يخبرك 2.12؟',
-      'هر شنبه حدود ۹٫۴۶ شیشه تغییر می‌کند (انحراف معیار). خطای معیار میانگین ۲٫۱۲ شیشه است. ۲٫۱۲ چه می‌گوید؟',
-    ),
-    options: [
-      opt('How much one Saturday usually differs from another', 'كم يختلف سبت عن آخر عادةً', 'اینکه یک شنبه معمولاً چقدر با شنبهٔ دیگر فرق دارد'),
-      opt('How much the average of 20 Saturdays would wobble if we did it all again', 'كم سيتذبذب متوسط 20 سبتًا لو أعدنا كل شيء', 'اینکه اگر همه‌چیز را دوباره انجام دهیم، میانگین ۲۰ شنبه چقدر نوسان می‌کند'),
-      opt('How many jars were broken', 'كم برطمانًا انكسر', 'چند شیشه شکست'),
-    ],
-  },
-  {
-    id: 'w08-q009',
-    weekId: 'week-08',
-    topic: 'measuring-error',
-    answer: 1,
-    prompt: t(
-      'A spam filter marks 50 emails as spam, and 45 of them really are spam. What is its precision?',
-      'يصنّف مرشّح 50 رسالة على أنها مزعجة، و45 منها مزعجة فعلًا. ما دقته (precision)؟',
-      'یک فیلتر ۵۰ ایمیل را اسپم علامت می‌زند و ۴۵ تای آن‌ها واقعاً اسپم‌اند. دقت (precision) آن چقدر است؟',
-    ),
-    options: [
-      opt('45%', '45%', '۴۵٪'),
-      opt('90%: when it says "spam", it is right 9 times in 10', '90%: حين يقول "مزعج" يصيب 9 مرات من 10', '۹۰٪: وقتی می‌گوید «اسپم»، ۹ بار از ۱۰ درست می‌گوید'),
-      opt('50%', '50%', '۵۰٪'),
-    ],
-  },
-  {
-    id: 'w08-q010',
-    weekId: 'week-08',
-    topic: 'using-errors',
-    answer: 1,
-    prompt: t(
-      'Your survey only reached your regular customers. What fixes that kind of error?',
-      'وصل استبيانك إلى زبائنك الدائمين فقط. ما الذي يصلح هذا النوع من الخطأ؟',
-      'نظرسنجی تو فقط به مشتری‌های همیشگی‌ات رسید. چه چیزی این نوع خطا را درست می‌کند؟',
-    ),
-    options: [
-      opt('More replies from the same regulars', 'ردود أكثر من الزبائن الدائمين أنفسهم', 'پاسخ‌های بیشتر از همان مشتری‌های همیشگی'),
-      opt('Better data: also ask the groups you missed, like passers-by', 'بيانات أفضل: اسأل أيضًا المجموعات التي فاتتك، مثل المارّة', 'دادهٔ بهتر: از گروه‌هایی که جا ماندند، مثل رهگذرها، هم بپرس'),
-      opt('Rounding the answers', 'تقريب الإجابات', 'گرد کردن پاسخ‌ها'),
-    ],
-  },
+  ...simple.questions,
   ...comm.questions,
 ]
 
@@ -230,7 +188,7 @@ export const weekEight: Week = {
       '<h1>من التحليل إلى الفعل:<em>استخدمه، افحصه، احكه</em></h1><p class="lede">هذا الأسبوع يجمع كل شيء. تستخدم صندوق الأدوات كله على سؤال حقيقي واحد، وتفحص كم قد تكون الإجابة خاطئة، ثم تحوّلها إلى تقرير قصير وبضع شرائح يستطيع مالك مشغول أن يعمل بها.</p>',
       '<h1>از تحلیل تا اقدام:<em>به کار ببر، بررسی کن، تعریف کن</em></h1><p class="lede">این هفته همه‌چیز را کنار هم می‌گذارد. کل جعبه‌ابزار را روی یک پرسش واقعی به کار می‌بری، بررسی می‌کنی جواب چقدر ممکن است اشتباه باشد، و آن را به یک گزارش کوتاه و چند اسلاید تبدیل می‌کنی که یک صاحب‌کار پرمشغله بتواند بر اساسش عمل کند.</p>',
     ),
-    timeEstimate: t('≈ 120 min · reading + Excel and Python practice', '≈ ١٢٠ دقيقة · قراءة وتدريب Excel وPython', '≈ ۱۲۰ دقیقه · مطالعه و تمرین Excel و Python'),
+    timeEstimate: t('≈ 100 min · reading + Excel and Python practice', '≈ ١٠٠ دقيقة · قراءة وتدريب Excel وPython', '≈ ۱۰۰ دقیقه · مطالعه و تمرین Excel و Python'),
   },
   questions,
   sections: [
@@ -519,132 +477,7 @@ export const weekEight: Week = {
         exercise('w08-q007'),
       ],
     },
-    // ---------- 7. Measuring error ----------
-    {
-      id: 'measuring-error',
-      navLabel: W('Measuring error', 'قياس الخطأ', 'اندازه گرفتن خطا'),
-      sectionLabel: W('Section 07', 'القسم ٠٧', 'بخش ۰۷'),
-      timeEst: W('15 min', '١٥ دقيقة', '۱۵ دقیقه'),
-      headingHtml: t(
-        '<h2>Measuring error: how sure can you be?</h2><p class="standfirst">Saying "there may be errors" is not enough; a number is better. Three numbers cover most cases: the <strong>standard error</strong> for an average, <strong>R²</strong> for a regression, and a <strong>confusion matrix</strong> for a yes/no prediction.</p>',
-        '<h2>قياس الخطأ: كم يمكنك أن تكون متأكدًا؟</h2><p class="standfirst">قول "قد توجد أخطاء" لا يكفي؛ الرقم أفضل. ثلاثة أرقام تغطي معظم الحالات: <strong>الخطأ المعياري</strong> للمتوسط، و<strong>R²</strong> للانحدار، و<strong>مصفوفة الالتباس</strong> لتنبؤ نعم/لا.</p>',
-        '<h2>اندازه گرفتن خطا: چقدر می‌توانی مطمئن باشی؟</h2><p class="standfirst">گفتن «ممکن است خطا باشد» کافی نیست؛ یک عدد بهتر است. سه عدد بیشتر حالت‌ها را پوشش می‌دهند: <strong>خطای معیار</strong> برای میانگین، <strong>R²</strong> برای رگرسیون، و <strong>ماتریس درهم‌ریختگی</strong> برای پیش‌بینی بله/نه.</p>',
-      ),
-      blocks: [
-        html(
-          '<h3>1. An average: standard deviation vs standard error</h3>',
-          '<h3>1. المتوسط: الانحراف المعياري مقابل الخطأ المعياري</h3>',
-          '<h3>۱. میانگین: انحراف معیار در برابر خطای معیار</h3>',
-        ),
-        box(
-          'keypoint',
-          plainWords,
-          '<ul><li><strong>Standard deviation (SD):</strong> how spread out the single values are. "How different is one Saturday from another?" Jam stand: <strong>9.46 jars</strong>. It describes the data; it is not an error.</li><li><strong>Standard error (SE):</strong> how much the <em>average</em> would wobble if you collected a new set of Saturdays. SE = SD ÷ √n = 9.46 ÷ √20 = <strong>2.12 jars</strong>. It tells you how close 60.15 is likely to be to the true average.</li><li>This is the σ / √n "wobble" from Week 7. More data → smaller SE: with 80 Saturdays it would be about half.</li></ul>',
-          '<ul><li><strong>الانحراف المعياري (SD):</strong> مدى تشتت القيم المفردة. "كم يختلف سبت عن آخر؟" كشك المربى: <strong>9.46 برطمان</strong>. إنه يصف البيانات؛ وليس خطأً.</li><li><strong>الخطأ المعياري (SE):</strong> كم سيتذبذب <em>المتوسط</em> لو جمعت مجموعة جديدة من أيام السبت. SE = SD ÷ √n = 9.46 ÷ √20 = <strong>2.12 برطمان</strong>. يخبرك كم يُرجّح أن يكون 60.15 قريبًا من المتوسط الحقيقي.</li><li>هذا هو "تذبذب" σ / √n من الأسبوع 7. بيانات أكثر ← SE أصغر: مع 80 سبتًا يصير نحو النصف.</li></ul>',
-          '<ul><li><strong>انحراف معیار (SD):</strong> اینکه مقدارهای تکی چقدر پراکنده‌اند. «یک شنبه چقدر با شنبهٔ دیگر فرق دارد؟» غرفهٔ مربا: <strong>۹٫۴۶ شیشه</strong>. داده را توصیف می‌کند؛ خطا نیست.</li><li><strong>خطای معیار (SE):</strong> اینکه اگر یک دستهٔ تازه از شنبه‌ها جمع کنی، <em>میانگین</em> چقدر نوسان می‌کند. SE = SD ÷ √n = 9.46 ÷ √20 = <strong>۲٫۱۲ شیشه</strong>. می‌گوید ۶۰٫۱۵ احتمالاً چقدر به میانگین واقعی نزدیک است.</li><li>این همان «نوسان» σ / √n هفتهٔ ۷ است. دادهٔ بیشتر ← SE کوچک‌تر: با ۸۰ شنبه تقریباً نصف می‌شود.</li></ul>',
-        ),
-        analogy(
-          '<p>Throw darts at a board. The SD is how scattered <em>single darts</em> are. Now throw 20 darts and mark their average spot; do it again and again. Those average spots land much closer together than single darts: that tighter spread is the SE. Single Saturdays jump around; the average of 20 Saturdays stays fairly still.</p>',
-          '<p>ارمِ سهامًا على لوحة. الانحراف المعياري هو مدى تبعثر <em>السهام المفردة</em>. الآن ارمِ 20 سهمًا وعلّم موضع متوسطها؛ وكرر ذلك مرارًا. تقع مواضع المتوسطات أقرب بكثير بعضها إلى بعض من السهام المفردة: هذا التشتت الأضيق هو الخطأ المعياري. أيام السبت المفردة تقفز؛ ومتوسط 20 سبتًا يبقى ثابتًا نسبيًا.</p>',
-          '<p>به یک صفحهٔ دارت پرتاب کن. SD یعنی <em>تک‌دارت‌ها</em> چقدر پخش‌اند. حالا ۲۰ دارت بینداز و جای میانگینشان را علامت بزن؛ بارها تکرار کن. جای میانگین‌ها خیلی نزدیک‌تر از تک‌دارت‌ها به هم می‌افتند: همین پراکندگی تنگ‌تر SE است. شنبه‌های تکی بالا و پایین می‌پرند؛ میانگین ۲۰ شنبه نسبتاً ثابت می‌ماند.</p>',
-        ),
-        figure(
-          4,
-          W('Standard deviation vs standard error', 'الانحراف المعياري مقابل الخطأ المعياري', 'انحراف معیار در برابر خطای معیار'),
-          '/figures/week-08/deck-04-sd-vs-se.jpg',
-          'Slide from the original lesson. Left: one bell curve, standard deviation as the spread of a sample around its mean, with the formula square root of the sum of squared differences over n minus 1. Right: several overlapping curves for different sample means, standard error as sigma over root n, with the Excel formula STDEV(A1:A10)/SQRT(COUNT(A1:A10)).',
-          fromDeck(
-            'Left: the spread of single values (SD). Right: the spread of sample averages (SE = σ / √n). In current Excel, STDEV.S does the same as the slide\'s STDEV.',
-            'يسارًا: تشتت القيم المفردة (SD). يمينًا: تشتت متوسطات العيّنات (SE = σ / √n). في Excel الحالي تؤدي STDEV.S ما تؤديه STDEV في الشريحة.',
-            'چپ: پراکندگی مقدارهای تکی (SD). راست: پراکندگی میانگین نمونه‌ها (SE = σ / √n). در Excel امروزی STDEV.S همان کار STDEV اسلاید را می‌کند.',
-          ),
-        ),
-        tools([code(xl.sdSe)], [code(py.sdSe)]),
-        html(
-          '<h3>2. A regression: R²</h3><p>R² answers "how much of the ups and downs does the model explain?" (Week 6). Visitors alone explained <strong>60%</strong> of the ups and downs in jars; visitors and tasting together, <strong>71%</strong>. The other 29% is weather, luck and things not in the file: that is the model\'s error.</p><h3>3. A yes/no prediction: the confusion matrix</h3><p>When a model predicts yes or no (spam or not, will buy or not), count its four possible outcomes in a 2 × 2 table. The lesson\'s spam filter was tested on 100 emails:</p>',
-          '<h3>2. الانحدار: R²</h3><p>يجيب R² عن "كم من الصعود والهبوط يفسّره النموذج؟" (الأسبوع 6). فسّر الزوار وحدهم <strong>60%</strong> من صعود وهبوط البرطمانات؛ والزوار والتذوق معًا <strong>71%</strong>. والـ 29% الباقية هي الطقس والحظ وأشياء ليست في الملف: هذا هو خطأ النموذج.</p><h3>3. تنبؤ نعم/لا: مصفوفة الالتباس</h3><p>حين يتنبأ نموذج بنعم أو لا (مزعج أم لا، سيشتري أم لا)، عُدّ نتائجه الأربع الممكنة في جدول 2 × 2. اختُبر مرشّح الرسائل المزعجة في الدرس على 100 رسالة:</p>',
-          '<h3>۲. رگرسیون: R²</h3><p>R² جواب می‌دهد «مدل چقدر از بالا و پایین‌ها را توضیح می‌دهد؟» (هفتهٔ ۶). بازدیدکننده به‌تنهایی <strong>۶۰٪</strong> بالا و پایین شیشه‌ها را توضیح داد؛ بازدیدکننده و مزه‌کردن با هم <strong>۷۱٪</strong>. ۲۹٪ باقی هوا، شانس و چیزهایی است که در فایل نیست: این خطای مدل است.</p><h3>۳. پیش‌بینی بله/نه: ماتریس درهم‌ریختگی</h3><p>وقتی مدلی بله یا نه پیش‌بینی می‌کند (اسپم یا نه، می‌خرد یا نه)، چهار نتیجهٔ ممکنش را در یک جدول ۲ × ۲ بشمار. فیلتر اسپم درس روی ۱۰۰ ایمیل آزمایش شد:</p>',
-        ),
-        figure(
-          5,
-          W('The confusion matrix in plain words', 'مصفوفة الالتباس بكلمات بسيطة', 'ماتریس درهم‌ریختگی به زبان ساده'),
-          '/figures/week-08/diagram-01-confusion.svg',
-          'A confusion matrix for a spam filter tested on 100 emails: 45 spam caught, 20 spam missed, 5 good emails wrongly flagged, 30 good emails let through. Accuracy 75 percent, precision 90 percent, recall 69 percent.',
-          W(
-            'Green cells are right, red cells are mistakes. A false positive is a Type I error, a false negative a Type II error, as in Week 7.',
-            'الخلايا الخضراء صحيحة، والحمراء أخطاء. الإيجابي الكاذب خطأ من النوع الأول، والسلبي الكاذب من النوع الثاني، كما في الأسبوع 7.',
-            'خانه‌های سبز درست‌اند و قرمزها اشتباه. مثبت کاذب خطای نوع اول و منفی کاذب خطای نوع دوم است، مثل هفتهٔ ۷.',
-          ),
-        ),
-        box(
-          'keypoint',
-          plainWords,
-          '<ul><li><strong>Accuracy</strong> = right answers ÷ all answers = 75 ÷ 100 = <strong>75%</strong>. Simple, but it can fool you: if only 1 email in 100 were spam, a filter that never says "spam" would still be 99% accurate.</li><li><strong>Precision</strong> = TP ÷ (TP + FP) = 45 ÷ 50 = <strong>90%</strong>. "When it says spam, can I trust it?"</li><li><strong>Recall</strong> (also called sensitivity) = TP ÷ (TP + FN) = 45 ÷ 65 = <strong>69%</strong>. "Of all the spam, how much did it catch?"</li><li><strong>Specificity</strong> = TN ÷ (TN + FP) = 30 ÷ 35 = <strong>86%</strong>. "Of all the good mail, how much got through?"</li></ul><p>Which one matters most goes back to Section 6: if missing spam is the worse mistake, watch recall; if losing a real email is worse, watch precision. Definitions as in Google\'s Machine Learning Crash Course.</p>',
-          '<ul><li><strong>الدقة الكلية (Accuracy)</strong> = الإجابات الصحيحة ÷ كل الإجابات = 75 ÷ 100 = <strong>75%</strong>. بسيطة، لكنها قد تخدعك: لو كانت رسالة واحدة من 100 مزعجة، فإن مرشّحًا لا يقول "مزعج" أبدًا سيكون دقيقًا بنسبة 99%.</li><li><strong>الدقة (Precision)</strong> = TP ÷ (TP + FP) = 45 ÷ 50 = <strong>90%</strong>. "حين يقول مزعج، هل أثق به؟"</li><li><strong>الاستدعاء (Recall)</strong> (ويسمى الحساسية) = TP ÷ (TP + FN) = 45 ÷ 65 = <strong>69%</strong>. "من كل الرسائل المزعجة، كم التقط؟"</li><li><strong>النوعية (Specificity)</strong> = TN ÷ (TN + FP) = 30 ÷ 35 = <strong>86%</strong>. "من كل البريد السليم، كم مرّ؟"</li></ul><p>أيها الأهم يعود إلى القسم 6: إن كان فوات الرسائل المزعجة هو الخطأ الأسوأ فراقب الاستدعاء؛ وإن كان ضياع رسالة حقيقية أسوأ فراقب الدقة. التعريفات كما في دورة Google المكثفة لتعلم الآلة.</p>',
-          '<ul><li><strong>صحت کلی (Accuracy)</strong> = جواب‌های درست ÷ همهٔ جواب‌ها = ۷۵ ÷ ۱۰۰ = <strong>۷۵٪</strong>. ساده است اما می‌تواند گولت بزند: اگر فقط ۱ ایمیل از ۱۰۰ اسپم بود، فیلتری که هرگز نمی‌گوید «اسپم» باز هم ۹۹٪ صحت داشت.</li><li><strong>دقت (Precision)</strong> = TP ÷ (TP + FP) = ۴۵ ÷ ۵۰ = <strong>۹۰٪</strong>. «وقتی می‌گوید اسپم، می‌توانم اعتماد کنم؟»</li><li><strong>بازیابی (Recall)</strong> (یا حساسیت) = TP ÷ (TP + FN) = ۴۵ ÷ ۶۵ = <strong>۶۹٪</strong>. «از همهٔ اسپم‌ها چقدر را گرفت؟»</li><li><strong>ویژگی (Specificity)</strong> = TN ÷ (TN + FP) = ۳۰ ÷ ۳۵ = <strong>۸۶٪</strong>. «از همهٔ ایمیل‌های سالم چقدر رد شد؟»</li></ul><p>اینکه کدام مهم‌تر است برمی‌گردد به بخش ۶: اگر جا انداختن اسپم اشتباه بدتر است، بازیابی را ببین؛ اگر از دست دادن یک ایمیل واقعی بدتر است، دقت را. تعریف‌ها مطابق دورهٔ فشردهٔ یادگیری ماشین Google است.</p>',
-        ),
-        figure(
-          6,
-          W('Error for a regression and for a classifier', 'الخطأ للانحدار وللمصنِّف', 'خطا برای رگرسیون و برای طبقه‌بند'),
-          '/figures/week-08/deck-05-confusion-matrix.jpg',
-          'Slide from the original lesson. Left: R squared as one minus the residual sum of squares over the total sum of squares, and a spam confusion matrix with TP 45, FN 20, FP 5, TN 30. Right: a general confusion matrix with sensitivity, specificity, precision, negative predictive value and accuracy formulas.',
-          fromDeck(
-            'The full table of formulas. You only need four of them: accuracy, precision, recall (sensitivity) and specificity.',
-            'جدول المعادلات الكامل. تحتاج أربعًا منها فقط: الدقة الكلية، والدقة، والاستدعاء (الحساسية)، والنوعية.',
-            'جدول کامل فرمول‌ها. فقط چهار تای آن را لازم داری: صحت کلی، دقت، بازیابی (حساسیت) و ویژگی.',
-          ),
-        ),
-        tools([code(xl.confusion)], [code(py.confusion)]),
-        recap(
-          W('SD = spread of single values; SE = SD ÷ √n = wobble of the average.', 'SD = تشتت القيم المفردة؛ SE = SD ÷ √n = تذبذب المتوسط.', 'SD = پراکندگی مقدارهای تکی؛ SE = SD ÷ √n = نوسان میانگین.'),
-          W('R² = the share of the ups and downs the model explains.', 'R² = نسبة الصعود والهبوط التي يفسّرها النموذج.', 'R² = سهم بالا و پایین‌هایی که مدل توضیح می‌دهد.'),
-          W('Confusion matrix: accuracy, precision ("can I trust a yes?") and recall ("did I catch them all?").', 'مصفوفة الالتباس: الدقة الكلية، والدقة ("هل أثق بنعم؟")، والاستدعاء ("هل التقطتها كلها؟").', 'ماتریس درهم‌ریختگی: صحت کلی، دقت («به بله اعتماد کنم؟») و بازیابی («همه را گرفتم؟»).'),
-        ),
-        exercise('w08-q008'),
-        exercise('w08-q009'),
-      ],
-    },
-    // ---------- 8. Using error analysis ----------
-    {
-      id: 'using-errors',
-      navLabel: W('What to do with errors', 'ماذا نفعل بالأخطاء', 'با خطاها چه کنیم'),
-      sectionLabel: W('Section 08', 'القسم ٠٨', 'بخش ۰۸'),
-      timeEst: W('6 min', '٦ دقائق', '۶ دقیقه'),
-      headingHtml: t(
-        '<h2>What to do with error analysis: scope, then improve</h2><p class="standfirst">Error analysis is not about feeling bad. It does two useful jobs: it tells you <strong>who your result applies to and how sure you are</strong>, and it shows you <strong>how to make the next analysis better</strong>.</p>',
-        '<h2>ماذا نفعل بتحليل الأخطاء: النطاق، ثم التحسين</h2><p class="standfirst">تحليل الأخطاء ليس للشعور بالسوء. إنه يؤدي مهمتين مفيدتين: يخبرك <strong>على من تنطبق نتيجتك وكم أنت متأكد</strong>، ويريك <strong>كيف تجعل التحليل التالي أفضل</strong>.</p>',
-        '<h2>با تحلیل خطا چه کنیم: دامنه، بعد بهبود</h2><p class="standfirst">تحلیل خطا برای احساس بد کردن نیست. دو کار مفید می‌کند: می‌گوید <strong>نتیجه‌ات برای چه کسانی است و چقدر مطمئنی</strong>، و نشان می‌دهد <strong>تحلیل بعدی را چطور بهتر کنی</strong>.</p>',
-      ),
-      blocks: [
-        {
-          type: 'table',
-          headers: [W('Job', 'المهمة', 'کار'), W('Question to answer', 'السؤال الذي تجيب عنه', 'سؤالی که جواب می‌دهی'), W('Jam stand', 'كشك المربى', 'غرفهٔ مربا')],
-          rows: [
-            [W('State the scope', 'حدّد النطاق', 'دامنه را بگو'), W('Which people, places and times does this apply to?', 'على أي ناس وأماكن وأوقات ينطبق هذا؟', 'برای کدام آدم‌ها، جاها و زمان‌ها صدق می‌کند؟'), W('One market, 20 summer Saturdays in 2024', 'سوق واحد، 20 سبتًا صيفيًا في 2024', 'یک بازار، ۲۰ شنبهٔ تابستانی در ۲۰۲۴')],
-            [W('Say how sure you are', 'قل كم أنت متأكد', 'بگو چقدر مطمئنی'), W('What are the SE, R², p or precision?', 'ما قيم SE وR² وp أو الدقة؟', 'SE، R²، p یا دقت چقدر است؟'), W('Average 60.15 ± about 2 jars (SE 2.12); R² 0.71; tasting test p = 0.010', 'المتوسط 60.15 ± نحو برطمانين (SE 2.12)؛ R² 0.71؛ اختبار التذوق p = 0.010', 'میانگین ۶۰٫۱۵ ± حدود ۲ شیشه (SE ۲٫۱۲)؛ R² ۰٫۷۱؛ آزمون مزه‌کردن p = ۰٫۰۱۰')],
-            [W('Reduce random error', 'قلّل الخطأ العشوائي', 'خطای تصادفی را کم کن'), W('Collect more of the same kind of data', 'اجمع المزيد من البيانات من النوع نفسه', 'بیشتر از همان نوع داده جمع کن'), W('Keep alternating tasting into the autumn: more Saturdays, smaller SE', 'استمر في تبديل التذوق حتى الخريف: أيام سبت أكثر، SE أصغر', 'مزه‌کردن یکی‌درمیان را تا پاییز ادامه بده: شنبهٔ بیشتر، SE کوچک‌تر')],
-            [W('Reduce bias', 'قلّل التحيز', 'سوگیری را کم کن'), W('Collect better data from the groups you missed', 'اجمع بيانات أفضل من المجموعات التي فاتتك', 'از گروه‌هایی که جا ماندند دادهٔ بهتر جمع کن'), W('Ask passers-by too, not only buyers; try a second market', 'اسأل المارّة أيضًا، لا المشترين فقط؛ وجرّب سوقًا ثانيًا', 'از رهگذرها هم بپرس، نه فقط خریداران؛ یک بازار دوم را امتحان کن')],
-          ],
-        },
-        analogy(
-          '<p>A weather forecast says "70% chance of rain in Amsterdam tomorrow". It gives the <strong>scope</strong> (Amsterdam, tomorrow) and <strong>how sure</strong> (70%). Nobody calls that forecast a failure for being honest about doubt; they bring an umbrella. Your report should do the same.</p>',
-          '<p>تقول نشرة الطقس "احتمال المطر غدًا في أمستردام 70%". إنها تعطي <strong>النطاق</strong> (أمستردام، غدًا) و<strong>درجة اليقين</strong> (70%). لا أحد يعدّ تلك النشرة فاشلة لأنها صريحة بشأن الشك؛ بل يأخذون مظلة. وينبغي أن يفعل تقريرك الشيء نفسه.</p>',
-          '<p>پیش‌بینی هوا می‌گوید «فردا در آمستردام ۷۰٪ احتمال باران». <strong>دامنه</strong> (آمستردام، فردا) و <strong>میزان اطمینان</strong> (۷۰٪) را می‌دهد. هیچ‌کس آن پیش‌بینی را به‌خاطر صداقت دربارهٔ تردید شکست‌خورده نمی‌داند؛ چتر برمی‌دارند. گزارش تو هم باید همین کار را بکند.</p>',
-        ),
-        box(
-          'example',
-          W('A "limits" paragraph for the jam stand', 'فقرة "حدود" لكشك المربى', 'یک بند «محدودیت‌ها» برای غرفهٔ مربا'),
-          '<p><em>"These results come from 20 summer Saturdays (April to August 2024) at one market. Tasting was put out every other Saturday, so both groups had similar weather. The average of 60.15 jars could be about 2 jars off (standard error 2.12). Visitors were counted by hand, so some may be missing. We do not know yet whether tasting works in winter or at other markets; we will keep alternating until December to check."</em></p>',
-          '<p><em>"تأتي هذه النتائج من 20 سبتًا صيفيًا (أبريل إلى أغسطس 2024) في سوق واحد. وُضع التذوق كل سبتين، فكان الطقس متشابهًا في المجموعتين. قد يبتعد المتوسط 60.15 برطمانًا بنحو برطمانين (الخطأ المعياري 2.12). عُدّ الزوار يدويًا، فقد يكون بعضهم مفقودًا. لا نعرف بعد إن كان التذوق ينجح في الشتاء أو في أسواق أخرى؛ وسنستمر في التبديل حتى ديسمبر للتحقق."</em></p>',
-          '<p><em>«این نتایج از ۲۰ شنبهٔ تابستانی (آوریل تا اوت ۲۰۲۴) در یک بازار است. مزه‌کردن یک شنبه در میان گذاشته شد، پس هر دو گروه هوای مشابهی داشتند. میانگین ۶۰٫۱۵ شیشه ممکن است حدود ۲ شیشه خطا داشته باشد (خطای معیار ۲٫۱۲). بازدیدکننده‌ها با دست شمرده شدند، پس شاید بعضی جا مانده باشند. هنوز نمی‌دانیم مزه‌کردن در زمستان یا بازارهای دیگر جواب می‌دهد؛ تا دسامبر یکی‌درمیان ادامه می‌دهیم تا بررسی کنیم.»</em></p>',
-        ),
-        recap(
-          W('Scope: who and when the result applies to; how sure you are, with a number.', 'النطاق: على من ومتى تنطبق النتيجة؛ وكم أنت متأكد، برقم.', 'دامنه: نتیجه برای چه کسی و چه زمانی است؛ چقدر مطمئنی، با یک عدد.'),
-          W('More data shrinks random error; better data shrinks bias.', 'البيانات الأكثر تقلّص الخطأ العشوائي؛ والبيانات الأفضل تقلّص التحيز.', 'دادهٔ بیشتر خطای تصادفی را کم می‌کند؛ دادهٔ بهتر سوگیری را.'),
-        ),
-        exercise('w08-q010'),
-      ],
-    },
+    ...simple.sections,
     ...comm.sections,
     // ---------- 14. Homework ----------
     {

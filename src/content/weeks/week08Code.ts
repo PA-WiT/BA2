@@ -25,14 +25,14 @@ print(bands.value_counts().sort_index())           # 40s: 3, 50s: 8, 60s: 6, 70s
 sd = jars.std()                      # spread of single Saturdays (sample standard deviation)
 se = sd / math.sqrt(len(jars))       # how much the AVERAGE of 20 Saturdays would wobble
 print(round(sd, 2), round(se, 2))    # 9.46 2.12`,
-  confusion: `# The lesson's spam filter, tested on 100 emails
-tp, fn, fp, tn = 45, 20, 5, 30
+  confusion: `# A made-up teaching example: a quick sniff test on 100 jars, later checked properly
+caught, missed = 8, 2            # the 10 jars that really were mouldy
+false_alarm, passed = 6, 84      # the 90 jars that were really fine
 
-accuracy = (tp + tn) / (tp + tn + fp + fn)
-precision = tp / (tp + fp)           # when it says "spam", how often is it right?
-recall = tp / (tp + fn)              # of all the spam, how much did it catch? (sensitivity)
-specificity = tn / (tn + fp)         # of all the good mail, how much did it let through?
-print(round(accuracy, 2), round(precision, 2), round(recall, 2), round(specificity, 2))   # 0.75 0.9 0.69 0.86`,
+accuracy = (caught + passed) / 100            # right overall
+recall = caught / (caught + missed)           # of the mouldy jars, how many did it catch?
+precision = caught / (caught + false_alarm)   # when it says "mouldy", how often is it right?
+print(accuracy, recall, round(precision, 2))  # 0.92 0.8 0.57`,
   chart: `import matplotlib.pyplot as plt
 
 avg = sat.groupby("tasting")["jars"].mean()          # no 55.4, yes 64.9
@@ -64,10 +64,9 @@ export const xl = {
 =COUNTIFS(E2:E21, ">=50", E2:E21, "<60")  → 8      (frequency: Saturdays with 50–59 jars)`,
   sdSe: `=STDEV.S(E2:E21)                          → 9.46  (standard deviation: spread of single Saturdays)
 =STDEV.S(E2:E21) / SQRT(COUNT(E2:E21))    → 2.12  (standard error: wobble of the average)`,
-  confusion: `B2: 45   C2: 20      → really spam:  caught (TP), missed (FN)
-B3: 5    C3: 30      → really good:  false alarm (FP), let through (TN)
-=(B2 + C3) / SUM(B2:C3)                   → 0.75  (accuracy)
-=B2 / (B2 + B3)                           → 0.90  (precision)
-=B2 / (B2 + C2)                           → 0.69  (recall, or sensitivity)
-=C3 / (C3 + B3)                           → 0.86  (specificity)`,
+  confusion: `B2: 8    C2: 2       → really mouldy: caught, missed
+B3: 6    C3: 84      → really fine:   false alarm, passed
+=(B2 + C3) / SUM(B2:C3)                   → 0.92  (accuracy: right overall)
+=B2 / (B2 + C2)                           → 0.80  (recall: share of mouldy jars it caught)
+=B2 / (B2 + B3)                           → 0.57  (precision: when it says "mouldy", how often it is right)`,
 }
